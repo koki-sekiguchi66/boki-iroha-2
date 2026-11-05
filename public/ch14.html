@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#111827">
+<title>第14章 棚卸資産の期末評価（棚卸減耗と評価替） | ケースで学ぶ簿記2級</title>
+<meta name="description" content="10年眠らせた古酒は、熟成で価値が上がるはずだった。なぜ帳簿の価値を下げるのか？ ― 棚卸資産の期末評価（棚卸減耗と評価替）。潰れかけた酒蔵を、数字で立て直す1年。日商簿記2級の全範囲を物語で学ぶ">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Noto Sans JP"', '"Hiragino Kaku Gothic ProN"', '"Hiragino Sans"', 'Meiryo', 'sans-serif'],
+          serif: ['"Noto Serif JP"', '"Hiragino Mincho ProN"', '"Yu Mincho"', 'serif'],
+        },
+      },
+    },
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  summary { list-style: none; }
+  .kb-ghost { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; transform: translate(-50%, -50%); opacity: .95; }
+  /* 模擬試験モード中は、解答・答え合わせを隠す */
+  body.kb-exam .kb-answer, body.kb-exam .kb-check, body.kb-exam .kb-reveal, body.kb-exam .kb-jres, body.kb-exam .kb-result { display: none !important; }
+  body.kb-exam { padding-bottom: 4.5rem; }
+  .kb-blank::placeholder { color: #a5b4fc; font-weight: 700; }
+  summary::-webkit-details-marker { display: none; }
+  table { font-variant-numeric: tabular-nums; }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff !important; }
+    section, aside, figure, details { break-inside: avoid; }
+  }
+</style>
+</head>
+<body id="top" data-page="ch14" data-label="第14章 棚卸資産の期末評価（棚卸減耗と評価替）" class="bg-stone-50 font-sans text-[16px] text-gray-800 antialiased sm:text-[17px]">
+<div id="progress" class="no-print fixed left-0 top-0 z-50 h-1 w-0 bg-amber-500"></div>
+<header class="no-print sticky top-0 z-40 border-b border-gray-200 bg-white/90 backdrop-blur"><div class="mx-auto flex h-14 max-w-3xl items-center justify-between gap-3 px-4 sm:px-6"><a href="index.html" class="flex min-w-0 items-center gap-2"><span class="flex h-7 w-7 flex-none items-center justify-center rounded bg-gray-900 font-serif text-sm font-black text-amber-400">簿</span><span class="truncate text-sm font-black text-gray-900 sm:text-base">ケースで学ぶ簿記2級</span></a><div class="flex flex-none items-center gap-2"><span class="hidden text-xs font-bold text-gray-400 sm:inline">第14章</span><details data-dropdown class="relative"><summary class="flex cursor-pointer select-none items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50">目次<span class="text-[10px] text-gray-400">▼</span></summary><nav class="absolute right-0 mt-2 max-h-[75vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-lg border border-gray-200 bg-white p-2 shadow-xl"><a href="index.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">表紙・目次</a><a href="guide.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">本書の使い方</a><a href="all.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">全章一気読み版（1ファイル）</a><p class="px-3 pb-1 pt-3 text-[10px] font-bold tracking-[0.2em] text-gray-400">PROLOGUE</p><a href="ch00.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">序章</span><span class="font-medium">工業簿記と商業簿記、2級の全体像</span></a><p class="px-3 pb-1 pt-3 text-[10px] font-bold tracking-[0.2em] text-gray-400">第1部 酒の本当の値段 ― 工業簿記</p><a href="ch01.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第1章</span><span class="font-medium">工業簿記の基礎と勘定の流れ</span></a><a href="ch02.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第2章</span><span class="font-medium">材料費</span></a><a href="ch03.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第3章</span><span class="font-medium">労務費</span></a><a href="ch04.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第4章</span><span class="font-medium">製造間接費</span></a><a href="ch05.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第5章</span><span class="font-medium">部門別計算</span></a><a href="ch06.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第6章</span><span class="font-medium">個別原価計算</span></a><a href="ch07.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第7章</span><span class="font-medium">総合原価計算（単純総合原価計算・仕損と減損）</span></a><a href="ch08.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第8章</span><span class="font-medium">総合原価計算（等級別・組別・工程別）</span></a><a href="ch09.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第9章</span><span class="font-medium">標準原価計算</span></a><a href="ch10.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第10章</span><span class="font-medium">直接原価計算とCVP分析</span></a><a href="ch11.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第11章</span><span class="font-medium">工業簿記の決算と財務諸表・本社工場会計</span></a><p class="px-3 pb-1 pt-3 text-[10px] font-bold tracking-[0.2em] text-gray-400">第2部 蔵を立て直す ― 商業簿記</p><a href="ch12.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第12章</span><span class="font-medium">現金預金と債権（銀行勘定調整表・電子記録債権・ファクタリング）</span></a><a href="ch13.html" class="flex gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"><span class="w-14 flex-none font-bold text-gray-400">第13章</span><span class="font-medium">収益認識</span></a><a href="ch14.html" class="flex gap-2 rounded-md px-3 py-2 text-sm bg-amber-50 text-amber-900"><span class="w-14 flex-none font-bold text-gray-400">第14章</span><span class="font-medium">棚卸資産の期末評価（棚卸減耗と評価替）</span></a></nav></details></div></div></header>
+<main class="mx-auto max-w-3xl px-4 pb-10 sm:px-6">
+<header class="pt-10 sm:pt-14"><p class="text-[11px] font-bold tracking-[0.25em] text-gray-400">第2部 蔵を立て直す ― 商業簿記</p><div class="mt-5 flex flex-wrap items-center gap-3"><span class="rounded bg-gray-900 px-3 py-1 text-sm font-black text-white">第14章</span><span class="text-sm font-bold text-gray-500">棚卸資産の期末評価（棚卸減耗と評価替）</span></div><h1 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.4] text-gray-900 sm:text-[2.4rem]">10年眠らせた古酒は、熟成で価値が上がるはずだった。なぜ帳簿の価値を下げるのか？</h1><p class="mt-5 leading-[1.9] text-gray-600">蔵の奥の貯蔵庫に、父が10年前に仕込んだ大吟醸の古酒が2,000本眠っていた。番頭は「古酒は寝かせるほど値打ちが上がる」と言う。だが、品質管理の検査は別の答えを出した。棚卸減耗損と商品評価損、正味売却価額、損益計算書のどこに載せるかを学ぶ。</p><div class="mt-6 flex flex-wrap gap-2 text-xs font-bold text-gray-600"><span class="rounded-full border border-gray-300 bg-white px-3 py-1">読了目安 35分</span><span class="rounded-full border border-gray-300 bg-white px-3 py-1">難易度 ★★☆</span></div></header><section class="mt-8 rounded-lg border border-gray-200 bg-white p-5 shadow-sm sm:p-6"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-amber-600">GOALS</p><p class="mb-3 font-bold text-gray-900">この章で学ぶこと</p><ul class="space-y-2"><li class="flex gap-3 text-[15px] leading-relaxed"><span class="mt-0.5 flex-none font-black text-amber-500">▸</span><span>期末の商品・製品について、棚卸減耗損と商品評価損（製品評価損）を計算・仕訳できる</span></li><li class="flex gap-3 text-[15px] leading-relaxed"><span class="mt-0.5 flex-none font-black text-amber-500">▸</span><span>正味売却価額の意味と、評価を上げずに下げるだけの理由を説明できる</span></li><li class="flex gap-3 text-[15px] leading-relaxed"><span class="mt-0.5 flex-none font-black text-amber-500">▸</span><span>棚卸減耗損・評価損を、損益計算書の正しい区分に表示できる</span></li><li class="flex gap-3 text-[15px] leading-relaxed"><span class="mt-0.5 flex-none font-black text-amber-500">▸</span><span>品質の下がった在庫を、どう売るかを正味売却価額で判断できる</span></li></ul></section><details class="group mt-4 rounded-lg border border-gray-200 bg-white shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between px-5 py-3 text-sm font-bold text-gray-700">この章の目次<span class="text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><ol class="space-y-1.5 border-t border-gray-100 px-5 py-4 text-sm"><li><a href="#ch14-s1" class="flex gap-3 text-gray-700 hover:text-amber-700"><span class="w-6 flex-none font-bold text-amber-600">01</span><span>期末の在庫は、2つの理由で目減りする</span></a></li><li><a href="#ch14-s2" class="flex gap-3 text-gray-700 hover:text-amber-700"><span class="w-6 flex-none font-bold text-amber-600">02</span><span>日本橋店の商品で、型を身につける</span></a></li><li><a href="#ch14-s3" class="flex gap-3 text-gray-700 hover:text-amber-700"><span class="w-6 flex-none font-bold text-amber-600">03</span><span>古酒の評価 ― 上がる分は上げず、下がる分だけ下げる</span></a></li><li><a href="#ch14-s4" class="flex gap-3 text-gray-700 hover:text-amber-700"><span class="w-6 flex-none font-bold text-amber-600">04</span><span>答え合わせ ― 600万円の古酒は、473万円だった</span></a></li><li><a href="#ch14-s5" class="flex gap-3 text-gray-700 hover:text-amber-700"><span class="w-6 flex-none font-bold text-amber-600">05</span><span>確認問題</span></a></li></ol></details>
+<section class="relative my-10 overflow-hidden bg-gray-900 text-white p-6 rounded-lg shadow-lg sm:p-8"><div aria-hidden="true" class="pointer-events-none absolute -right-3 -top-10 select-none font-serif text-[10rem] font-black leading-none text-white/5">?</div><p class="relative mb-4 flex items-center gap-2 text-[11px] font-bold tracking-[0.3em] text-amber-400"><span class="inline-block h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>QUESTION ― この章の問い</p><h2 class="relative mb-5 font-serif text-xl font-black leading-snug text-white sm:text-2xl">寝かせるほど値打ちが上がるはずの古酒</h2><div class="relative"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">5月28日、金曜日。決算前の棚卸の準備で、澪は蔵の奥の貯蔵庫に入った。ひんやりした空気の中、木箱が天井近くまで積まれている。2016年に父が仕込んだ大吟醸を、そのまま10年寝かせた<strong class="font-bold">古酒</strong>だ。帳簿には、1本3,000円、2,000本、<strong class="font-bold">600万円</strong>の製品として載っていた。</p>
+<p class="my-5 leading-[1.95]">「古酒は寝かせるほど値打ちが上がる。社長は、10年物を1本1万円で売ると言うとられました」と岩倉は言った。</p>
+<p class="my-5 leading-[1.95]">だが、宇佐美が品質管理部門に頼んだ抜き取り検査の結果は、思わしくなかった。保管庫の一角の温度が夏に上がっていたらしく、そこにあった460本は、香りが崩れて「老香（ひねか）」が強く出ていた。料理酒にしか使えない、と小松は言った。数え直すと、箱の破損で割れた瓶もあり、実際の本数は2,000本ではなく<strong class="font-bold">1,960本</strong>だった。</p>
+<p class="my-5 leading-[1.95]">熟成で値打ちが上がる酒と、下がる酒。帳簿の600万円は、どちらでもない数字のまま10年が過ぎていた。</p>
+<p class="my-5 leading-[1.95]"><strong class="font-bold">寝かせるほど価値が上がるはずの古酒の、帳簿の価値を、なぜ下げなければならないのか？</strong></p>
+</div></div></section>
+<h2 id="ch14-s1" class="mb-6 mt-16 flex scroll-mt-20 items-baseline gap-3 font-serif text-[1.4rem] font-black leading-snug text-gray-900 sm:text-[1.65rem]"><span class="flex-none font-sans text-sm font-black tracking-widest text-amber-600">01</span><span>期末の在庫は、2つの理由で目減りする</span></h2>
+<p class="my-5 leading-[1.95]">決算で、帳簿の在庫の金額を、そのまま貸借対照表に載せてよいとは限らない。2つの点を確かめる必要がある。</p>
+<aside class="my-8 rounded-r-lg border-l-4 border-blue-500 bg-blue-50 p-5 sm:p-6"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-blue-600">ACCOUNTING THEORY ― 重要理論</p><p class="mb-3 text-lg font-bold leading-snug text-blue-950">棚卸減耗と評価替</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><ul class="my-5 list-disc space-y-2 pl-6 marker:text-gray-400"><li class="leading-[1.85]"><strong class="font-bold">数量が減っていないか</strong>：帳簿の数量（帳簿棚卸数量）と、実際に数えた数量（実地棚卸数量）の差を<strong class="font-bold">棚卸減耗</strong>という。紛失・破損・蒸発などで生じる。金額は「減った数量×原価」で、<strong class="font-bold">棚卸減耗損</strong>（製品なら製品減耗損とすることもある）とする</li><li class="leading-[1.85]"><strong class="font-bold">価値が下がっていないか</strong>：期末の<strong class="font-bold">正味売却価額</strong>（売れる見込みの価格から、売るためにかかる費用を引いた額）が原価より低ければ、正味売却価額まで帳簿の価額を切り下げる。差額を<strong class="font-bold">商品評価損</strong>（製品なら製品評価損）とする</li></ul>
+<p class="my-5 leading-[1.95]">評価損は「実地棚卸数量×(原価－正味売却価額)」で計算する。減耗した分は、すでに棚卸減耗損として処理しているので、二重に数えない。</p>
+</div></aside>
+<div class="my-8 rounded-lg border-2 border-dashed border-blue-300 bg-white px-4 py-5 text-center"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-blue-500">FORMULA ― 公式</p><p class="mb-2 text-sm font-bold text-gray-500">正味売却価額</p><div class="text-lg font-black leading-relaxed text-gray-900 sm:text-xl [&_p]:my-2"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">正味売却価額 ＝ 売価（見込み）－ 見積追加製造原価 － 見積販売直接経費</p>
+</div></div></div>
+<h2 id="ch14-s2" class="mb-6 mt-16 flex scroll-mt-20 items-baseline gap-3 font-serif text-[1.4rem] font-black leading-snug text-gray-900 sm:text-[1.65rem]"><span class="flex-none font-sans text-sm font-black tracking-widest text-amber-600">02</span><span>日本橋店の商品で、型を身につける</span></h2>
+<p class="my-5 leading-[1.95]">まずは、日本橋の直営店で売っている、仕入れた<strong class="font-bold">商品</strong>（作家ものの酒器）で、2級の決算整理の型を確かめよう。商品は三分法（仕入・売上・繰越商品）で記帳している。</p>
+<section class="my-8 rounded-lg border border-gray-300 bg-white p-4 shadow-sm sm:p-6"><p class="mb-3 flex flex-wrap items-baseline gap-2"><span class="rounded bg-gray-900 px-2 py-0.5 text-xs font-bold text-white">例題</span><span class="font-bold leading-snug text-gray-900">日本橋店の酒器について、決算整理仕訳をしなさい</span></p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">期首商品棚卸高は800,000円。期末の帳簿棚卸数量は500個（原価@2,000円）、実地棚卸数量は480個、期末の正味売却価額は@1,800円である。棚卸減耗損と商品評価損は、売上原価に含める（仕入勘定に振り替える）。</p>
+<div class="kb-jr my-5 rounded-lg border border-indigo-200 bg-indigo-50/60 p-3 sm:p-4" data-kb="journal" data-answer="[{&quot;c&quot;:[[&quot;繰越商品&quot;,800000]],&quot;d&quot;:[[&quot;仕入&quot;,800000]]},{&quot;c&quot;:[[&quot;仕入&quot;,1000000]],&quot;d&quot;:[[&quot;繰越商品&quot;,1000000]]},{&quot;c&quot;:[[&quot;繰越商品&quot;,136000]],&quot;d&quot;:[[&quot;棚卸減耗損&quot;,40000],[&quot;商品評価損&quot;,96000]]},{&quot;c&quot;:[[&quot;棚卸減耗損&quot;,40000],[&quot;商品評価損&quot;,96000]],&quot;d&quot;:[[&quot;仕入&quot;,136000]]}]" data-sec="日本橋店の商品で、型を身につける"><span class="hidden ring-2 ring-indigo-500 ring-indigo-400 ring-offset-1 !border-emerald-500 !bg-emerald-50 !border-red-500 !bg-red-50 !bg-emerald-100 !bg-red-100 text-emerald-600 text-red-600 text-gray-500 shadow-lg"></span><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― 仕訳を入力して答え合わせ</p><p class="mb-2 text-xs leading-relaxed text-gray-600">勘定科目をドラッグで記入欄へ（またはタップしてから記入欄をタップ）。金額も入力しよう。記入済みの欄をタップすると消せる。</p><div class="kb-pool flex flex-wrap gap-1.5" data-zone="pool"><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="支払手数料">支払手数料</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="仕入">仕入</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="商品評価損">商品評価損</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="棚卸減耗損">棚卸減耗損</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="売上原価">売上原価</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="繰越商品">繰越商品</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="仮受金">仮受金</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="発送費">発送費</button></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="0"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">(1)</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="1"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">(2)</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="2"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">(3)</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="3"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">(4)</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="mt-3 flex flex-wrap items-center gap-2"><button type="button" class="kb-check rounded-md px-3 py-1.5 text-sm font-bold transition bg-indigo-600 text-white hover:bg-indigo-500">答え合わせ</button><button type="button" class="kb-reveal rounded-md px-3 py-1.5 text-sm font-bold transition border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">正解を表示</button><button type="button" class="kb-reset rounded-md px-3 py-1.5 text-sm font-bold transition text-gray-500 hover:text-gray-800">リセット</button><span class="kb-result text-sm font-bold" aria-live="polite"></span></div></div><details class="kb-answer group mt-5 rounded-lg border border-gray-300 bg-white text-gray-800 shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg px-4 py-3 font-bold text-gray-900 hover:bg-gray-50"><span>解答・解説を見る</span><span class="flex-none text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><div class="border-t border-gray-200 px-4 py-4 sm:px-5"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>(1) 期首商品を仕入へ</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">仕入</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">800,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">繰越商品</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">800,000</td></tr></tbody></table></div></figure>
+<figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>(2) 期末商品（帳簿棚卸高 500個×2,000円）を繰越商品へ</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">繰越商品</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">1,000,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">仕入</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">1,000,000</td></tr></tbody></table></div></figure>
+<figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>(3) 棚卸減耗損：(500個－480個)×2,000円、商品評価損：480個×(2,000円－1,800円)</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">棚卸減耗損</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">40,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">繰越商品</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">136,000</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">商品評価損</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">96,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900"></td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900"></td></tr></tbody></table></div></figure>
+<figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>(4) 売上原価に含める</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">仕入</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">136,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">棚卸減耗損</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">40,000</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900"></td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900"></td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">商品評価損</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">96,000</td></tr></tbody></table></div></figure>
+<figure class="my-6"><figcaption class="mb-2 text-sm font-bold text-gray-700">帳簿の期末商品1,000,000円の内訳</figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full border-collapse text-sm"><thead><tr><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">部分</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">計算</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-right">金額（円）</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">貸借対照表の商品</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">実地480個×正味売却価額1,800円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">864,000</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">商品評価損</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">実地480個×(原価2,000円－1,800円)</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">96,000</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">棚卸減耗損</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">(帳簿500個－実地480個)×原価2,000円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">40,000</td></tr><tr class="bg-amber-50 font-bold"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">帳簿の期末商品</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">帳簿500個×原価2,000円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">1,000,000</td></tr></tbody></table></div></figure>
+<p class="my-5 leading-[1.95]">貸借対照表に載る商品は、実地数量×正味売却価額＝864,000円。帳簿の1,000,000円から、減耗40,000円と評価損96,000円が差し引かれた額だ。図では、横に数量、縦に単価をとり、外側の大きな長方形（帳簿数量×原価）から、右端の減耗の帯と、上の評価損の帯を切り取った内側が、貸借対照表の金額になる。</p>
+</div></div></details>
+</div></section>
+<figure class="my-6"><figcaption class="mb-2 text-sm font-bold text-gray-700">棚卸減耗損と評価損の、損益計算書での表示</figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full border-collapse text-sm"><thead><tr><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">損失</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">原因</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">表示する区分</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">棚卸減耗損</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">毎年ふつうに生じる程度（原価性あり）</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">売上原価の内訳、または販売費及び一般管理費</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">棚卸減耗損</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">異常な原因で生じた（原価性なし）</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">営業外費用、または特別損失</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">商品評価損・製品評価損</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">品質の低下や市場価格の下落による収益性の低下</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">原則として売上原価の内訳</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">商品評価損・製品評価損</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">災害など、臨時の事象で生じた多額のもの</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">特別損失</td></tr></tbody></table></div></figure>
+<h2 id="ch14-s3" class="mb-6 mt-16 flex scroll-mt-20 items-baseline gap-3 font-serif text-[1.4rem] font-black leading-snug text-gray-900 sm:text-[1.65rem]"><span class="flex-none font-sans text-sm font-black tracking-widest text-amber-600">03</span><span>古酒の評価 ― 上がる分は上げず、下がる分だけ下げる</span></h2>
+<p class="my-5 leading-[1.95]">古酒の1,960本は、品質によって2つに分かれた。</p>
+<figure class="my-6"><figcaption class="mb-2 text-sm font-bold text-gray-700">古酒の期末の評価の資料</figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full border-collapse text-sm"><thead><tr><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">区分</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-right">本数</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-right">原価</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-right">正味売却価額</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">根拠</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">状態のよい1,500本</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">1,500本</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">@3,000円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">@4,000円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">古酒の専門店が1本4,400円で買う。販売手数料@400円</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">老香の強い460本</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">460本</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">@3,000円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">@500円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">料理用の酒として1本550円。運賃@50円</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">箱の破損で割れた瓶</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">40本（帳簿2,000本－実地1,960本）</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">@3,000円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">―</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left"></td></tr></tbody></table></div></figure>
+<section class="my-8 rounded-lg border border-gray-300 bg-white p-4 shadow-sm sm:p-6"><p class="mb-3 flex flex-wrap items-baseline gap-2"><span class="rounded bg-gray-900 px-2 py-0.5 text-xs font-bold text-white">例題</span><span class="font-bold leading-snug text-gray-900">古酒について、決算整理仕訳をしなさい（棚卸減耗損は毎年ふつうに生じる程度のもので、販売費及び一般管理費とする。製品評価損は売上原価に含める）</span></p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><div class="kb-jr my-5 rounded-lg border border-indigo-200 bg-indigo-50/60 p-3 sm:p-4" data-kb="journal" data-answer="[{&quot;c&quot;:[[&quot;製品&quot;,120000]],&quot;d&quot;:[[&quot;棚卸減耗損&quot;,120000]]},{&quot;c&quot;:[[&quot;製品&quot;,1150000]],&quot;d&quot;:[[&quot;製品評価損&quot;,1150000]]}]" data-sec="古酒の評価 ― 上がる分は上げず、下がる分だけ下げる"><span class="hidden ring-2 ring-indigo-500 ring-indigo-400 ring-offset-1 !border-emerald-500 !bg-emerald-50 !border-red-500 !bg-red-50 !bg-emerald-100 !bg-red-100 text-emerald-600 text-red-600 text-gray-500 shadow-lg"></span><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― 仕訳を入力して答え合わせ</p><p class="mb-2 text-xs leading-relaxed text-gray-600">勘定科目をドラッグで記入欄へ（またはタップしてから記入欄をタップ）。金額も入力しよう。記入済みの欄をタップすると消せる。</p><div class="kb-pool flex flex-wrap gap-1.5" data-zone="pool"><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="製品評価損">製品評価損</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="棚卸減耗損">棚卸減耗損</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="仮受金">仮受金</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="仮払金">仮払金</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="売掛金">売掛金</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="未払金">未払金</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="製品">製品</button></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="0"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">(1)</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="1"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">(2)</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="mt-3 flex flex-wrap items-center gap-2"><button type="button" class="kb-check rounded-md px-3 py-1.5 text-sm font-bold transition bg-indigo-600 text-white hover:bg-indigo-500">答え合わせ</button><button type="button" class="kb-reveal rounded-md px-3 py-1.5 text-sm font-bold transition border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">正解を表示</button><button type="button" class="kb-reset rounded-md px-3 py-1.5 text-sm font-bold transition text-gray-500 hover:text-gray-800">リセット</button><span class="kb-result text-sm font-bold" aria-live="polite"></span></div></div><details class="kb-answer group mt-5 rounded-lg border border-gray-300 bg-white text-gray-800 shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg px-4 py-3 font-bold text-gray-900 hover:bg-gray-50"><span>解答・解説を見る</span><span class="flex-none text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><div class="border-t border-gray-200 px-4 py-4 sm:px-5"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>(1) 割れた40本の棚卸減耗：40本×3,000円</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">棚卸減耗損</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">120,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">製品</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">120,000</td></tr></tbody></table></div></figure>
+<figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>(2) 品質が低下した460本の評価損：460本×(3,000円－500円)</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">製品評価損</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">1,150,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">製品</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">1,150,000</td></tr></tbody></table></div></figure>
+<p class="my-5 leading-[1.95]">状態のよい1,500本は、正味売却価額4,000円が原価3,000円を上回っているが、<strong class="font-bold">帳簿の価額は上げない</strong>。評価を切り下げるのは、正味売却価額が原価を下回るときだけだ。古酒の期末の帳簿価額は、1,500本×3,000円＋460本×500円＝<strong class="font-bold">4,730,000円</strong>になる。</p>
+</div></div></details>
+</div></section>
+<aside class="my-8 rounded-r-lg border-l-4 border-blue-500 bg-blue-50 p-5 sm:p-6"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-blue-600">ACCOUNTING THEORY ― 重要理論</p><p class="mb-3 text-lg font-bold leading-snug text-blue-950">なぜ、下げるだけで上げないのか</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">在庫の価値が上がっても、それは売れるまで「まだ実現していない利益」だ。会計は、確実でない利益を先に計上しない。一方、価値が下がった在庫を原価のまま載せておけば、売ったときに一度に損失が出て、損失を出すべき期が先送りされる。</p>
+<p class="my-5 leading-[1.95]">そこで、取得原価で記録したうえで、<strong class="font-bold">収益性が下がったときだけ</strong>、正味売却価額まで切り下げる。「将来の損失は早めに、将来の利益は実現してから」というのが、在庫の評価の考え方だ。</p>
+</div></aside>
+<h2 id="ch14-s4" class="mb-6 mt-16 flex scroll-mt-20 items-baseline gap-3 font-serif text-[1.4rem] font-black leading-snug text-gray-900 sm:text-[1.65rem]"><span class="flex-none font-sans text-sm font-black tracking-widest text-amber-600">04</span><span>答え合わせ ― 600万円の古酒は、473万円だった</span></h2>
+<section class="my-12 rounded-lg border-2 border-gray-900 bg-white p-6 shadow-[6px_6px_0_0_#111827] sm:p-8"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-amber-600">ANSWER ― 答え合わせ</p><p class="mb-4 font-serif text-xl font-black leading-snug text-gray-900 sm:text-2xl">価値が上がる酒は原価のまま、下がる酒は正味売却価額まで下げる</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">帳簿の600万円の古酒は、決算で<strong class="font-bold">473万円</strong>に切り下げられた。差の127万円は、割れた40本の棚卸減耗損12万円と、老香の強い460本の製品評価損115万円だ。</p>
+<p class="my-5 leading-[1.95]">状態のよい1,500本は、専門店に売れば1本4,000円が手元に残る。だが、その値上がりの分150万円（1,500本×1,000円）は、帳簿には載らない。売れたときに、初めて利益になる。</p>
+<p class="my-5 leading-[1.95]">父の「1本1万円」は、帳簿の世界では、売れるまで存在しない数字だった。</p>
+</div></section>
+<p class="my-5 leading-[1.95]">岩倉は、木箱の伝票に「料理酒」と書かれた460本の札を貼りながら言った。「社長が聞いたら怒るでしょうな。10年も寝かせて、料理酒とは」</p>
+<p class="my-5 leading-[1.95]">「怒る前に、一度だけ、この460本で何ができるか考えてみます」と澪は言った。</p>
+<aside class="my-8 rounded-lg border border-emerald-200 bg-emerald-50 p-5 sm:p-6"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-emerald-700">EXAM HACK ― 試験の急所</p><p class="mb-3 text-lg font-bold leading-snug text-emerald-950">棚卸資産の期末評価の急所</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><ul class="my-5 list-disc space-y-2 pl-6 marker:text-gray-400"><li class="leading-[1.85]"><strong class="font-bold">棚卸減耗損＝(帳簿数量－実地数量)×原価</strong>、<strong class="font-bold">評価損＝実地数量×(原価－正味売却価額)</strong>。評価損の数量は「実地」</li><li class="leading-[1.85]">ボックス図を描く：横に数量（実地＋減耗）、縦に単価（正味売却価額＋差額）。外側から減耗と評価損を切り取る</li><li class="leading-[1.85]">正味売却価額が原価を<strong class="font-bold">上回っていても</strong>、評価を上げない</li><li class="leading-[1.85]">「売上原価に含める」指示があれば、「仕入／棚卸減耗損・商品評価損」で仕入勘定（または売上原価勘定）に振り替える</li><li class="leading-[1.85]">原価性のない減耗は営業外費用・特別損失、臨時で多額の評価損は特別損失。損益計算書の区分を問われたら、原因で判断する</li><li class="leading-[1.85]">品目ごとに評価する。値上がりした品目と値下がりした品目を合算して相殺しない</li></ul>
+</div></aside>
+<aside class="my-8 rounded-lg border border-t-4 border-stone-300 border-t-stone-700 bg-white p-5 shadow-sm sm:p-6"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-stone-500">REAL CASE ― 実際にあった話</p><p class="mb-3 font-serif text-lg font-black leading-snug text-stone-900">1本3万円の獺祭が、1,200円で売られた</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">2018年7月の西日本豪雨で、山口県岩国市の旭酒造は、蔵の浸水と停電の被害を受けた。報道によると、停電で、仕込み中の醪を入れたタンク150本の温度管理が3日半止まった。発酵の温度を管理できなかった醪は、蔵が定める「獺祭」の品質の基準に届かないおそれがあった。</p>
+<p class="my-5 leading-[1.95]">同社は、その酒を、漫画「島耕作」シリーズの作者の協力を得て「<strong class="font-bold">獺祭 島耕作</strong>」という別の商品として売ることにした。8月2日に発表し、価格は1本<strong class="font-bold">1,200円</strong>均一。9月2日までに<strong class="font-bold">58万本</strong>が売れ、1本200円、合計<strong class="font-bold">1億1,600万円</strong>が被災した4県に寄付された。品質を等級ごとに分けてラベルを貼る時間がなかったため、通常なら3万2,400円で売られる最高級品「磨き その先へ」の原酒が入った瓶もあったと報じられ、ファンの間で「獺祭ガチャ」と呼ばれた。</p>
+<p class="my-5 leading-[1.95]"><strong class="font-bold">この章の道具で読む ― 原価の高い酒を、安く売ると決めたとき</strong></p>
+<p class="my-5 leading-[1.95]">仮に、ある蔵の製品のうち1万本が、品質の基準に届かず、本来の商品名では売れなくなったとする。1本の原価は2,000円、別の商品として1本1,200円で売り、販売にかかる費用（運賃など）は1本100円と見込む（仕組みを示すための例）。</p>
+<figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>① 正味売却価額（1,200円－100円＝1,100円）まで切り下げる：1万本×(2,000円－1,100円)</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">災害損失</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">9,000,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">製品</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">9,000,000</td></tr></tbody></table></div></figure>
+<p class="my-5 leading-[1.95]">収益性の低下による評価損は、ふつうは売上原価に含める。だが、豪雨のような臨時の災害で生じた多額の損失は、本業の原価と区別して、<strong class="font-bold">特別損失</strong>（災害損失など）とする。決算書を読む人は、「本業の原価が上がったのか」「災害という一度きりの出来事か」を区別して読める。</p>
+<p class="my-5 leading-[1.95]">在庫の価値は、品質と、売り方で決まる。原価のまま帳簿に置いておくことはできても、原価で売れるとは限らない。旭酒造は、売れなくなった酒を「別の価値」に変えて売り切った。帳簿の上では評価損でも、蔵の判断としては、在庫をお金と信頼に変えたのだ。</p>
+<div class="my-4 text-sm leading-relaxed text-gray-500 [&_p]:my-1.5 [&_p]:leading-relaxed"><p class="my-5 leading-[1.95]">出典：<a href="https://www.businessinsider.jp/article/177006/" class="break-words font-bold underline decoration-amber-400 decoration-2 underline-offset-4 hover:text-amber-700">Business Insider Japan「豪雨翌月、1本3万円の獺祭が1200円で売られた理由。ファンが狂喜乱舞した“獺祭ガチャ”は必然だった【後編】」（2018年10月27日）</a></p>
+</div>
+</div></aside>
+<section class="kb-think my-8 rounded-lg border-2 border-amber-300 bg-amber-50 p-5 sm:p-6" data-think><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-amber-700">THINK ― 判断してみよう</p><p class="mb-3 text-lg font-bold leading-snug text-amber-950">老香の古酒460本 ― どう売るか</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">460本の古酒について、3つの売り方が見つかった。小松は「混ぜものにするのは気が進まん」と言いながら、試作には付き合ってくれた。</p>
+<figure class="my-6"><figcaption class="mb-2 text-sm font-bold text-gray-700">460本の売り方の比較</figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full border-collapse text-sm"><thead><tr><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">売り方</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-right">売価</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">追加でかかる費用（1本あたり）</th><th class="border-gray-600 bg-gray-800 px-2 py-2 sm:px-3 text-xs font-bold text-white whitespace-nowrap text-left">備考</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">A 料理用の酒として、地元の料理店に売る</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">550円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">運賃50円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">すぐに売れる</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">B 若い純米酒とブレンドし、「蔵の古酒ブレンド」として売る</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">1,500円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">ブレンドする純米酒と瓶詰め300円、販売手数料150円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">小松の試作は好評</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">C 原価の3,000円で売れるまで、売らずに待つ</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">―</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">保管の費用</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">老香はさらに強くなる見込み</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">D 決算の前に廃棄する</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 whitespace-nowrap text-right tabular-nums">0円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left">廃棄の費用10円</td><td class="border-t border-gray-200 px-2 py-2 sm:px-3 align-top text-gray-800 min-w-[3.5em] text-left"></td></tr></tbody></table></div></figure>
+<p class="my-5 leading-[1.95]">まず、それぞれの売り方で、1本あたりいくら手元に残るか（正味売却価額）を計算してから選んでほしい。</p>
+</div><p class="mb-2 mt-5 text-xs font-bold text-amber-800">あなたの判断は？　1つ選ぶと、その結果と考え方が開く。</p><div class="grid gap-2" role="group" aria-label="選択肢"><button type="button" class="kb-opt flex w-full items-start gap-3 rounded-lg border-2 border-amber-200 bg-white px-3 py-2.5 text-left hover:border-amber-400" data-k="A" aria-pressed="false"><span class="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-amber-500 text-xs font-black text-white">A</span><span class="pt-0.5 text-[15px] font-bold leading-snug text-gray-900">料理用の酒として売る。すぐに現金になる</span></button><button type="button" class="kb-opt flex w-full items-start gap-3 rounded-lg border-2 border-amber-200 bg-white px-3 py-2.5 text-left hover:border-amber-400" data-k="B" aria-pressed="false"><span class="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-amber-500 text-xs font-black text-white">B</span><span class="pt-0.5 text-[15px] font-bold leading-snug text-gray-900">ブレンドして、新しい商品として売る</span></button><button type="button" class="kb-opt flex w-full items-start gap-3 rounded-lg border-2 border-amber-200 bg-white px-3 py-2.5 text-left hover:border-amber-400" data-k="C" aria-pressed="false"><span class="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-amber-500 text-xs font-black text-white">C</span><span class="pt-0.5 text-[15px] font-bold leading-snug text-gray-900">原価の3,000円で売れるまで待つ。評価損を出さずに済む</span></button><button type="button" class="kb-opt flex w-full items-start gap-3 rounded-lg border-2 border-amber-200 bg-white px-3 py-2.5 text-left hover:border-amber-400" data-k="D" aria-pressed="false"><span class="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-amber-500 text-xs font-black text-white">D</span><span class="pt-0.5 text-[15px] font-bold leading-snug text-gray-900">決算の前に廃棄して、損失をすっきりさせる</span></button></div><div class="kb-fb mt-3 rounded-lg border-2 border-amber-400 bg-white p-4 sm:p-5" data-k="A"><p class="mb-2 text-xs font-bold tracking-wider text-amber-700">「A」を選んだ場合</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]"><strong class="font-bold">○ 確実だが、最善ではない。</strong>1本あたりの手元に残る額は550円－50円＝500円、460本で23万円。評価損は(3,000円－500円)×460本＝115万円。手間がかからず確実だが、B案よりも手元に残るお金が少ない。</p>
+</div></div><div class="kb-fb mt-3 rounded-lg border-2 border-amber-400 bg-white p-4 sm:p-5" data-k="B"><p class="mb-2 text-xs font-bold tracking-wider text-amber-700">「B」を選んだ場合</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]"><strong class="font-bold">◎ 正味売却価額が最も高い。</strong>1本あたりの手元に残る額は1,500円－300円－150円＝<strong class="font-bold">1,050円</strong>、460本で48万3,000円。A案より25万3,000円多い。</p>
+<p class="my-5 leading-[1.95]">この売り方を決めて、実行が確実なら、期末の正味売却価額は1,050円になり、評価損は(3,000円－1,050円)×460本＝<strong class="font-bold">89万7,000円</strong>で済む。在庫の価値は、品物そのものだけでなく、どう売るかで決まる。</p>
+</div></div><div class="kb-fb mt-3 rounded-lg border-2 border-amber-400 bg-white p-4 sm:p-5" data-k="C"><p class="mb-2 text-xs font-bold tracking-wider text-amber-700">「C」を選んだ場合</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]"><strong class="font-bold">× 待っても評価損は避けられず、価値はさらに下がる。</strong>老香の強い酒を3,000円で買う人はいない。期末の正味売却価額が原価を下回っている以上、評価損は決算で計上しなければならない。「売らなければ損は出ない」は、在庫の評価では通用しない。しかも、保管の費用がかかり、品質はさらに落ちる。</p>
+</div></div><div class="kb-fb mt-3 rounded-lg border-2 border-amber-400 bg-white p-4 sm:p-5" data-k="D"><p class="mb-2 text-xs font-bold tracking-wider text-amber-700">「D」を選んだ場合</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]"><strong class="font-bold">× 価値のある在庫を捨てている。</strong>廃棄すると、460本×3,000円＝138万円が全額損失になり、さらに廃棄の費用がかかる。料理用でも1本500円、ブレンドなら1,050円の価値があるのに、それを0にしてしまう。損失を早く片づけたい気持ちは分かるが、在庫は損失の数字ではなく、お金に変えるべき資産だ。</p>
+</div></div><details class="kb-answer group mt-5 rounded-lg border border-gray-300 bg-white text-gray-800 shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg px-4 py-3 font-bold text-gray-900 hover:bg-gray-50"><span>考え方の例を見る</span><span class="flex-none text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><div class="border-t border-gray-200 px-4 py-4 sm:px-5"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">在庫の評価は、帳簿の原価ではなく、「売ったら手元にいくら残るか」（正味売却価額）で考える。そして、どう売るかを工夫すれば、正味売却価額そのものを上げられる。評価損は、帳簿の数字を現実に合わせる手続きであり、在庫をあきらめる宣言ではない。</p>
+<p class="my-5 leading-[1.95]">「蔵の古酒ブレンド」は、日本橋店で1本1,500円で売り出され、3か月で完売した。小松は、ブレンドの割合を誰にも教えなかった。</p>
+</div></div></details>
+<span class="hidden !border-amber-500 !bg-amber-100 ring-2 ring-amber-400"></span></section>
+<aside class="my-8 rounded-lg border border-violet-200 bg-violet-50 p-5 sm:p-6"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-violet-700">NEXT STEP ― 2級・1級・実務へのつながり</p><p class="mb-3 text-lg font-bold leading-snug text-violet-950">棚卸資産の評価の先にある論点</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">1級では、評価損を翌期に戻し入れる<strong class="font-bold">洗替法</strong>と戻し入れない<strong class="font-bold">切放法</strong>、売価還元法による在庫の評価、在庫の評価方法の変更などを学ぶ。また、第10章で見たように、在庫の金額は利益に直結する。在庫の評価の見積りは、粉飾の手口になりやすい場所の1つでもある。</p>
+</div></aside>
+<h2 id="ch14-s5" class="mb-6 mt-16 flex scroll-mt-20 items-baseline gap-3 font-serif text-[1.4rem] font-black leading-snug text-gray-900 sm:text-[1.65rem]"><span class="flex-none font-sans text-sm font-black tracking-widest text-amber-600">05</span><span>確認問題</span></h2>
+<div class="my-8 space-y-5"><section class="rounded-lg border border-gray-300 bg-white p-4 shadow-sm sm:p-6"><p class="mb-3 flex flex-wrap items-baseline gap-2"><span class="rounded bg-amber-500 px-2 py-0.5 text-xs font-black text-white">問1</span><span class="font-bold leading-snug text-gray-900">次の資料から、棚卸減耗損と商品評価損、貸借対照表に表示する商品の金額を求めなさい。</span></p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><div class="kb-fill" data-kb="fill" data-opts="[]" data-sec="確認問題"><span class="hidden ring-2 ring-indigo-500 ring-indigo-400 ring-offset-1 !border-emerald-500 !bg-emerald-50 !border-red-500 !bg-red-50 !bg-emerald-100 !bg-red-100 text-emerald-600 text-red-600 text-gray-500 shadow-lg"></span><div class="[&>*:first-child]:mt-0"><p class="my-5 leading-[1.95]">期末の帳簿棚卸数量 300個、実地棚卸数量 290個、原価@1,000円、正味売却価額@900円</p>
+<p class="my-5 leading-[1.95]">棚卸減耗損 <input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" class="kb-blank rounded border border-indigo-300 bg-white px-1.5 py-0.5 text-base font-bold text-gray-900 shadow-inner focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-right tabular-nums" style="width:4.73em" data-ans="10000" placeholder="" aria-label="空欄"> 円、商品評価損 <input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" class="kb-blank rounded border border-indigo-300 bg-white px-1.5 py-0.5 text-base font-bold text-gray-900 shadow-inner focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-right tabular-nums" style="width:4.73em" data-ans="29000" placeholder="" aria-label="空欄"> 円、貸借対照表の商品 <input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" class="kb-blank rounded border border-indigo-300 bg-white px-1.5 py-0.5 text-base font-bold text-gray-900 shadow-inner focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-right tabular-nums" style="width:4.73em" data-ans="261000" placeholder="" aria-label="空欄"> 円</p>
+</div><div class="mt-5 rounded-lg border border-indigo-200 bg-indigo-50/60 px-3 pb-3 pt-2.5 sm:px-4"><p class="text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― 空欄を埋めて答え合わせ</p><div class="mt-3 flex flex-wrap items-center gap-2"><button type="button" class="kb-check rounded-md px-3 py-1.5 text-sm font-bold transition bg-indigo-600 text-white hover:bg-indigo-500">答え合わせ</button><button type="button" class="kb-reveal rounded-md px-3 py-1.5 text-sm font-bold transition border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">正解を表示</button><button type="button" class="kb-reset rounded-md px-3 py-1.5 text-sm font-bold transition text-gray-500 hover:text-gray-800">リセット</button><span class="kb-result text-sm font-bold" aria-live="polite"></span></div><span class="hidden absolute z-50 max-h-[50vh] w-max min-w-[9rem] max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-xl block w-full rounded-md px-3 py-2.5 text-left text-[15px] text-sm font-bold text-gray-800 text-gray-400 hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none bg-indigo-50 text-indigo-700 text-indigo-300"></span></div></div><details class="kb-answer group mt-5 rounded-lg border border-gray-300 bg-white text-gray-800 shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg px-4 py-3 font-bold text-gray-900 hover:bg-gray-50"><span>解答・解説を見る</span><span class="flex-none text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><div class="border-t border-gray-200 px-4 py-4 sm:px-5"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">棚卸減耗損＝(300個－290個)×1,000円＝<strong class="font-bold">10,000円</strong>。商品評価損＝290個×(1,000円－900円)＝<strong class="font-bold">29,000円</strong>。貸借対照表の商品＝290個×900円＝<strong class="font-bold">261,000円</strong>。</p>
+</div></div></details>
+</div></section>
+<section class="rounded-lg border border-gray-300 bg-white p-4 shadow-sm sm:p-6"><p class="mb-3 flex flex-wrap items-baseline gap-2"><span class="rounded bg-amber-500 px-2 py-0.5 text-xs font-black text-white">問2</span><span class="font-bold leading-snug text-gray-900">決算整理仕訳をしなさい。期首商品 150,000円、期末商品の帳簿棚卸高 200,000円（200個×@1,000円）、実地棚卸数量 195個、正味売却価額 @950円。売上原価は仕入勘定で計算し、棚卸減耗損と商品評価損は売上原価に含める。</span></p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><div class="kb-jr my-5 rounded-lg border border-indigo-200 bg-indigo-50/60 p-3 sm:p-4" data-kb="journal" data-answer="[{&quot;c&quot;:[[&quot;繰越商品&quot;,150000],[&quot;仕入&quot;,200000]],&quot;d&quot;:[[&quot;仕入&quot;,150000],[&quot;繰越商品&quot;,200000]]},{&quot;c&quot;:[[&quot;繰越商品&quot;,14750]],&quot;d&quot;:[[&quot;棚卸減耗損&quot;,5000],[&quot;商品評価損&quot;,9750]]},{&quot;c&quot;:[[&quot;棚卸減耗損&quot;,5000],[&quot;商品評価損&quot;,9750]],&quot;d&quot;:[[&quot;仕入&quot;,14750]]}]" data-sec="確認問題"><span class="hidden ring-2 ring-indigo-500 ring-indigo-400 ring-offset-1 !border-emerald-500 !bg-emerald-50 !border-red-500 !bg-red-50 !bg-emerald-100 !bg-red-100 text-emerald-600 text-red-600 text-gray-500 shadow-lg"></span><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― 仕訳を入力して答え合わせ</p><p class="mb-2 text-xs leading-relaxed text-gray-600">勘定科目をドラッグで記入欄へ（またはタップしてから記入欄をタップ）。金額も入力しよう。記入済みの欄をタップすると消せる。</p><div class="kb-pool flex flex-wrap gap-1.5" data-zone="pool"><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="仕入">仕入</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="現金">現金</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="商品評価損">商品評価損</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="棚卸減耗損">棚卸減耗損</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="発送費">発送費</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="売上原価">売上原価</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="普通預金">普通預金</button><button type="button" class="kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400" data-acct="繰越商品">繰越商品</button></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="0"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">仕訳1</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="1"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">仕訳2</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="kb-entry mt-3 rounded-md border border-gray-200 bg-white p-2.5" data-j="2"><div class="mb-1.5 flex items-center justify-between gap-2"><span class="text-xs font-bold text-gray-500">仕訳3</span><span class="kb-jres text-xs font-bold"></span></div><div class="grid grid-cols-1 gap-2 sm:grid-cols-2"><div><p class="mb-1 text-[11px] font-bold text-blue-700">借方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="d"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="借方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div><div><p class="mb-1 text-[11px] font-bold text-rose-700">貸方</p><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div><div class="kb-row mb-1 flex items-stretch gap-1.5" data-side="c"><button type="button" class="kb-slot min-w-0 flex-1 truncate rounded border border-dashed border-gray-300 bg-gray-50 px-2 py-1.5 text-left text-sm text-gray-400" data-acct="">勘定科目</button><input type="text" inputmode="numeric" autocomplete="off" aria-label="貸方の金額" placeholder="金額" class="kb-amt w-28 flex-none rounded border border-gray-300 bg-white px-2 py-1.5 text-right text-base tabular-nums sm:text-sm"></div></div></div></div><div class="mt-3 flex flex-wrap items-center gap-2"><button type="button" class="kb-check rounded-md px-3 py-1.5 text-sm font-bold transition bg-indigo-600 text-white hover:bg-indigo-500">答え合わせ</button><button type="button" class="kb-reveal rounded-md px-3 py-1.5 text-sm font-bold transition border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">正解を表示</button><button type="button" class="kb-reset rounded-md px-3 py-1.5 text-sm font-bold transition text-gray-500 hover:text-gray-800">リセット</button><span class="kb-result text-sm font-bold" aria-live="polite"></span></div></div><details class="kb-answer group mt-5 rounded-lg border border-gray-300 bg-white text-gray-800 shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg px-4 py-3 font-bold text-gray-900 hover:bg-gray-50"><span>解答・解説を見る</span><span class="flex-none text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><div class="border-t border-gray-200 px-4 py-4 sm:px-5"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>期首商品と期末商品の振替え</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">仕入</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">150,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">繰越商品</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">150,000</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">繰越商品</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">200,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">仕入</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">200,000</td></tr></tbody></table></div></figure>
+<figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>棚卸減耗損 5個×1,000円、商品評価損 195個×50円</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">棚卸減耗損</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">5,000</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">繰越商品</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">14,750</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">商品評価損</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">9,750</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900"></td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900"></td></tr></tbody></table></div></figure>
+<figure class="my-6"><figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>売上原価に含める</span></figcaption><div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr><th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th><th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th><th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th><th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th></tr></thead><tbody><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">仕入</td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">14,750</td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">棚卸減耗損</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">5,000</td></tr><tr class="even:bg-slate-50"><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900"></td><td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900"></td><td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">商品評価損</td><td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">9,750</td></tr></tbody></table></div></figure>
+</div></div></details>
+</div></section>
+<section class="rounded-lg border border-gray-300 bg-white p-4 shadow-sm sm:p-6"><p class="mb-3 flex flex-wrap items-baseline gap-2"><span class="rounded bg-amber-500 px-2 py-0.5 text-xs font-black text-white">問3</span><span class="font-bold leading-snug text-gray-900">製品Aの期末の原価は@2,000円、見込み売価は@2,300円、見積販売直接経費は@200円である。製品Bの原価は@1,500円、見込み売価は@1,400円、見積販売直接経費は@100円である。実地数量はA 100個、B 50個。製品評価損の合計を求めなさい。</span></p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><div class="kb-fill" data-kb="fill" data-opts="[]" data-sec="確認問題"><span class="hidden ring-2 ring-indigo-500 ring-indigo-400 ring-offset-1 !border-emerald-500 !bg-emerald-50 !border-red-500 !bg-red-50 !bg-emerald-100 !bg-red-100 text-emerald-600 text-red-600 text-gray-500 shadow-lg"></span><div class="[&>*:first-child]:mt-0"><p class="my-5 leading-[1.95]">製品評価損 <input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" class="kb-blank rounded border border-indigo-300 bg-white px-1.5 py-0.5 text-base font-bold text-gray-900 shadow-inner focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-right tabular-nums" style="width:4.17em" data-ans="10000" placeholder="" aria-label="空欄"> 円</p>
+</div><div class="mt-5 rounded-lg border border-indigo-200 bg-indigo-50/60 px-3 pb-3 pt-2.5 sm:px-4"><p class="text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― 空欄を埋めて答え合わせ</p><div class="mt-3 flex flex-wrap items-center gap-2"><button type="button" class="kb-check rounded-md px-3 py-1.5 text-sm font-bold transition bg-indigo-600 text-white hover:bg-indigo-500">答え合わせ</button><button type="button" class="kb-reveal rounded-md px-3 py-1.5 text-sm font-bold transition border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">正解を表示</button><button type="button" class="kb-reset rounded-md px-3 py-1.5 text-sm font-bold transition text-gray-500 hover:text-gray-800">リセット</button><span class="kb-result text-sm font-bold" aria-live="polite"></span></div><span class="hidden absolute z-50 max-h-[50vh] w-max min-w-[9rem] max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-xl block w-full rounded-md px-3 py-2.5 text-left text-[15px] text-sm font-bold text-gray-800 text-gray-400 hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none bg-indigo-50 text-indigo-700 text-indigo-300"></span></div></div><details class="kb-answer group mt-5 rounded-lg border border-gray-300 bg-white text-gray-800 shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg px-4 py-3 font-bold text-gray-900 hover:bg-gray-50"><span>解答・解説を見る</span><span class="flex-none text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><div class="border-t border-gray-200 px-4 py-4 sm:px-5"><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><p class="my-5 leading-[1.95]">正味売却価額：A 2,300円－200円＝2,100円（原価2,000円を上回るので評価損なし）、B 1,400円－100円＝1,300円（原価1,500円を下回る）。評価損＝50個×(1,500円－1,300円)＝<strong class="font-bold">10,000円</strong>。Aの値上がりの分（100個×100円）と相殺してはいけない。</p>
+</div></div></details>
+</div></section>
+</div>
+<section class="my-14 rounded-lg border-t-4 border-gray-900 bg-white p-6 shadow-sm sm:p-8"><p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-gray-400">SUMMARY</p><p class="mb-4 font-serif text-xl font-black text-gray-900">この章のまとめ</p><div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"><ul class="my-5 space-y-3"><li class="flex gap-3 leading-[1.8]"><span class="mt-1 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-[11px] font-black text-white">✓</span><span>期末の在庫は、数量の減少（棚卸減耗損＝減った数量×原価）と、価値の低下（評価損＝実地数量×(原価－正味売却価額)）の2つを確かめる</span></li><li class="flex gap-3 leading-[1.8]"><span class="mt-1 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-[11px] font-black text-white">✓</span><span>正味売却価額＝見込み売価－見積追加製造原価－見積販売直接経費。原価より高くても、帳簿の価額は上げない</span></li><li class="flex gap-3 leading-[1.8]"><span class="mt-1 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-[11px] font-black text-white">✓</span><span>原価性のある減耗と、収益性の低下による評価損は、原則として売上原価（減耗は販管費も可）。異常な減耗は営業外費用・特別損失、災害などの臨時で多額の評価損は特別損失</span></li><li class="flex gap-3 leading-[1.8]"><span class="mt-1 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-[11px] font-black text-white">✓</span><span>品目ごとに評価し、値上がり分と値下がり分を相殺しない</span></li><li class="flex gap-3 leading-[1.8]"><span class="mt-1 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-[11px] font-black text-white">✓</span><span>在庫の価値は、売り方で変わる。評価損は在庫をあきらめることではなく、帳簿を現実に合わせること</span></li></ul>
+</div></section>
+
+<nav class="no-print mt-16 grid gap-3 sm:grid-cols-2"><a href="ch13.html" class="group rounded-lg border border-gray-300 bg-white p-4 transition hover:border-gray-900"><p class="text-xs font-bold text-gray-400">← 前へ　第13章</p><p class="mt-1 font-bold leading-snug text-gray-900 group-hover:underline">収益認識</p></a><a href="index.html" class="group rounded-lg border border-gray-900 bg-gray-900 p-4 text-right transition hover:bg-gray-800 sm:col-start-2"><p class="text-xs font-bold text-amber-400">表紙へ戻る →</p><p class="mt-1 font-bold leading-snug text-white group-hover:underline">目次・全体像</p></a></nav>
+</main>
+<footer class="mt-16 border-t border-gray-200 bg-white">
+  <div class="mx-auto max-w-3xl space-y-2 px-4 py-10 text-xs leading-relaxed text-gray-500 sm:px-6">
+    <p class="font-bold text-gray-700">ケースで学ぶ簿記2級 ― 潰れかけた酒蔵を、数字で立て直す1年。日商簿記2級の全範囲を物語で学ぶ</p>
+    <p>物語に登場する企業・人物・数値は、学習のために設計した架空のものです。実在の企業・団体・商品とは関係ありません。「実際にあった話」で紹介する事例と統計は、公開されている報道・統計資料にもとづき、出典を併記しています。</p>
+    <p>出題範囲は日本商工会議所「商工会議所簿記検定試験 出題区分表」（2027年度適用・2026年7月31日公表の確定版。2027年4月1日以降の試験に適用）に準拠し、2027年3月までの試験に適用される現行の区分表との違いも注記しています。受験前に必ず日本商工会議所の公式情報をご確認ください。</p>
+  </div>
+</footer>
+<script>
+(() => {
+  const bar = document.getElementById('progress');
+  const update = () => {
+    const d = document.documentElement;
+    const max = d.scrollHeight - d.clientHeight;
+    bar.style.width = (max > 0 ? (d.scrollTop / max) * 100 : 0) + '%';
+  };
+  addEventListener('scroll', update, { passive: true });
+  update();
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('details[data-dropdown][open]').forEach((d) => {
+      if (!d.contains(e.target) || e.target.closest('nav a')) d.removeAttribute('open');
+    });
+  });
+  addEventListener('beforeprint', () => document.querySelectorAll('main details').forEach((d) => (d.open = true)));
+  // 「続きから読む」: 章ページを開いたら記録し、表紙で再開ボタンを出す（保存できない環境では何もしない）
+  try {
+    const page = document.body.dataset.page;
+    if (page) localStorage.setItem('kb2-last', JSON.stringify({ id: page, label: document.body.dataset.label || '' }));
+    const cont = document.getElementById('cta-continue');
+    const last = JSON.parse(localStorage.getItem('kb2-last') || 'null');
+    if (cont && last && last.id) {
+      cont.href = last.id + '.html';
+      cont.querySelector('[data-label]').textContent = last.label;
+      cont.classList.remove('hidden');
+      const start = document.getElementById('cta-start');
+      if (start) start.className = 'rounded-md border border-white/30 px-5 py-3 font-bold text-white transition hover:bg-white/10';
+    }
+  } catch (e) {}
+})();
+
+</script>
+<script>
+// ======================================================================
+//  ケースで学ぶ簿記3級 ― ページ内で動く演習・シミュレーター・用語・模擬試験
+//  build.pl が各ページの末尾に埋め込む（外部ファイルは読み込まない）
+//
+//  [data-kb="sort"]    ドラッグで分類する演習
+//  [data-kb="journal"] 仕訳の入力欄（勘定科目のドラッグ＋金額）
+//  [data-kb="fill"]    穴埋め（問題文の空欄に入力・選択）
+//  [data-kb="checks"]  当てはまる欄にチェックする表（補助簿の選択など）
+//  [data-sim]          数字を動かすシミュレーター
+//  .kb-term            勘定科目のポップアップ（付録Aの辞典から）
+//  [data-mock]         模擬試験モード（制限時間・自動採点）
+//  URL に ?selftest を付けると、すべてを自動で検査して結果を画面上部に出す
+// ======================================================================
+(() => {
+  const $$ = (sel, root) => [...(root || document).querySelectorAll(sel)];
+  const SEL = ['ring-2', 'ring-indigo-500', 'ring-offset-1'];
+  const OVER = ['ring-2', 'ring-indigo-400'];
+  const OK = ['!border-emerald-500', '!bg-emerald-50']; // 元の枠・背景色より優先させる
+  const NG = ['!border-red-500', '!bg-red-50'];
+  const OKC = ['!bg-emerald-100']; // チェック表のマス
+  const NGC = ['!bg-red-100'];
+  const fmt = (n) => Number(n).toLocaleString('ja-JP');
+  // 入力値 → 数値（空なら null、数値として読めなければ NaN）。全角数字・カンマ・円・△ に対応
+  const num = (s) => {
+    s = String(s == null ? '' : s)
+      .replace(/[０-９．]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0xfee0))
+      .replace(/[,，\s円¥￥]/g, '');
+    if (s === '') return null;
+    let sign = 1;
+    if (/^[△▲\-−－ー]/.test(s)) {
+      sign = -1;
+      s = s.slice(1);
+    }
+    return /^(\d+\.?\d*|\.\d+)$/.test(s) ? sign * Number(s) : NaN;
+  };
+  const widgetOf = (el) => (el && el.closest ? el.closest('[data-kb]') : null);
+  const own = (w, sel) => $$(sel, w).filter((el) => widgetOf(el) === w); // 入れ子の演習を除く
+  let selected = null;
+  let drag = null;
+  let suppress = false;
+
+  // ---------------------------------------------------------------- 演習の共通処理
+  const select = (chip) => {
+    if (selected) selected.classList.remove(...SEL);
+    selected = chip && chip !== selected ? chip : null;
+    if (selected) selected.classList.add(...SEL);
+  };
+  const result = (w, text, ok) => {
+    const r = own(w, '.kb-result')[0];
+    if (!r) return;
+    r.textContent = text;
+    r.className = 'kb-result text-sm font-bold ' + (ok === true ? 'text-emerald-600' : ok === false ? 'text-red-600' : 'text-gray-500');
+  };
+  const clearMarks = (w) => {
+    own(w, '.kb-chip, .kb-slot, .kb-amt, .kb-blank').forEach((el) => el.classList.remove(...OK, ...NG));
+    own(w, '.kb-cell').forEach((el) => el.classList.remove(...OKC, ...NGC));
+    own(w, '.kb-mark').forEach((m) => m.remove());
+    own(w, '.kb-jres, .kb-colres').forEach((r) => (r.textContent = ''));
+    result(w, '', null);
+    delete w.dataset.ok;
+    w._items = null;
+  };
+  const setSlot = (slot, acct) => {
+    slot.dataset.acct = acct || '';
+    slot.textContent = acct || '勘定科目';
+    slot.classList.toggle('text-gray-400', !acct);
+    slot.classList.toggle('border-dashed', !acct);
+    slot.classList.toggle('text-gray-900', !!acct);
+    slot.classList.toggle('font-bold', !!acct);
+  };
+  const place = (chip, target) => {
+    const w = widgetOf(chip);
+    if (!w || widgetOf(target) !== w) return false;
+    if (w.dataset.kb === 'sort') {
+      const zone = target.closest('[data-zone]');
+      if (!zone) return false;
+      (zone.querySelector('.kb-items') || zone).appendChild(chip);
+    } else {
+      const slot = target.closest('.kb-slot');
+      if (!slot) return false;
+      setSlot(slot, chip.dataset.acct);
+    }
+    clearMarks(w);
+    return true;
+  };
+  const rows = (entry, side) => $$('.kb-row[data-side="' + side + '"]', entry);
+  const tally = (items) => items.filter((i) => i.ok).length;
+  const isPick = (b) => b.classList.contains('kb-pick');
+  // 選択式の空欄：値を入れる（未選択なら記号を薄く表示）
+  const setPick = (b, v) => {
+    const pv = b.querySelector('.kb-pv');
+    b.dataset.value = v || '';
+    pv.textContent = v || b.dataset.label || '選択';
+    pv.classList.toggle('text-indigo-300', !v);
+  };
+
+  // 答え合わせ。設問ごとの正誤（模擬試験の採点に使う）を返す
+  const check = (w) => {
+    clearMarks(w);
+    const k = w.dataset.kb;
+    let items = [];
+    let ok = true;
+    if (k === 'sort') {
+      const chips = own(w, '.kb-chip');
+      let n = 0;
+      chips.forEach((c) => {
+        const good = c.closest('[data-zone]').dataset.zone === c.dataset.ans;
+        c.classList.add(...(good ? OK : NG));
+        if (good) n++;
+        else {
+          const m = document.createElement('span');
+          m.className = 'kb-mark ml-1 text-[11px] font-bold text-red-600';
+          m.textContent = '→ ' + c.dataset.ans;
+          c.appendChild(m);
+        }
+      });
+      ok = n === chips.length;
+      // 採点では「使わない語句」以外の分類先を1設問とし、入るべき項目だけが入っていれば正解
+      items = own(w, '[data-zone]')
+        .filter((z) => z.dataset.zone !== 'pool' && !z.dataset.unused)
+        .map((z) => {
+          const want = chips.filter((c) => c.dataset.ans === z.dataset.zone);
+          const have = chips.filter((c) => c.closest('[data-zone]') === z);
+          return { ok: want.length === have.length && want.every((c) => have.includes(c)) };
+        });
+      result(w, ok ? '全問正解！' : n + ' / ' + chips.length + ' 正解。赤い項目を見直そう', ok);
+    } else if (k === 'journal') {
+      const ans = JSON.parse(w.dataset.answer);
+      own(w, '.kb-entry').forEach((entry, j) => {
+        let good = true;
+        ['d', 'c'].forEach((side) => {
+          const left = ans[j][side].map((e) => e[0] + '|' + e[1]);
+          rows(entry, side).forEach((r) => {
+            const slot = r.querySelector('.kb-slot');
+            const amt = r.querySelector('.kb-amt');
+            if (!slot.dataset.acct && !amt.value.trim()) return;
+            const i = left.indexOf(slot.dataset.acct + '|' + num(amt.value));
+            if (i >= 0) left.splice(i, 1);
+            else good = false;
+            [slot, amt].forEach((el) => el.classList.add(...(i >= 0 ? OK : NG)));
+          });
+          if (left.length) good = false;
+        });
+        entry.dataset.ok = good ? '1' : '0';
+        const r = entry.querySelector('.kb-jres');
+        r.textContent = good ? '✓ 正解' : '✗ 見直そう';
+        r.className = 'kb-jres text-xs font-bold ' + (good ? 'text-emerald-600' : 'text-red-600');
+        items.push({ ok: good });
+      });
+      ok = tally(items) === items.length;
+      result(w, ok ? '全問正解！' : '赤い欄を見直そう（足りない行がある場合もある）', ok);
+    } else if (k === 'fill') {
+      const groups = new Map(); // 同じラベルの空欄はまとめて1設問
+      let extra = 0;
+      own(w, '.kb-blank').forEach((b, i) => {
+        const want = b.dataset.ans;
+        let good;
+        if (isPick(b)) good = (b.dataset.value || '') === want;
+        else if (want === '') {
+          // 何も書かないのが正解の欄（記入する場所そのものを問う）
+          if (b.value.trim() !== '') {
+            extra++;
+            b.classList.add(...NG);
+          }
+          return;
+        } else {
+          const v = num(b.value);
+          good = v !== null && !isNaN(v) && Math.abs(Math.abs(v) - Math.abs(Number(want))) < 1e-6;
+        }
+        b.classList.add(...(good ? OK : NG));
+        const key = b.dataset.label ? 'L' + b.dataset.label : 'i' + i;
+        const g = groups.get(key) || { ok: true, ch: [] };
+        g.ok = g.ok && good;
+        (b.dataset.ch || '').split(' ').filter(Boolean).forEach((c) => g.ch.includes(c) || g.ch.push(c));
+        groups.set(key, g);
+      });
+      items = [...groups.values()]; // { ok, ch }：ch は空欄ごとの「復習する章」（なければ問題全体の章）
+      const n = tally(items);
+      ok = n === items.length && !extra;
+      result(w, ok ? '全問正解！' : n + ' / ' + items.length + ' 正解' + (extra ? '・不要な記入が' + extra + 'か所' : '') + '。赤い欄を見直そう', ok);
+    } else if (k === 'checks') {
+      const cols = new Map(); // 1列（1つの取引）が1設問
+      own(w, '.kb-ck').forEach((cb) => {
+        const want = cb.dataset.ans === '1';
+        const good = cb.checked === want;
+        if (cb.checked || want) cb.closest('.kb-cell').classList.add(...(good ? OKC : NGC));
+        cols.set(cb.dataset.col, (cols.has(cb.dataset.col) ? cols.get(cb.dataset.col) : true) && good);
+      });
+      cols.forEach((g, c) => {
+        const r = own(w, '.kb-colres').find((x) => x.dataset.col === c);
+        if (!r) return;
+        r.textContent = g ? '○' : '×';
+        r.classList.remove('text-emerald-600', 'text-red-600');
+        r.classList.add(g ? 'text-emerald-600' : 'text-red-600');
+      });
+      items = [...cols.values()].map((g) => ({ ok: g }));
+      const n = tally(items);
+      ok = n === items.length;
+      result(w, ok ? '全問正解！' : n + ' / ' + items.length + ' 列が正解。赤いマスを見直そう', ok);
+    }
+    w._items = items;
+    w.dataset.ok = ok ? '1' : '0';
+    return items;
+  };
+
+  const reveal = (w) => {
+    const k = w.dataset.kb;
+    if (k === 'sort') {
+      own(w, '.kb-chip').forEach((c) => {
+        const zone = own(w, '[data-zone]').find((z) => z.dataset.zone === c.dataset.ans);
+        if (zone) (zone.querySelector('.kb-items') || zone).appendChild(c);
+      });
+    } else if (k === 'journal') {
+      const ans = JSON.parse(w.dataset.answer);
+      own(w, '.kb-entry').forEach((entry, j) => {
+        ['d', 'c'].forEach((side) => {
+          rows(entry, side).forEach((r, i) => {
+            const e = ans[j][side][i];
+            setSlot(r.querySelector('.kb-slot'), e ? e[0] : '');
+            r.querySelector('.kb-amt').value = e ? fmt(e[1]) : '';
+          });
+        });
+      });
+    } else if (k === 'fill') {
+      own(w, '.kb-blank').forEach((b) => {
+        const a = b.dataset.ans;
+        if (isPick(b)) setPick(b, a);
+        else b.value = a === '' ? '' : fmt(Math.abs(Number(a)));
+      });
+    } else if (k === 'checks') {
+      own(w, '.kb-ck').forEach((cb) => (cb.checked = cb.dataset.ans === '1'));
+    }
+    clearMarks(w);
+    result(w, '正解を表示しました', null);
+  };
+
+  const reset = (w) => {
+    const k = w.dataset.kb;
+    if (k === 'sort') {
+      const pool = own(w, '.kb-pool')[0];
+      own(w, '.kb-chip')
+        .sort((a, b) => a.dataset.i - b.dataset.i)
+        .forEach((c) => pool.appendChild(c));
+    } else if (k === 'journal') {
+      own(w, '.kb-slot').forEach((s) => setSlot(s, ''));
+      own(w, '.kb-amt').forEach((i) => (i.value = ''));
+    } else if (k === 'fill') {
+      own(w, '.kb-blank').forEach((b) => (isPick(b) ? setPick(b, '') : (b.value = '')));
+    } else if (k === 'checks') {
+      own(w, '.kb-ck').forEach((cb) => (cb.checked = false));
+    }
+    clearMarks(w);
+  };
+
+  // 選択式の空欄の一覧（ページに1つだけ作り、押されたボタンの下に出す）
+  let picker = null;
+  let pickFor = null;
+  const closePick = (refocus) => {
+    if (!picker || !pickFor) return;
+    picker.classList.add('hidden');
+    pickFor.setAttribute('aria-expanded', 'false');
+    if (refocus) pickFor.focus();
+    pickFor = null;
+  };
+  const openPick = (b) => {
+    if (!picker) {
+      picker = document.createElement('div');
+      picker.id = 'kb-picker';
+      picker.setAttribute('role', 'listbox');
+      picker.className = 'absolute z-50 hidden max-h-[50vh] w-max min-w-[9rem] max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-xl';
+      document.body.appendChild(picker);
+    }
+    const w = widgetOf(b);
+    const opts = JSON.parse(w.dataset.opts || '[]');
+    picker.textContent = '';
+    picker.setAttribute('aria-label', (b.dataset.label ? '空欄（' + b.dataset.label + '）' : '空欄') + 'の選択肢');
+    let focus = null;
+    opts.concat(['']).forEach((o) => {
+      const it = document.createElement('button');
+      it.type = 'button';
+      it.setAttribute('role', 'option');
+      it.dataset.v = o;
+      const on = o !== '' && o === b.dataset.value;
+      it.setAttribute('aria-selected', on ? 'true' : 'false');
+      it.className = 'kb-pickopt block w-full rounded-md px-3 py-2.5 text-left font-bold hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none ' + (o === '' ? 'text-sm text-gray-400' : on ? 'text-[15px] bg-indigo-50 text-indigo-700' : 'text-[15px] text-gray-800');
+      it.textContent = o === '' ? '（未選択に戻す）' : o;
+      picker.appendChild(it);
+      if (on || (!focus && o !== '')) focus = on ? it : focus || it;
+    });
+    picker.classList.remove('hidden');
+    const r = b.getBoundingClientRect();
+    const pw = picker.offsetWidth;
+    const ph = picker.offsetHeight;
+    const left = Math.max(scrollX + 12, Math.min(r.left + scrollX, scrollX + document.documentElement.clientWidth - pw - 12));
+    let top = r.bottom + scrollY + 6;
+    if (r.bottom + ph + 12 > innerHeight && r.top > ph + 72) top = r.top + scrollY - ph - 6;
+    picker.style.left = left + 'px';
+    picker.style.top = top + 'px';
+    pickFor = b;
+    b.setAttribute('aria-expanded', 'true');
+    if (focus) focus.focus({ preventScroll: true });
+  };
+  const choose = (b, v) => {
+    const w = widgetOf(b);
+    own(w, '.kb-pick')
+      .filter((o) => o === b || (b.dataset.label && o.dataset.label === b.dataset.label))
+      .forEach((o) => {
+        setPick(o, v);
+        o.classList.remove(...OK, ...NG);
+      });
+  };
+  document.addEventListener('click', (e) => {
+    const t = e.target;
+    if (!t.closest) return;
+    const opt = t.closest('.kb-pickopt');
+    if (opt && pickFor) {
+      choose(pickFor, opt.dataset.v);
+      closePick(true);
+      return;
+    }
+    const b = t.closest('.kb-pick');
+    if (b) {
+      if (pickFor === b) closePick();
+      else openPick(b);
+      return;
+    }
+    if (picker && !picker.contains(t)) closePick();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!pickFor) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closePick(true);
+    } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const items = $$('.kb-pickopt', picker);
+      const i = items.indexOf(document.activeElement);
+      const n = items[(i + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length];
+      if (n) {
+        e.preventDefault();
+        n.focus();
+      }
+    }
+  });
+  addEventListener('resize', () => closePick());
+
+  // ---------------------------------------------------------------- 操作（クリック・キーボード・ドラッグ・入力）
+  document.addEventListener('click', (e) => {
+    if (suppress) return;
+    const t = e.target;
+    const w = widgetOf(t);
+    if (!w) return;
+    if (t.closest('.kb-check')) return check(w);
+    if (t.closest('.kb-reveal')) return reveal(w);
+    if (t.closest('.kb-reset')) return reset(w);
+    const chip = t.closest('.kb-chip');
+    if (chip) return select(chip);
+    const slot = t.closest('.kb-slot');
+    if (slot) {
+      if (selected && widgetOf(selected) === w) {
+        place(selected, slot);
+        select(null);
+      } else if (slot.dataset.acct) {
+        setSlot(slot, '');
+        clearMarks(w);
+      }
+      return;
+    }
+    const zone = t.closest('[data-zone]');
+    if (zone && selected && widgetOf(selected) === w) {
+      place(selected, zone);
+      select(null);
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[data-zone][role="button"]')) {
+      e.preventDefault();
+      e.target.click();
+    }
+  });
+  // 空欄に入力したら、その欄の色を消し、同じラベルの空欄にも同じ値を入れる
+  document.addEventListener('input', (e) => {
+    const t = e.target;
+    const w = widgetOf(t);
+    if (!w || !t.classList) return;
+    if (t.classList.contains('kb-blank')) {
+      t.classList.remove(...OK, ...NG);
+      if (t.dataset.label) {
+        own(w, '.kb-blank').forEach((o) => {
+          if (o !== t && o.dataset.label === t.dataset.label) {
+            o.value = t.value;
+            o.classList.remove(...OK, ...NG);
+          }
+        });
+      }
+    } else if (t.classList.contains('kb-ck')) {
+      const cell = t.closest('.kb-cell');
+      if (cell) cell.classList.remove(...OKC, ...NGC);
+    }
+  });
+
+  // ドラッグ（マウス・タッチ共通。HTML5のドラッグはスマホで動かないためポインターで実装）
+  document.addEventListener('pointerdown', (e) => {
+    const chip = e.target.closest && e.target.closest('.kb-chip');
+    if (!chip || e.button > 0) return;
+    drag = { chip, x: e.clientX, y: e.clientY, ghost: null, over: null };
+  });
+  document.addEventListener(
+    'pointermove',
+    (e) => {
+      if (!drag) return;
+      if (!drag.ghost) {
+        if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
+        const g = drag.chip.cloneNode(true);
+        g.classList.remove(...SEL);
+        g.classList.add('kb-ghost', 'shadow-lg');
+        document.body.appendChild(g);
+        drag.ghost = g;
+        select(null);
+      }
+      e.preventDefault();
+      drag.ghost.style.left = e.clientX + 'px';
+      drag.ghost.style.top = e.clientY + 'px';
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      let over = el && el.closest ? el.closest('.kb-slot') || el.closest('[data-zone]') : null;
+      if (over && widgetOf(over) !== widgetOf(drag.chip)) over = null;
+      if (over !== drag.over) {
+        if (drag.over) drag.over.classList.remove(...OVER);
+        drag.over = over;
+        if (over) over.classList.add(...OVER);
+      }
+    },
+    { passive: false }
+  );
+  const endDrag = () => {
+    if (!drag) return;
+    const d = drag;
+    drag = null;
+    if (!d.ghost) return;
+    d.ghost.remove();
+    if (d.over) {
+      d.over.classList.remove(...OVER);
+      place(d.chip, d.over);
+    }
+    suppress = true;
+    setTimeout(() => (suppress = false), 0);
+  };
+  document.addEventListener('pointerup', endDrag);
+  document.addEventListener('pointercancel', () => {
+    if (drag && drag.ghost) drag.ghost.remove();
+    if (drag && drag.over) drag.over.classList.remove(...OVER);
+    drag = null;
+  });
+
+  // ---------------------------------------------------------------- シミュレーター
+  const COL = { blue: '#2a78d6', orange: '#eb6834', aqua: '#1baf7a', ink: '#52514e' }; // 色覚の検証済み
+  const sgn = (n) => (n > 0 ? '+' : n < 0 ? '−' : '±') + fmt(Math.abs(n));
+  const out = (root, key, text) => $$('[data-out="' + key + '"]', root).forEach((el) => (el.textContent = text));
+  const show = (root, key, text) => $$('[data-show="' + key + '"]', root).forEach((el) => (el.textContent = text));
+  const niceStep = (max, n) => {
+    const raw = max / n;
+    const p = Math.pow(10, Math.floor(Math.log10(raw)));
+    return [1, 2, 2.5, 5, 10].map((m) => m * p).find((s) => s >= raw) || raw;
+  };
+
+  const SIM = {
+    // 第6章：月初在庫200kg、10/8仕入300kg、10/12販売400kg、10/20仕入300kg、10/27販売250kg、売価1,800円
+    fifo(v) {
+      const d = v.d;
+      const p = [1000, 1000 + d, 1000 + 2 * d];
+      const sales = 650 * 1800;
+      const layers = [[200, p[0]]];
+      const issue = (q) => {
+        let c = 0;
+        while (q > 0 && layers.length) {
+          const L = layers[0];
+          const t = Math.min(q, L[0]);
+          c += t * L[1];
+          L[0] -= t;
+          q -= t;
+          if (!L[0]) layers.shift();
+        }
+        return c;
+      };
+      layers.push([300, p[1]]);
+      let f = issue(400);
+      layers.push([300, p[2]]);
+      f += issue(250);
+      const fEnd = layers.reduce((s, L) => s + L[0] * L[1], 0);
+      // 移動平均法：払出額＝数量×平均単価（円未満四捨五入）、残高の金額は差し引きで求める
+      let q = 500;
+      let a = 200 * p[0] + 300 * p[1];
+      let m = Math.round((400 * a) / q);
+      a -= m;
+      q = 100 + 300;
+      a += 300 * p[2];
+      const m2 = Math.round((250 * a) / q);
+      m += m2;
+      a -= m2;
+      return {
+        d, p,
+        'fifo.sales': sales, 'avg.sales': sales,
+        'fifo.cogs': f, 'avg.cogs': m,
+        'fifo.gp': sales - f, 'avg.gp': sales - m,
+        'fifo.end': fEnd, 'avg.end': a,
+        'fifo.total': f + fEnd, 'avg.total': m + a,
+      };
+    },
+    // 第7章：1か月＝30日。売掛金は売上、在庫・買掛金は仕入（売上×原価率）を基準に日数分を持つ
+    ccc(v) {
+      const cr = v.cr / 100;
+      const ar = (v.sales * v.rec) / 30;
+      const stock = (v.sales * cr * v.inv) / 30;
+      const ap = (v.sales * cr * v.pay) / 30;
+      const wc = ar + stock - ap;
+      return { ccc: v.rec + v.inv - v.pay, ar: Math.round(ar), stock: Math.round(stock), ap: Math.round(ap), wc: Math.round(wc), grow: Math.round((wc * v.g) / 100) };
+    },
+    // 第12章：定額法（月割・残存価額あり）と定率法（期首帳簿価額×償却率）
+    dep(v) {
+      const C = v.cost;
+      const N = v.n;
+      const m = v.m;
+      const r = v.rate / 100;
+      if (!(C > 0) || !(r > 0 && r <= 1)) return { error: !(C > 0) ? '取得原価を入力しよう' : '償却率は0より大きく100%以下で入力しよう' };
+      const R = Math.round((C * v.res) / 100);
+      const n = N + (m < 12 ? 1 : 0);
+      const annual = (C - R) / N;
+      let rem = C - R;
+      let book = C;
+      const o = { rows: [], C, R, N, m };
+      for (let i = 1; i <= n; i++) {
+        let sl = Math.floor(i === 1 ? (annual * m) / 12 : annual);
+        if (i === n || sl > rem) sl = rem;
+        rem -= sl;
+        let db = Math.floor(i === 1 ? (C * r * m) / 12 : book * r);
+        if (db > book) db = book;
+        book -= db;
+        o.rows.push({ i, sl, slb: R + rem, db, dbb: book });
+        o['sl.' + i] = sl;
+        o['slbook.' + i] = R + rem;
+        o['db.' + i] = db;
+        o['dbbook.' + i] = book;
+      }
+      return o;
+    },
+    // 2級 第10章：CVP分析。固定費は万円で入力
+    cvp(v) {
+      const cm = v.p - v.vc;
+      const F = v.fc * 10000;
+      if (!(cm > 0)) return { error: '販売価格が変動費以下だと、売るほど赤字になり、損益分岐点はない。', cm };
+      const bepq = F / cm;
+      const sales = v.p * v.q;
+      const profit = cm * v.q - F;
+      return {
+        cm,
+        cmr: (cm / v.p) * 100,
+        bepq,
+        beps: bepq * v.p,
+        sales,
+        profit,
+        mos: ((v.q - bepq) / v.q) * 100,
+        dol: profit > 0 ? (cm * v.q) / profit : null,
+        F,
+      };
+    },
+  };
+
+  const seg = (el, grow, tip, label) => {
+    el.style.flexGrow = grow;
+    el.style.flexBasis = '0';
+    el.style.display = grow > 0 ? 'flex' : 'none';
+    el.dataset.tip = tip;
+    el.setAttribute('aria-label', tip);
+    el.textContent = label || '';
+    if (label && el.scrollWidth > el.clientWidth + 1) el.textContent = ''; // 収まらない数値は出さない（表と吹き出しで読める）
+  };
+
+  const RENDER = {
+    fifo(root, o) {
+      show(root, 'd', sgn(o.d));
+      out(root, 'prices', '仕入単価：月初 ' + fmt(o.p[0]) + '円 → 10/8 ' + fmt(o.p[1]) + '円 → 10/20 ' + fmt(o.p[2]) + '円');
+      ['sales', 'cogs', 'gp', 'end', 'total'].forEach((k) => {
+        out(root, 'fifo.' + k, fmt(o['fifo.' + k]));
+        out(root, 'avg.' + k, fmt(o['avg.' + k]));
+        const df = o['fifo.' + k] - o['avg.' + k];
+        out(root, 'diff.' + k, df ? sgn(df) : '0');
+      });
+      [['fifo', '先入先出法'], ['avg', '移動平均法']].forEach(([m, name]) => {
+        const c = root.querySelector('[data-seg="' + m + '.cogs"]');
+        const e = root.querySelector('[data-seg="' + m + '.end"]');
+        seg(c, o[m + '.cogs'], name + '・売上原価 ' + fmt(o[m + '.cogs']) + '円', fmt(o[m + '.cogs']));
+        seg(e, o[m + '.end'], name + '・月末在庫 ' + fmt(o[m + '.end']) + '円', fmt(o[m + '.end']));
+      });
+      const df = o['fifo.gp'] - o['avg.gp'];
+      out(
+        root,
+        'msg',
+        o.d > 0
+          ? '仕入値が上がっていると、先入先出法は「古くて安い原価」から払い出したと考えるので、売上原価が小さくなり、売上総利益は移動平均法より' + fmt(df) + '円大きい。そのぶん月末在庫は新しい高い単価で残る。'
+          : o.d < 0
+            ? '仕入値が下がっていると逆になる。先入先出法は「古くて高い原価」から払い出すので、売上総利益は移動平均法より' + fmt(-df) + '円小さい。'
+            : '仕入値が変わらなければ、どちらの方法でも売上原価と利益は同じになる。違いが生まれるのは、仕入値が動いたときだけだ。'
+      );
+    },
+    ccc(root, o, v) {
+      show(root, 'sales', fmt(v.sales));
+      ['cr', 'rec', 'inv', 'pay', 'g'].forEach((k) => show(root, k, String(v[k])));
+      out(root, 'ccc', String(o.ccc));
+      out(root, 'wc2', fmt(o.wc));
+      out(root, 'grow', (o.grow > 0 ? '+' : '') + fmt(o.grow));
+      out(root, 'ar', fmt(o.ar));
+      out(root, 'stock', fmt(o.stock));
+      out(root, 'ap', '−' + fmt(o.ap));
+      out(root, 'wc', fmt(o.wc));
+      // お金の出入りの時間軸
+      const end = v.inv + v.rec;
+      const max = Math.max(end, v.pay, 30);
+      const pct = (x) => (x / max) * 100 + '%';
+      const bar = (key, from, to, tip) => {
+        const el = root.querySelector('[data-seg="' + key + '"]');
+        el.style.left = pct(from);
+        el.style.width = to > from ? 'calc(' + pct(to - from) + ' - 2px)' : '0';
+        el.style.display = to > from ? 'block' : 'none';
+        el.dataset.tip = tip;
+        el.setAttribute('aria-label', tip);
+      };
+      bar('stock', 0, v.inv, '在庫：仕入れてから' + v.inv + '日で販売');
+      bar('ar', v.inv, end, '売掛金：販売から' + v.rec + '日後に入金（仕入れから' + end + '日目）');
+      bar('ap', 0, v.pay, '買掛金：仕入れから' + v.pay + '日目に支払い');
+      bar('gap', Math.min(v.pay, end), Math.max(v.pay, end), o.ccc > 0 ? '立て替え期間：' + o.ccc + '日（支払いから入金まで）' : o.ccc < 0 ? '入金が支払いより' + -o.ccc + '日早い' : '支払いと入金が同じ日');
+      const step = max <= 60 ? 10 : max <= 120 ? 20 : 30;
+      const axis = root.querySelector('[data-out="axis"]');
+      axis.textContent = '';
+      for (let x = 0; x <= max; x += step) {
+        const s = document.createElement('span');
+        s.className = 'absolute top-0.5 -translate-x-1/2 whitespace-nowrap';
+        s.style.left = pct(x);
+        s.textContent = x + (x === 0 ? '日' : '');
+        axis.appendChild(s);
+      }
+      out(
+        root,
+        'msg',
+        (o.ccc > 0
+          ? '仕入代金を払ってから売上代金を回収するまで、' + o.ccc + '日分のお金を立て替えている。'
+          : o.ccc < 0
+            ? 'CCCがマイナス：仕入代金を払うより' + -o.ccc + '日早く、売上代金が入ってくる。'
+            : '仕入代金の支払いと売上代金の入金が同じ日になっている。') +
+          (o.wc > 0
+            ? '運転資金は' + fmt(o.wc) + '万円。売上が' + v.g + '%伸びると、利益とは別に、さらに' + fmt(o.grow) + '万円のお金が必要になる。'
+            : '運転資金はマイナス（' + fmt(o.wc) + '万円）で、仕入先のお金で商売を回している状態だ。売上が伸びるほど、手元のお金が増える。')
+      );
+    },
+    dep(root, o, v) {
+      const chart = root.querySelector('[data-out="chart"]');
+      const xaxis = root.querySelector('[data-out="xaxis"]');
+      const tbody = root.querySelector('[data-out="rows"]');
+      chart.textContent = '';
+      xaxis.textContent = '';
+      tbody.textContent = '';
+      if (o.error) {
+        out(root, 'msg', o.error);
+        return;
+      }
+      const maxDep = Math.max(1, ...o.rows.map((r) => Math.max(r.sl, r.db)));
+      const step = niceStep(maxDep, 3);
+      const top = Math.ceil(maxDep / step) * step;
+      const plot = document.createElement('div');
+      plot.style.cssText = 'position:absolute;top:0;bottom:0;right:0;left:3.6rem';
+      for (let y = 0; y <= top + 1e-9; y += step) {
+        const g = document.createElement('div');
+        g.style.cssText = 'position:absolute;left:0;right:0;border-top:1px solid ' + (y === 0 ? '#c3c2b7' : '#e1e0d9') + ';bottom:' + (y / top) * 100 + '%';
+        const t = document.createElement('span');
+        t.style.cssText = 'position:absolute;right:calc(100% + 6px);transform:translateY(-50%);font-size:10px;color:#898781;white-space:nowrap;font-variant-numeric:tabular-nums';
+        t.textContent = y >= 10000 ? fmt(y / 10000) + '万' : fmt(y);
+        g.appendChild(t);
+        plot.appendChild(g);
+      }
+      const groups = document.createElement('div');
+      groups.style.cssText = 'position:absolute;inset:0;display:flex;align-items:flex-end';
+      const xs = document.createElement('div');
+      xs.style.cssText = 'position:absolute;inset:0;left:3.6rem;display:flex';
+      o.rows.forEach((r) => {
+        const g = document.createElement('div');
+        g.style.cssText = 'flex:1;height:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px';
+        [['sl', '定額法', COL.blue], ['db', '定率法', COL.orange]].forEach(([k, name, col]) => {
+          const b = document.createElement('div');
+          b.style.cssText = 'width:min(38%,24px);border-radius:4px 4px 0 0;background:' + col + ';height:' + (r[k] / top) * 100 + '%';
+          b.tabIndex = 0;
+          b.dataset.tip = r.i + '年目・' + name + ' ' + fmt(r[k]) + '円';
+          b.setAttribute('aria-label', b.dataset.tip);
+          g.appendChild(b);
+        });
+        groups.appendChild(g);
+        const x = document.createElement('span');
+        x.style.cssText = 'flex:1;text-align:center';
+        x.textContent = r.i + (o.rows.length > 7 ? '' : '年目');
+        xs.appendChild(x);
+      });
+      plot.appendChild(groups);
+      chart.appendChild(plot);
+      xaxis.appendChild(xs);
+      // 表
+      const td = 'border-t border-gray-200 px-1.5 py-1.5 text-right sm:px-2 tabular-nums text-gray-900';
+      const cell = (tag, cls, text) => {
+        const c = document.createElement(tag);
+        c.className = cls;
+        c.textContent = text;
+        return c;
+      };
+      let sumSl = 0;
+      let sumDb = 0;
+      o.rows.forEach((r) => {
+        sumSl += r.sl;
+        sumDb += r.db;
+        const tr = document.createElement('tr');
+        tr.append(
+          cell('th', 'border-t border-gray-200 whitespace-nowrap px-1.5 py-1.5 text-left font-bold text-gray-700 sm:px-2', r.i + '年目'),
+          cell('td', td + ' border-l', fmt(r.sl)),
+          cell('td', td + ' text-gray-600', fmt(r.slb)),
+          cell('td', td + ' border-l', fmt(r.db)),
+          cell('td', td + ' text-gray-600', fmt(r.dbb))
+        );
+        tbody.appendChild(tr);
+      });
+      const tr = document.createElement('tr');
+      tr.className = 'bg-amber-50 font-bold';
+      tr.append(cell('th', 'border-t border-gray-200 whitespace-nowrap px-1.5 py-1.5 text-left font-bold text-gray-700 sm:px-2', '合計'), cell('td', td + ' border-l', fmt(sumSl)), cell('td', td, ''), cell('td', td + ' border-l', fmt(sumDb)), cell('td', td, ''));
+      tbody.appendChild(tr);
+      const first = o.rows[0];
+      const last = o.rows[o.rows.length - 1];
+      const ratio = first.sl ? Math.round((first.db / first.sl) * 10) / 10 : 0;
+      out(
+        root,
+        'msg',
+        (o.m < 12 ? '1年目は' + o.m + 'か月分だけ償却する（月割）。' : '') +
+          '定率法の1年目の償却費は' + fmt(first.db) + '円で、定額法の' + ratio + '倍。その後は毎年、期首の帳簿価額×償却率で小さくなっていく。' +
+          '定額法は' + fmt(sumSl) + '円を償却し終えて帳簿価額が' + fmt(last.slb) + '円（残存価額）になるが、定率法では最後の年にも' + fmt(last.dbb) + '円が残る。実務の200%定率法では、途中で「改定償却率」に切り替えて残りを償却する（3級では出題されない）。'
+      );
+    },
+    cvp(root, o, v) {
+      show(root, 'p', fmt(v.p));
+      show(root, 'vc', fmt(v.vc));
+      show(root, 'fc', fmt(v.fc));
+      show(root, 'q', fmt(v.q));
+      const chart = root.querySelector('[data-out="chart"]');
+      if (o.error) {
+        ['cm', 'cmr', 'bepq', 'beps', 'sales', 'profit', 'mosr', 'dolr'].forEach((k) => out(root, k, '―'));
+        out(root, 'cm', fmt(o.cm) + '円');
+        out(root, 'msg', o.error);
+        chart.textContent = '';
+        return;
+      }
+      const man = (n) => (n < 0 ? '△' : '') + fmt(Math.round(Math.abs(n) / 10000)) + '万円';
+      out(root, 'cm', fmt(o.cm) + '円');
+      out(root, 'cmr', o.cmr.toFixed(1) + '%');
+      out(root, 'bepq', fmt(Math.ceil(o.bepq - 1e-9)) + '本');
+      out(root, 'beps', man(o.beps));
+      out(root, 'sales', man(o.sales));
+      out(root, 'profit', man(o.profit));
+      out(root, 'mosr', o.mos.toFixed(1) + '%');
+      out(root, 'dolr', o.dol ? o.dol.toFixed(2) : '―（営業利益がマイナス）');
+      // 損益分岐図表（SVG）
+      const X = 30000;
+      const W = 320, H = 190, L = 44, B = 22, T = 8, R = 8;
+      const ymax = Math.max(v.p * X, o.F + v.vc * X) * 1.02;
+      const sx = (x) => L + ((W - L - R) * x) / X;
+      const sy = (y) => H - B - ((H - B - T) * y) / ymax;
+      const line = (x1, y1, x2, y2, c, dash) => '<line x1="' + sx(x1) + '" y1="' + sy(y1) + '" x2="' + sx(x2) + '" y2="' + sy(y2) + '" stroke="' + c + '" stroke-width="2"' + (dash ? ' stroke-dasharray="4 3"' : '') + '/>';
+      let g = '';
+      const step = niceStep(ymax / 10000, 3);
+      for (let y = 0; y * 10000 <= ymax; y += step) {
+        g += '<line x1="' + L + '" y1="' + sy(y * 10000) + '" x2="' + (W - R) + '" y2="' + sy(y * 10000) + '" stroke="' + (y === 0 ? '#c3c2b7' : '#e1e0d9') + '" stroke-width="1"/>';
+        g += '<text x="' + (L - 4) + '" y="' + (sy(y * 10000) + 3) + '" font-size="9" text-anchor="end" fill="#898781">' + fmt(y) + '万</text>';
+      }
+      [0, 10000, 20000, 30000].forEach((x) => {
+        g += '<text x="' + sx(x) + '" y="' + (H - 6) + '" font-size="9" text-anchor="' + (x === 0 ? 'start' : x === X ? 'end' : 'middle') + '" fill="#898781">' + fmt(x) + '本</text>';
+      });
+      g += line(0, o.F, X, o.F, COL.ink, true);
+      g += line(0, o.F, X, o.F + v.vc * X, COL.orange);
+      g += line(0, 0, X, v.p * X, COL.blue);
+      g += '<line x1="' + sx(v.q) + '" y1="' + T + '" x2="' + sx(v.q) + '" y2="' + (H - B) + '" stroke="#52514e" stroke-width="1" stroke-dasharray="2 3"/>';
+      g += '<text x="' + sx(v.q) + '" y="' + (T + 8) + '" font-size="9" text-anchor="' + (v.q > 24000 ? 'end' : 'start') + '" dx="' + (v.q > 24000 ? -3 : 3) + '" fill="#52514e">販売' + fmt(v.q) + '本</text>';
+      if (o.bepq <= X) g += '<circle cx="' + sx(o.bepq) + '" cy="' + sy(o.beps) + '" r="4" fill="#fff" stroke="' + COL.ink + '" stroke-width="2"/><text x="' + sx(o.bepq) + '" y="' + (sy(o.beps) - 8) + '" font-size="9" text-anchor="middle" fill="' + COL.ink + '">損益分岐点</text>';
+      chart.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="block h-auto w-full" role="img" aria-label="損益分岐図表。損益分岐点は' + fmt(Math.ceil(o.bepq - 1e-9)) + '本、売上高' + man(o.beps) + '">' + g + '</svg>';
+      const bq = Math.ceil(o.bepq - 1e-9);
+      out(
+        root,
+        'msg',
+        o.profit > 0
+          ? '損益分岐点は' + fmt(bq) + '本。' + fmt(v.q) + '本売れる計画なら、販売が' + o.mos.toFixed(1) + '%（' + fmt(v.q - bq) + '本）減っても赤字にならない。経営レバレッジ係数' + o.dol.toFixed(2) + 'は、売上高が1%変わると営業利益が約' + o.dol.toFixed(1) + '%変わることを示す。固定費が大きいほど、この係数は大きくなる。'
+          : o.profit === 0
+            ? 'ちょうど損益分岐点。売上高と総費用が一致し、営業利益はゼロ。'
+            : '販売本数が損益分岐点（' + fmt(bq) + '本）に届かず、営業損失になる。固定費を回収するには、あと' + fmt(bq - v.q) + '本売る必要がある。'
+      );
+    },
+  };
+
+  $$('[data-sim]').forEach((root) => {
+    const type = root.dataset.sim;
+    if (!SIM[type]) return;
+    const run = (e) => {
+      const t = e && e.target;
+      if (type === 'dep' && t && t.dataset && t.dataset.in === 'n') {
+        root.querySelector('[data-in="rate"]').value = String(Math.round((2 / Number(t.value)) * 1000) / 10);
+      }
+      const v = {};
+      $$('[data-in]', root).forEach((el) => {
+        v[el.dataset.in] = el.type === 'range' || el.tagName === 'SELECT' ? Number(el.value) : num(el.value);
+      });
+      const o = SIM[type](v);
+      root._out = o;
+      RENDER[type](root, o, v);
+    };
+    root.addEventListener('input', run);
+    run();
+    // スタイルの生成（Tailwind）やフォントの読み込みが終わってから、グラフ内の数値の収まりを測り直す
+    let raf = 0;
+    const again = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => run());
+    };
+    addEventListener('load', again);
+    addEventListener('resize', again);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(again);
+  });
+
+  // グラフの吹き出し（マウスを乗せる・タップする・キーボードで選ぶと表示。値は表でも読める）
+  const tip = (el, on) => {
+    const box = el.closest('.kb-chart');
+    const t = box && box.querySelector('.kb-tip');
+    if (!t) return;
+    if (!on) return t.classList.add('hidden');
+    t.textContent = el.dataset.tip;
+    t.classList.remove('hidden');
+    const b = box.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const x = Math.max(4, Math.min(r.left + r.width / 2 - b.left - t.offsetWidth / 2, b.width - t.offsetWidth - 4));
+    t.style.left = x + 'px';
+    t.style.top = Math.max(2, r.top - b.top - t.offsetHeight - 6) + 'px';
+  };
+  ['pointerover', 'focusin'].forEach((ev) =>
+    document.addEventListener(ev, (e) => {
+      const el = e.target.closest && e.target.closest('.kb-sim [data-tip]');
+      if (el) tip(el, true);
+    })
+  );
+  ['pointerout', 'focusout'].forEach((ev) =>
+    document.addEventListener(ev, (e) => {
+      const el = e.target.closest && e.target.closest('.kb-sim [data-tip]');
+      if (el) tip(el, false);
+    })
+  );
+
+  // ---------------------------------------------------------------- 用語のポップアップ
+  const termData = document.getElementById('kb-terms');
+  const pop = document.getElementById('kb-pop');
+  let curTerm = null;
+  const closeTerm = () => {
+    if (!pop) return;
+    pop.classList.add('hidden');
+    if (curTerm) curTerm.setAttribute('aria-expanded', 'false');
+    curTerm = null;
+  };
+  if (termData && pop) {
+    const T = JSON.parse(termData.textContent);
+    const f = (k) => pop.querySelector('[data-f="' + k + '"]');
+    const openTerm = (btn) => {
+      const t = T[btn.dataset.term];
+      if (!t) return;
+      f('y').textContent = t.y || '';
+      f('n').textContent = btn.dataset.term;
+      f('c').textContent = t.c;
+      f('c').className = 'rounded px-1.5 py-0.5 text-[11px] font-bold ' + t.cc;
+      f('hp').textContent = t.hp || '';
+      f('b').textContent = t.b || '';
+      f('b').className = 'rounded px-1.5 py-0.5 text-[11px] font-bold ' + (t.b ? t.bc : 'hidden');
+      f('d').textContent = t.d;
+      const a = f('h');
+      a.textContent = t.h ? t.l + 'で詳しく →' : '';
+      a.classList.toggle('hidden', !t.h);
+      if (t.h) a.href = t.h;
+      else a.removeAttribute('href');
+      pop.classList.remove('hidden');
+      const r = btn.getBoundingClientRect();
+      const pw = pop.offsetWidth;
+      const ph = pop.offsetHeight;
+      let left = r.left + scrollX + r.width / 2 - pw / 2;
+      left = Math.max(scrollX + 12, Math.min(left, scrollX + document.documentElement.clientWidth - pw - 12));
+      let topY = r.bottom + scrollY + 8;
+      if (r.bottom + ph + 16 > innerHeight && r.top > ph + 72) topY = r.top + scrollY - ph - 8;
+      pop.style.left = left + 'px';
+      pop.style.top = topY + 'px';
+      curTerm = btn;
+      btn.setAttribute('aria-expanded', 'true');
+    };
+    document.addEventListener('click', (e) => {
+      const b = e.target.closest && e.target.closest('.kb-term');
+      if (b) {
+        e.preventDefault();
+        if (curTerm === b) closeTerm();
+        else openTerm(b);
+        return;
+      }
+      if (!pop.contains(e.target) || (e.target.closest && e.target.closest('[data-close]'))) closeTerm();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && curTerm) {
+        const b = curTerm;
+        closeTerm();
+        b.focus();
+      }
+    });
+    addEventListener('resize', closeTerm);
+  }
+
+  // ---------------------------------------------------------------- THINK（選択式）
+  // 選ぶまでは、各選択肢へのフィードバックと「考え方の例」を隠しておく（スクリプトが動かない環境では全部見える）
+  const THINK_ON = ['!border-amber-500', '!bg-amber-100', 'ring-2', 'ring-amber-400'];
+  $$('[data-think]').forEach((box) => {
+    $$('.kb-fb', box).forEach((f) => f.classList.add('hidden'));
+    $$('.kb-answer', box).forEach((a) => a.classList.add('hidden'));
+  });
+  const pickThink = (opt) => {
+    const box = opt.closest('[data-think]');
+    $$('.kb-opt', box).forEach((o) => {
+      const on = o === opt;
+      o.setAttribute('aria-pressed', on ? 'true' : 'false');
+      THINK_ON.forEach((c) => o.classList.toggle(c, on));
+    });
+    $$('.kb-fb', box).forEach((f) => f.classList.toggle('hidden', f.dataset.k !== opt.dataset.k));
+    $$('.kb-answer', box).forEach((a) => a.classList.remove('hidden'));
+    const fb = $$('.kb-fb', box).find((f) => f.dataset.k === opt.dataset.k);
+    if (fb && fb.scrollIntoView) fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  };
+  document.addEventListener('click', (e) => {
+    const o = e.target.closest && e.target.closest('.kb-opt');
+    if (o) pickThink(o);
+  });
+  addEventListener('beforeprint', () => $$('[data-think] .kb-fb, [data-think] .kb-answer').forEach((el) => el.classList.remove('hidden')));
+
+  // ---------------------------------------------------------------- 模擬試験モード
+  const M = document.querySelector('[data-mock]');
+  const mock = M
+    ? (() => {
+        const cfg = JSON.parse(M.dataset.mock);
+        const scope = M.closest('article') || document;
+        const timer = document.getElementById('kb-timer');
+        const T = timer.querySelector('[data-t]');
+        const pauseBtn = timer.querySelector('.kb-mock-pause');
+        const res = M.querySelector('.kb-mock-result');
+        const q = (k) => res.querySelector('[data-r="' + k + '"]');
+        const limit = cfg.min * 60000;
+        let used = 0;
+        let t0 = 0;
+        let tick = null;
+        let active = false;
+        const secOf = (w) => cfg.secs.find((s) => (w.dataset.sec || '').indexOf(s.k) === 0);
+        const widgets = () => $$('[data-kb]', scope).filter(secOf);
+        const elapsed = () => used + (tick ? Date.now() - t0 : 0);
+        const mmss = (ms) => {
+          const s = Math.max(0, Math.ceil(ms / 1000));
+          return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+        };
+        const paint = () => {
+          const left = limit - elapsed();
+          T.textContent = mmss(left);
+          T.classList.toggle('text-red-400', left <= 5 * 60000);
+          if (active && left <= 0) finish(true);
+        };
+        const run = () => {
+          t0 = Date.now();
+          tick = setInterval(paint, 250);
+          pauseBtn.textContent = '一時停止';
+        };
+        const pause = () => {
+          if (tick) {
+            used += Date.now() - t0;
+            clearInterval(tick);
+            tick = null;
+            pauseBtn.textContent = '再開';
+          } else run();
+          paint();
+        };
+        const stop = () => {
+          if (tick) clearInterval(tick);
+          tick = null;
+          active = false;
+          document.body.classList.remove('kb-exam');
+          timer.classList.add('hidden');
+        };
+        const start = () => {
+          if (tick) clearInterval(tick);
+          widgets().forEach(reset);
+          $$('details.kb-answer', scope).forEach((d) => (d.open = false));
+          closeTerm();
+          document.body.classList.add('kb-exam');
+          res.classList.add('hidden');
+          timer.classList.remove('hidden');
+          used = 0;
+          active = true;
+          run();
+          paint();
+          const h = $$('h2', scope).find((x) => x.textContent.indexOf(cfg.secs[0].k) >= 0);
+          if (h) h.scrollIntoView({ block: 'start' });
+        };
+        const score = () => {
+          const S = cfg.secs.map((s) => ({ k: s.k, p: s.p, n: 0, c: 0 }));
+          const miss = {};
+          widgets().forEach((w) => {
+            const s = S.find((x) => (w.dataset.sec || '').indexOf(x.k) === 0);
+            check(w).forEach((it) => {
+              s.n++;
+              if (it.ok) s.c++;
+              else ((it.ch && it.ch.length ? it.ch.join(' ') : w.dataset.ch) || '').split(' ').filter(Boolean).forEach((c) => (miss[c] = (miss[c] || 0) + 1));
+            });
+          });
+          S.forEach((s) => (s.pts = s.n ? Math.round((s.p * s.c) / s.n) : 0));
+          return { S, total: S.reduce((a, s) => a + s.pts, 0), miss };
+        };
+        const showLast = () => {
+          try {
+            const L = JSON.parse(localStorage.getItem('kb2-mock') || 'null');
+            if (L) M.querySelector('.kb-mock-last').textContent = '前回の結果：' + L.total + '点（' + new Date(L.at).toLocaleDateString('ja-JP') + '）';
+          } catch (e) {}
+        };
+        const finish = (timeUp) => {
+          if (!active) return;
+          const ms = Math.min(elapsed(), limit);
+          stop();
+          const r = score();
+          const pass = r.total >= cfg.pass;
+          q('total').textContent = r.total;
+          q('verdict').textContent = (timeUp ? '時間切れ・' : '') + (pass ? '合格圏' : '合格まであと' + (cfg.pass - r.total) + '点');
+          q('verdict').className = 'rounded-full px-3 py-1 text-sm font-black ' + (pass ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800');
+          q('meter').style.width = r.total + '%';
+          q('meter').className = 'h-2.5 rounded-full transition-all ' + (pass ? 'bg-emerald-600' : 'bg-amber-500');
+          r.S.forEach((s) => {
+            const tr = $$('tr[data-s]', res).find((x) => x.dataset.s === s.k);
+            if (!tr) return;
+            tr.querySelector('[data-r="pts"]').textContent = s.pts + ' / ' + s.p;
+            tr.querySelector('[data-r="bar"]').style.width = (s.p ? (s.pts / s.p) * 100 : 0) + '%';
+            tr.querySelector('[data-r="det"]').textContent = s.n ? s.n + '問中 ' + s.c + '問 正解' : '';
+          });
+          q('time').textContent = (timeUp ? '時間切れ（' + cfg.min + '分）' : '解答時間 ' + Math.floor(ms / 60000) + '分' + Math.floor((ms % 60000) / 1000) + '秒');
+          const links = q('links');
+          links.textContent = '';
+          Object.entries(r.miss)
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+            .forEach(([id, n]) => {
+              const a = document.createElement('a');
+              a.href = document.getElementById(id) ? '#' + id : id + '.html';
+              a.className = 'flex items-center justify-between gap-3 rounded-md border border-amber-300 bg-white px-3 py-2 text-sm font-bold text-gray-800 hover:border-amber-500';
+              const name = document.createElement('span');
+              name.textContent = cfg.ch[id] || id;
+              const cnt = document.createElement('span');
+              cnt.className = 'flex-none text-xs text-gray-500';
+              cnt.textContent = '誤り ' + n;
+              a.append(name, cnt);
+              links.appendChild(a);
+            });
+          q('review').classList.toggle('hidden', !links.children.length);
+          try {
+            localStorage.setItem('kb2-mock', JSON.stringify({ total: r.total, at: Date.now() }));
+          } catch (e) {}
+          showLast();
+          res.classList.remove('hidden');
+          res.scrollIntoView({ block: 'start' });
+          res.focus({ preventScroll: true });
+          return r;
+        };
+        document.addEventListener('click', (e) => {
+          const t = e.target;
+          if (!t.closest) return;
+          if (t.closest('.kb-mock-start')) start();
+          else if (t.closest('.kb-mock-pause')) pause();
+          else if (t.closest('.kb-mock-finish')) finish(false);
+          else if (t.closest('.kb-mock-quit')) stop();
+        });
+        addEventListener('beforeunload', (e) => {
+          if (active) {
+            e.preventDefault();
+            e.returnValue = '';
+          }
+        });
+        showLast();
+        return { start, stop, score, widgets };
+      })()
+    : null;
+
+  // ---------------------------------------------------------------- 自己テスト（URL に ?selftest を付けたときだけ動く）
+  if (/[?&]selftest/.test(location.search)) {
+    setTimeout(() => {
+      const ws = $$('[data-kb]');
+      let pass = 0;
+      const fails = [];
+      const fire = (type, x, y, el) => el.dispatchEvent(new PointerEvent(type, { bubbles: true, clientX: x, clientY: y, pointerId: 1, button: 0 }));
+      ws.forEach((w, i) => {
+        const k = w.dataset.kb;
+        try {
+          reset(w);
+          let dragged = true;
+          if (k === 'sort' || k === 'journal') {
+            const chip = k === 'sort' ? own(w, '.kb-pool .kb-chip')[0] : own(w, '.kb-pool .kb-chip').find((c) => c.dataset.acct === JSON.parse(w.dataset.answer)[0].d[0][0]);
+            const target = k === 'sort' ? own(w, '[data-zone]').find((z) => z.dataset.zone === chip.dataset.ans) : own(w, '.kb-row[data-side="d"] .kb-slot')[0];
+            target.scrollIntoView({ block: 'center' });
+            const a = chip.getBoundingClientRect();
+            const b = target.getBoundingClientRect();
+            fire('pointerdown', a.x + a.width / 2, a.y + a.height / 2, chip);
+            fire('pointermove', a.x + a.width / 2 + 12, a.y + a.height / 2 + 12, document);
+            fire('pointermove', b.x + b.width / 2, b.y + b.height / 2, document);
+            fire('pointerup', b.x + b.width / 2, b.y + b.height / 2, document);
+            dragged = k === 'sort' ? chip.closest('[data-zone]') === target : target.dataset.acct === chip.dataset.acct;
+          }
+          reveal(w);
+          check(w);
+          const right = w.dataset.ok === '1' && w._items.length > 0;
+          if (k === 'sort') own(w, '.kb-pool')[0].appendChild(own(w, '.kb-chip')[0]);
+          else if (k === 'journal') own(w, '.kb-amt')[0].value += '1';
+          else if (k === 'fill') {
+            const b = own(w, '.kb-blank').find((x) => x.dataset.ans !== '');
+            if (isPick(b)) setPick(b, '');
+            else b.value += '1';
+          } else if (k === 'checks') {
+            const cb = own(w, '.kb-ck')[0];
+            cb.checked = !cb.checked;
+          }
+          check(w);
+          const wrong = w.dataset.ok === '0';
+          if (dragged && right && wrong) pass++;
+          else fails.push('#' + i + ' ' + k + (dragged ? '' : ' drag') + (right ? '' : ' answer') + (wrong ? '' : ' wrong-undetected'));
+          reset(w);
+        } catch (err) {
+          fails.push('#' + i + ' ' + k + ' ' + err.message);
+        }
+      });
+      const sims = $$('[data-sim]');
+      let simPass = 0;
+      sims.forEach((root, i) => {
+        const exp = JSON.parse(root.dataset.expect || '{}');
+        const o = root._out || {};
+        const bad = Object.keys(exp).filter((key) => !(Math.abs(o[key] - exp[key]) < 1e-6));
+        if (!Object.keys(exp).length || bad.length) fails.push('sim#' + i + ' ' + bad.map((key) => key + '=' + o[key]).join(','));
+        else simPass++;
+      });
+      const thinks = $$('[data-think]');
+      let thinkPass = 0;
+      thinks.forEach((box, i) => {
+        const opts = $$('.kb-opt', box);
+        const hiddenFirst = $$('.kb-fb', box).every((f) => f.classList.contains('hidden')) && $$('.kb-answer', box).every((a) => a.classList.contains('hidden'));
+        const last = opts[opts.length - 1];
+        last.click();
+        const shown = $$('.kb-fb', box).filter((f) => !f.classList.contains('hidden'));
+        const ok = hiddenFirst && opts.length >= 2 && shown.length === 1 && shown[0].dataset.k === last.dataset.k && last.getAttribute('aria-pressed') === 'true' && $$('.kb-answer', box).every((a) => !a.classList.contains('hidden'));
+        if (ok) thinkPass++;
+        else fails.push('think#' + i);
+      });
+      let termOk = null;
+      const term = document.querySelector('.kb-term');
+      if (term && pop) {
+        term.click();
+        termOk = !pop.classList.contains('hidden') && pop.querySelector('[data-f="n"]').textContent === term.dataset.term && pop.querySelector('[data-f="d"]').textContent !== '';
+        document.body.click();
+        termOk = termOk && pop.classList.contains('hidden');
+        if (!termOk) fails.push('term');
+      }
+      let mockOk = null;
+      if (mock) {
+        mock.start();
+        const ans = document.querySelector('.kb-answer');
+        const hidden = !ans || getComputedStyle(ans).display === 'none';
+        mock.widgets().forEach(reveal);
+        const full = mock.score().total;
+        mock.widgets().forEach(reset);
+        const zero = mock.score().total;
+        mock.stop();
+        mock.widgets().forEach(reset);
+        mockOk = hidden && full === 100 && zero === 0;
+        if (!mockOk) fails.push('mock ' + full + '/' + zero + (hidden ? '' : ' answers-visible'));
+      }
+      const parts = ['演習 ' + pass + ' / ' + ws.length];
+      if (sims.length) parts.push('シミュレーター ' + simPass + ' / ' + sims.length);
+      if (thinks.length) parts.push('THINK ' + thinkPass + ' / ' + thinks.length);
+      if (termOk !== null) parts.push('用語 ' + (termOk ? 'OK' : 'NG'));
+      if (mockOk !== null) parts.push('模試 ' + (mockOk ? 'OK' : 'NG'));
+      const b = document.createElement('div');
+      b.id = 'kb-selftest';
+      b.textContent = 'SELFTEST ' + (fails.length ? 'NG' : 'OK') + ' : ' + parts.join('・') + (fails.length ? ' ／ ' + fails.join(', ') : '');
+      b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;padding:12px;font:bold 16px sans-serif;color:#fff;background:' + (fails.length ? '#dc2626' : '#059669');
+      document.body.appendChild(b);
+      window.scrollTo(0, 0);
+    }, 400);
+  }
+})();
+</script>
+</body>
+</html>
