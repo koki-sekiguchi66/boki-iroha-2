@@ -1,0 +1,5 @@
+@lead （表紙の紹介文：主人公と物語の一文＋この本で学べる範囲。全○章と付録○本）
+
+<h2 class="mb-1 mt-10 font-serif text-xl font-black text-gray-900 sm:text-2xl">目次</h2>
+::toc compact
+::
