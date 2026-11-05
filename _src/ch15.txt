@@ -208,7 +208,7 @@
 ::
 2,000億円を超える営業損失の8割以上は、基地局などの減価償却費だと読める。設備は一度に買っても、その費用は何年にもわたって損益計算書に表れ、売上が育つまで営業赤字を生み続ける。ワールドコムは費用を資産に見せかけて赤字を隠し、楽天は本物の資産の減価償却で赤字を出した。どちらの決算書も、「何を資産にし、何を費用にしたか」を知らなければ読めない。
 ::note
-出典：[米国証券取引委員会（SEC）「Litigation Release No. 17588」（2002年6月、ワールドコムに対する訴え）](https://www.sec.gov/litigation/litreleases/2002/lr17588.htm)、[楽天グループ「2024年12月期 決算短信」](https://www2.jpx.co.jp/disc/47550/140120250214575394.pdf)、[ケータイ Watch「楽天グループ2024年度決算は通期で営業黒字、モバイルも単月黒字化を達成し連結黒字化を目指す」（2025年2月14日）](https://k-tai.watch.impress.co.jp/docs/news/1663109.html)
+出典：[米国証券取引委員会（SEC）「Litigation Release No. 17588」（2002年6月、ワールドコムに対する訴え）](https://www.sec.gov/enforcement-litigation/litigation-releases/lr-17588)、[楽天グループ「2024年12月期 決算短信」](https://www2.jpx.co.jp/disc/47550/140120250214575394.pdf)、[ケータイ Watch「楽天グループ2024年度決算は通期で営業黒字、モバイルも単月黒字化を達成し連結黒字化を目指す」（2025年2月14日）](https://k-tai.watch.impress.co.jp/docs/news/1663109.html)
 ::
 ::
 

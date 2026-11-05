@@ -226,7 +226,7 @@
 率が15%に下がれば、①の配賦額は150万円になり、差異（大学が自前で埋める額）は300万円に膨らむ。補助部門の費用は、配賦率を下げても消えない。誰が負担するかが変わるだけだ。
 しかも、一律の率は、「試薬と大型装置を大量に使う実験系の研究室」と「紙と鉛筆で済む理論系の研究室」に、同じ物差しを当てる。総括配賦と同じで、一律は単純で公平に見えるが、費用を生む原因の違いを映さない。アメリカで率を機関ごとに交渉で決めてきたのは、大学によって建物や設備の費用の構造がまったく違うからだ。
 ::note
-出典：[文部科学省・日本学術振興会「科研費ハンドブック（研究者用）2026年度版」](https://www.jsps.go.jp/file/storage/kaken_15_2026/r8_handbook_kenkyusha.pdf)、[NIH「Supplemental Guidance to the 2024 NIH Grants Policy Statement: Indirect Cost Rates」（NOT-OD-25-068、2025年2月7日）](https://grants.nih.gov/grants/guide/notice-files/NOT-OD-25-068.html)、[Venable LLP「First Circuit Holds NIH Rate Caps Unlawful」（2026年1月）](https://www.venable.com/insights/publications/2026/01/first-circuit-holds-nih-rate-caps-unlawful)
+出典：[文部科学省・日本学術振興会「科研費ハンドブック（研究者用）2026年度版」](https://www.jsps.go.jp/file/storage/kaken_15_2026/r8_handbook_kenkyusha.pdf)、[NIH「Supplemental Guidance to the 2024 NIH Grants Policy Statement: Indirect Cost Rates」（NOT-OD-25-068、2025年2月7日）](https://grants.nih.gov/grants/guide/notice-files/not-od-25-068.html)、[Venable LLP「First Circuit Holds NIH Rate Caps Unlawful」（2026年1月）](https://www.venable.com/insights/publications/2026/01/first-circuit-holds-nih-rate-caps-unlawful)
 ::
 ::
 
