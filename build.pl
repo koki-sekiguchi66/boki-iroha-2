@@ -1080,6 +1080,26 @@ sub sim_dep {    # 第12章：定額法と定率法
          . qq{<span class="hidden $SIM_TD $SIM_TH bg-amber-50 font-bold border-l text-gray-600 px-1.5 sm:px-2 whitespace-nowrap"></span>};
 }
 
+sub sim_cvp {    # 2級 第10章：CVP分析（損益分岐点・安全余裕率・経営レバレッジ）
+    my $inputs = '<div class="grid gap-4 sm:grid-cols-2">'
+        . sim_range('p', '1本の販売価格', 1000, 3000, 50, 2000, '円')
+        . sim_range('vc', '1本の変動費', 300, 1500, 20, 800, '円')
+        . sim_range('fc', '1年の固定費', 400, 3000, 20, 1440, '万円')
+        . sim_range('q', '販売本数（1年）', 2000, 30000, 500, 15000, '本')
+        . '</div>';
+    my $rows = join '', map {
+        my ($lab, $k, $em) = @$_;
+        my $tr = $em ? ' class="bg-amber-50 font-bold"' : '';
+        qq{<tr$tr><th scope="row" class="$SIM_TH">$lab</th><td class="$SIM_TD whitespace-nowrap" data-out="$k"></td></tr>};
+    } (['1本の限界利益（販売価格－変動費）', 'cm'], ['限界利益率', 'cmr'], ['損益分岐点の販売本数', 'bepq', 1], ['損益分岐点の売上高', 'beps'], ['売上高', 'sales'], ['営業利益', 'profit', 1], ['安全余裕率', 'mosr'], ['経営レバレッジ係数', 'dolr']);
+    return qq{<p class="mb-3 text-xs leading-relaxed text-gray-600">初期値は、本章の汐見スパークリングの計画（販売価格2,000円、変動費800円、固定費1,440万円、15,000本）。価格・変動費・固定費・本数を動かして、損益分岐点と安全余裕率がどう変わるかを見てみよう。</p>}
+         . qq{<div class="rounded-md border border-gray-200 bg-white p-3">$inputs</div>}
+         . qq{<div class="kb-chart relative mt-3 rounded-md border border-gray-200 bg-white p-3"><div class="mb-2 flex flex-wrap items-baseline justify-between gap-2"><p class="text-xs font-bold text-gray-500">損益分岐図表（横軸：販売本数、縦軸：金額）</p>} . sim_legend([blue => '売上高'], [orange => '総費用（固定費＋変動費）'], [ink => '固定費']) . '</div>'
+         . qq{<div class="relative" data-out="chart"></div></div>}
+         . qq{<div class="mt-3 overflow-x-auto rounded-md border border-gray-200 bg-white"><table class="w-full border-collapse text-sm"><thead><tr><th class="$SIM_HD text-left">項目</th><th class="$SIM_HD text-right">計算結果</th></tr></thead><tbody>$rows</tbody></table></div>}
+         . qq{<p class="mt-3 text-sm leading-relaxed text-gray-800" data-out="msg"></p>};
+}
+
 sub r_sim {
     my ($arg, $lines, $ln) = @_;
     my ($type, $title) = $arg =~ /^(\w+)\s*(.*)$/ ? ($1, $2) : ('', '');
@@ -1095,7 +1115,7 @@ sub r_sim {
         }
         push @WARN, "[$CUR:$ln] sim: 解釈できない行「$l」";
     }
-    my %R = (fifo => \&sim_fifo, ccc => \&sim_ccc, dep => \&sim_dep);
+    my %R = (fifo => \&sim_fifo, ccc => \&sim_ccc, dep => \&sim_dep, cvp => \&sim_cvp);
     if (!$R{$type}) { push @WARN, "[$CUR:$ln] sim: 不明な種類「$type」"; return ''; }
     push @WARN, "[$CUR:$ln] sim: \@expect がない（本文の数値との照合ができない）" unless %exp;
     $NCHK{sim}++ if ($CTX{mode} // '') ne 'all';

@@ -542,6 +542,26 @@
       }
       return o;
     },
+    // 2級 第10章：CVP分析。固定費は万円で入力
+    cvp(v) {
+      const cm = v.p - v.vc;
+      const F = v.fc * 10000;
+      if (!(cm > 0)) return { error: '販売価格が変動費以下だと、売るほど赤字になり、損益分岐点はない。', cm };
+      const bepq = F / cm;
+      const sales = v.p * v.q;
+      const profit = cm * v.q - F;
+      return {
+        cm,
+        cmr: (cm / v.p) * 100,
+        bepq,
+        beps: bepq * v.p,
+        sales,
+        profit,
+        mos: ((v.q - bepq) / v.q) * 100,
+        dol: profit > 0 ? (cm * v.q) / profit : null,
+        F,
+      };
+    },
   };
 
   const seg = (el, grow, tip, label) => {
@@ -715,6 +735,62 @@
         (o.m < 12 ? '1年目は' + o.m + 'か月分だけ償却する（月割）。' : '') +
           '定率法の1年目の償却費は' + fmt(first.db) + '円で、定額法の' + ratio + '倍。その後は毎年、期首の帳簿価額×償却率で小さくなっていく。' +
           '定額法は' + fmt(sumSl) + '円を償却し終えて帳簿価額が' + fmt(last.slb) + '円（残存価額）になるが、定率法では最後の年にも' + fmt(last.dbb) + '円が残る。実務の200%定率法では、途中で「改定償却率」に切り替えて残りを償却する（3級では出題されない）。'
+      );
+    },
+    cvp(root, o, v) {
+      show(root, 'p', fmt(v.p));
+      show(root, 'vc', fmt(v.vc));
+      show(root, 'fc', fmt(v.fc));
+      show(root, 'q', fmt(v.q));
+      const chart = root.querySelector('[data-out="chart"]');
+      if (o.error) {
+        ['cm', 'cmr', 'bepq', 'beps', 'sales', 'profit', 'mosr', 'dolr'].forEach((k) => out(root, k, '―'));
+        out(root, 'cm', fmt(o.cm) + '円');
+        out(root, 'msg', o.error);
+        chart.textContent = '';
+        return;
+      }
+      const man = (n) => (n < 0 ? '△' : '') + fmt(Math.round(Math.abs(n) / 10000)) + '万円';
+      out(root, 'cm', fmt(o.cm) + '円');
+      out(root, 'cmr', o.cmr.toFixed(1) + '%');
+      out(root, 'bepq', fmt(Math.ceil(o.bepq - 1e-9)) + '本');
+      out(root, 'beps', man(o.beps));
+      out(root, 'sales', man(o.sales));
+      out(root, 'profit', man(o.profit));
+      out(root, 'mosr', o.mos.toFixed(1) + '%');
+      out(root, 'dolr', o.dol ? o.dol.toFixed(2) : '―（営業利益がマイナス）');
+      // 損益分岐図表（SVG）
+      const X = 30000;
+      const W = 320, H = 190, L = 44, B = 22, T = 8, R = 8;
+      const ymax = Math.max(v.p * X, o.F + v.vc * X) * 1.02;
+      const sx = (x) => L + ((W - L - R) * x) / X;
+      const sy = (y) => H - B - ((H - B - T) * y) / ymax;
+      const line = (x1, y1, x2, y2, c, dash) => '<line x1="' + sx(x1) + '" y1="' + sy(y1) + '" x2="' + sx(x2) + '" y2="' + sy(y2) + '" stroke="' + c + '" stroke-width="2"' + (dash ? ' stroke-dasharray="4 3"' : '') + '/>';
+      let g = '';
+      const step = niceStep(ymax / 10000, 3);
+      for (let y = 0; y * 10000 <= ymax; y += step) {
+        g += '<line x1="' + L + '" y1="' + sy(y * 10000) + '" x2="' + (W - R) + '" y2="' + sy(y * 10000) + '" stroke="' + (y === 0 ? '#c3c2b7' : '#e1e0d9') + '" stroke-width="1"/>';
+        g += '<text x="' + (L - 4) + '" y="' + (sy(y * 10000) + 3) + '" font-size="9" text-anchor="end" fill="#898781">' + fmt(y) + '万</text>';
+      }
+      [0, 10000, 20000, 30000].forEach((x) => {
+        g += '<text x="' + sx(x) + '" y="' + (H - 6) + '" font-size="9" text-anchor="' + (x === 0 ? 'start' : x === X ? 'end' : 'middle') + '" fill="#898781">' + fmt(x) + '本</text>';
+      });
+      g += line(0, o.F, X, o.F, COL.ink, true);
+      g += line(0, o.F, X, o.F + v.vc * X, COL.orange);
+      g += line(0, 0, X, v.p * X, COL.blue);
+      g += '<line x1="' + sx(v.q) + '" y1="' + T + '" x2="' + sx(v.q) + '" y2="' + (H - B) + '" stroke="#52514e" stroke-width="1" stroke-dasharray="2 3"/>';
+      g += '<text x="' + sx(v.q) + '" y="' + (T + 8) + '" font-size="9" text-anchor="' + (v.q > 24000 ? 'end' : 'start') + '" dx="' + (v.q > 24000 ? -3 : 3) + '" fill="#52514e">販売' + fmt(v.q) + '本</text>';
+      if (o.bepq <= X) g += '<circle cx="' + sx(o.bepq) + '" cy="' + sy(o.beps) + '" r="4" fill="#fff" stroke="' + COL.ink + '" stroke-width="2"/><text x="' + sx(o.bepq) + '" y="' + (sy(o.beps) - 8) + '" font-size="9" text-anchor="middle" fill="' + COL.ink + '">損益分岐点</text>';
+      chart.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="block h-auto w-full" role="img" aria-label="損益分岐図表。損益分岐点は' + fmt(Math.ceil(o.bepq - 1e-9)) + '本、売上高' + man(o.beps) + '">' + g + '</svg>';
+      const bq = Math.ceil(o.bepq - 1e-9);
+      out(
+        root,
+        'msg',
+        o.profit > 0
+          ? '損益分岐点は' + fmt(bq) + '本。' + fmt(v.q) + '本売れる計画なら、販売が' + o.mos.toFixed(1) + '%（' + fmt(v.q - bq) + '本）減っても赤字にならない。経営レバレッジ係数' + o.dol.toFixed(2) + 'は、売上高が1%変わると営業利益が約' + o.dol.toFixed(1) + '%変わることを示す。固定費が大きいほど、この係数は大きくなる。'
+          : o.profit === 0
+            ? 'ちょうど損益分岐点。売上高と総費用が一致し、営業利益はゼロ。'
+            : '販売本数が損益分岐点（' + fmt(bq) + '本）に届かず、営業損失になる。固定費を回収するには、あと' + fmt(bq - v.q) + '本売る必要がある。'
       );
     },
   };
