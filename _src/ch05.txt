@@ -288,7 +288,7 @@
 澪は、昨日の会議を思い出して、苦笑いした。
 
 ::note
-出典：[日本学術振興会「科研費の間接経費」（直接経費の30%）](https://www.jsps.go.jp/j-grantsinaid/16_rule/index.html)、[Ropes & Gray「First Circuit Affirms a Lower Court Decision Permanently Vacating and Prohibiting NIH 15% Indirect Cost Rate Cap」（2026年1月）](https://www.ropesgray.com/en/insights/alerts/2026/01/first-circuit-affirms-a-lower-court-decision-permanently-vacating-and-prohibiting-nih)
+出典：[文部科学省・日本学術振興会「科研費ハンドブック（研究者用）2026年度版」](https://www.jsps.go.jp/file/storage/kaken_15_2026/r8_handbook_kenkyusha.pdf)、[NIH「Supplemental Guidance to the 2024 NIH Grants Policy Statement: Indirect Cost Rates」（NOT-OD-25-068、2025年2月7日）](https://grants.nih.gov/grants/guide/notice-files/not-od-25-068.html)、[Venable LLP「First Circuit Holds NIH Rate Caps Unlawful」（2026年1月）](https://www.venable.com/insights/publications/2026/01/first-circuit-holds-nih-rate-caps-unlawful)
 ::
 
 ::danger 配賦率で、費用は消えない
@@ -376,6 +376,6 @@
 
 ::teaser 第6章　結婚式の500本、見積り80万円が110万円に
 2月17日。海辺の結婚式場「ベイサイド迎賓館」から、特別な注文が来た。新郎新婦の名前を刷った特注ラベルの大吟醸を、500本。見積りは80万円。
-ところが3月、できあがった請求のもとになる原価計算表は、110万円を超えていた。
+ところが2月24日、締めた原価計算表は、110万円を超えていた。
 陸：「……すみません。ラベルの名前、1文字、間違えて刷っちゃいました」
 ::
