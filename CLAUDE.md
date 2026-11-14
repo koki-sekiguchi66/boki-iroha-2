@@ -36,5 +36,5 @@ perl .claude/skills/boki-textbook/scripts/rep.pl _src/ch01.txt edits.txt   # 日
 - コミットメッセージの末尾には、会話で指示された帰属表示（Co-Authored-By と Claude-Session の行）を付ける
 - **push は確認なしで自律的に行ってよい**（2026-11-14 ユーザーの指示）。コミットしたら `GCM_INTERACTIVE=never git push -q origin main` まで続けて実行する。強制 push・履歴の書き換え・リポジトリの削除はしない
 - GitHub CLI（`gh`）はログイン済み（koki-sekiguchi66）。PATH に無いときは `"/c/Program Files/GitHub CLI/gh.exe"` で呼ぶ。トークンは表示しない
-- 公開リポジトリ `boki-iroha-2` の作成は本の完成時に行うことでユーザーが了承済み（2026-11-05）。作成だけは初回に一言確認する
+- 公開リポジトリ https://github.com/koki-sekiguchi66/boki-iroha-2 を作成し、初回 push 済み（2026-11-14）。`origin` に設定済み
 - Cloudflare Pages の設定（ユーザーが行う）：Framework なし、Build command 空欄、Build output directory `public`
