@@ -1,4 +1,4 @@
-@lead 父が倒れ、東京の商社から新潟の酒蔵に戻った汐見澪。融資審査までの284日、蔵で次々に起きる27の事件を、原価計算と決算書で解いていく。その物語を追いながら、日商簿記2級の商業簿記と工業簿記の全範囲を学ぶ教科書。
+@lead 父が倒れ、東京の商社から新潟の酒蔵に戻った汐見澪。融資審査までの284日、蔵で次々に起きる27の事件を、原価計算と決算書で解いていく。その物語を追いながら、日商簿記2級の商業簿記と工業簿記の全範囲を学ぶ教科書。全26章と序章・終章、付録4本。
 
 <div id="guide" class="scroll-mt-20"></div>
 
@@ -12,11 +12,11 @@
 
 <div class="border-y-[3px] border-double border-[#22201E]/70 bg-white/50">
 <div class="hidden grid-cols-2 border-b border-[#22201E]/25 text-[11px] font-bold tracking-[0.3em] sm:grid"><p class="border-r border-[#22201E]/10 px-6 py-3 text-[#1F3A5F]">悩み ― 事件の発生</p><p class="px-6 py-3 text-[#C0472D]">処方 ― このテキストの解決</p></div>
-<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">01</span><span>工業簿記が、何をしているのか分からない</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">舞台は、米を磨いて酒を造る酒蔵。米が醪になり、酒になり、売上原価になるまでを、湯気の立つ仕込み蔵で追いかける。材料・仕掛品・製品の流れが、目に見える形で頭に入る。</p></div>
-<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">02</span><span>範囲が広すぎて、最後まで続かない</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">融資審査まで、あと284日。蔵が生き残れるかどうかが、毎章の背景で時を刻む。倒れた父が残した黒い手帳の暗号も、2級の知識がそろうたびに1行ずつ読めていく。続きが気になるから、終章まで読み切れる。</p></div>
-<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">03</span><span>解説を読むと分かるのに、問題になると解けない</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">各章の山場に「読者への挑戦状」。答えを読む前に、あなたが1つ選ぶ。誤りの選択肢は、受験者が本番で実際にはまる落とし穴で作ってある。選んでから読む解決編は、忘れない。</p></div>
-<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">04</span><span>連結や税効果は、丸暗記するしかないと思っている</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">父が隣町の蔵の株を60%買っていた。父のハンコ1つで、8,000万円の保証を背負っていた。連結も保証も税効果も、蔵の運命を左右する事件として出てくる。理由が分かれば、仕訳は暗記しなくても組み立てられる。</p></div>
-<div class="group grid border-b border-[#22201E]/25 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">05</span><span>決算書の「赤字」を、ニュースの見出しでしか判断できない</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">売上が12倍なのに420億ドルの赤字を出したAI企業。設備の減価償却で赤字が続いた通信会社。実際の事例を、その章の仕訳で読み解く。赤字の中身を分けて読む力は、試験にも仕事にも効く。</p></div>
+<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">01</span><span>分厚いテキストを、工業簿記の途中で閉じてしまった</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">1章ごとに、潰れかけた酒蔵で事件が起きる。融資審査までの日数が迫り、倒れた父の手帳の暗号も1行ずつ解けていく。続きが気になるから、工業簿記も連結も読み切れる。</p></div>
+<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">02</span><span>計算の手順や仕訳を丸暗記しては、すぐ忘れる</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">「なぜその計算になるのか」を、事件の謎解きの中で理解する。ボックス図も差異分析の図も、仕込み蔵や瓶詰め場の場面で描く。理由で覚えた手順は、本番でも崩れない。</p></div>
+<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">03</span><span>未経験から、経理・財務の仕事に転職したい</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">月次の原価計算、資金繰り、決算、融資の審査、子会社の連結決算。製造業の経理の1年をたどりながら学ぶので、面接で「2級を仕事でどう使うか」を自分の言葉で話せる。</p></div>
+<div class="group grid border-b border-[#22201E]/10 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">04</span><span>営業・企画・製造の仕事で、原価や決算書の数字に強くなりたい</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">原価の配り方ひとつで、稼ぎ頭の商品が赤字に見える。値決め、外に頼むかどうか、設備の更新を、経営者や銀行員の立場で考える発展問題「考えてみよう」つき。</p></div>
+<div class="group grid border-b border-[#22201E]/25 transition-colors hover:bg-white sm:grid-cols-2"><p class="flex items-baseline gap-4 px-4 pb-2 pt-5 font-serif text-base font-black leading-snug text-[#22201E] sm:border-r sm:border-[#22201E]/10 sm:p-6 sm:text-lg"><span class="flex-none font-sans text-xs font-black tabular-nums text-[#C0472D]">05</span><span>就活で、2級を「使える」と言えるようにしたい</span></p><p class="px-4 pb-5 pl-[2.9rem] text-[13px] leading-[1.85] text-[#45403A] sm:p-6 sm:text-sm">売上が12倍なのに巨額の赤字を出したAI企業、休園したテーマパーク、客船の受注損失。実際の事例を2級の仕訳で読み解く。資格の名前だけでなく、決算書の数字の中身を語れるようになる。</p></div>
 <p class="flex items-center justify-between gap-3 px-4 py-3 text-[11px] font-bold tracking-[0.2em] text-[#6E6A64] sm:px-6"><span>悩み 5 件 → 未解決 0 件</span><span class="-rotate-2 border border-[#C0472D] px-2 py-0.5 font-serif tracking-[0.3em] text-[#C0472D]">解決</span></p>
 </div>
 
@@ -28,14 +28,14 @@
 <div class="lg:grid lg:grid-cols-12 lg:items-end lg:gap-16">
 <div class="lg:col-span-5" data-anim>
 <p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#F5F1E8]/60"><span class="font-serif text-base font-black tracking-normal text-[#D4A43E]">02</span><span aria-hidden="true" class="h-px w-8 bg-[#F5F1E8]/30"></span><span>WHY THIS BOOK</span></p>
-<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#F5F1E8] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">ページをめくらせる、<br>3つの仕掛け</h2>
+<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#F5F1E8] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">このテキストの3つの強み</h2>
 </div>
-<p data-anim class="mt-5 max-w-md text-sm leading-[1.9] text-[#F5F1E8]/65 lg:col-span-7 lg:mt-0" style="animation-delay:.15s">危機が次々に襲い、知識がなければ生き残れない。手がかりをすべて見せたうえで、謎を解かせる。子どもたちが夢中で読む学習漫画の作り方を、2級の教科書に持ち込んだ。</p>
+<p data-anim class="mt-5 max-w-md text-sm leading-[1.9] text-[#F5F1E8]/65 lg:col-span-7 lg:mt-0" style="animation-delay:.15s">読み物として面白く、手を動かして身につき、仕事にまでつながる。2級の教科書に、この3つをすべて求めた。</p>
 </div>
 <div class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-7">
-<div data-anim class="rotate-[-1.2deg] bg-[#F5F1E8] text-[#22201E] shadow-[6px_6px_0_0_rgba(0,0,0,.25)] transition duration-500 hover:-translate-y-2 hover:rotate-0" style="animation-delay:.1s"><div class="h-1.5 bg-[#C0472D]"></div><div class="flex items-start justify-between gap-3 border-b border-[#22201E]/20 px-5 py-4"><p class="pt-1 font-serif text-sm font-black tracking-[0.3em]">仕込み札<span class="mt-1.5 block font-sans text-[10px] font-bold tracking-[0.2em] text-[#6E6A64]">TANK No. 1</span></p><span class="flex h-11 w-11 rotate-[-12deg] items-center justify-center rounded-full border-2 border-[#C0472D] font-serif text-base font-black text-[#C0472D]">推</span></div><div class="px-5 pb-7 pt-5"><p class="font-serif text-xl font-black leading-snug">毎章の事件と、読者への挑戦状</p><p class="mt-3 text-sm leading-[1.85] text-[#45403A]">手がかりはすべて本文に出す。山場で挑戦状が届き、あなたが推理を1つ選んでから、解決編が開く。誤りの選択肢は、試験のひっかけそのもの。</p></div></div>
-<div data-anim class="rotate-[0.8deg] bg-[#F5F1E8] text-[#22201E] shadow-[6px_6px_0_0_rgba(0,0,0,.25)] transition duration-500 hover:-translate-y-2 hover:rotate-0 sm:mt-8" style="animation-delay:.25s"><div class="h-1.5 bg-[#B48A2C]"></div><div class="flex items-start justify-between gap-3 border-b border-[#22201E]/20 px-5 py-4"><p class="pt-1 font-serif text-sm font-black tracking-[0.3em]">仕込み札<span class="mt-1.5 block font-sans text-[10px] font-bold tracking-[0.2em] text-[#6E6A64]">TANK No. 2</span></p><span class="flex h-11 w-11 rotate-[-12deg] items-center justify-center rounded-full border-2 border-[#B48A2C] font-serif text-base font-black text-[#B48A2C]">迫</span></div><div class="px-5 pb-7 pt-5"><p class="font-serif text-xl font-black leading-snug">融資審査までのタイムリミット</p><p class="mt-3 text-sm leading-[1.85] text-[#45403A]">章の扉に「審査まで あと○日」。米の値上がり、ボイラーの故障、資金の枯渇。蔵を襲う危機を、2級の知識で1つずつ切り抜けていく。</p></div></div>
-<div data-anim class="rotate-[-0.6deg] bg-[#F5F1E8] text-[#22201E] shadow-[6px_6px_0_0_rgba(0,0,0,.25)] transition duration-500 hover:-translate-y-2 hover:rotate-0" style="animation-delay:.4s"><div class="h-1.5 bg-[#3B6B4A]"></div><div class="flex items-start justify-between gap-3 border-b border-[#22201E]/20 px-5 py-4"><p class="pt-1 font-serif text-sm font-black tracking-[0.3em]">仕込み札<span class="mt-1.5 block font-sans text-[10px] font-bold tracking-[0.2em] text-[#6E6A64]">TANK No. 3</span></p><span class="flex h-11 w-11 rotate-[-12deg] items-center justify-center rounded-full border-2 border-[#3B6B4A] font-serif text-base font-black text-[#3B6B4A]">謎</span></div><div class="px-5 pb-7 pt-5"><p class="font-serif text-xl font-black leading-snug">父の黒い手帳の暗号</p><p class="mt-3 text-sm leading-[1.85] text-[#45403A]">「芹　六割　三千六百」「保　八千」。倒れた父が残した9行の暗号は、子会社株式・債務の保証・外貨建取引・連結を学ぶたびに、1行ずつ読めるようになる。</p></div></div>
+<div data-anim class="rotate-[-1.2deg] bg-[#F5F1E8] text-[#22201E] shadow-[6px_6px_0_0_rgba(0,0,0,.25)] transition duration-500 hover:-translate-y-2 hover:rotate-0" style="animation-delay:.1s"><div class="h-1.5 bg-[#C0472D]"></div><div class="flex items-start justify-between gap-3 border-b border-[#22201E]/20 px-5 py-4"><p class="pt-1 font-serif text-sm font-black tracking-[0.3em]">仕込み札<span class="mt-1.5 block font-sans text-[10px] font-bold tracking-[0.2em] text-[#6E6A64]">TANK No. 1</span></p><span class="flex h-11 w-11 rotate-[-12deg] items-center justify-center rounded-full border-2 border-[#C0472D] font-serif text-base font-black text-[#C0472D]">読</span></div><div class="px-5 pb-7 pt-5"><p class="font-serif text-xl font-black leading-snug">物語で、ルールの「なぜ」がわかる</p><p class="mt-3 text-sm leading-[1.85] text-[#45403A]">倒れた父の酒蔵に戻った汐見澪の1年。融資審査までの284日に起きる27の事件の答えが、そのまま2級の論点になっている。</p></div></div>
+<div data-anim class="rotate-[0.8deg] bg-[#F5F1E8] text-[#22201E] shadow-[6px_6px_0_0_rgba(0,0,0,.25)] transition duration-500 hover:-translate-y-2 hover:rotate-0 sm:mt-8" style="animation-delay:.25s"><div class="h-1.5 bg-[#B48A2C]"></div><div class="flex items-start justify-between gap-3 border-b border-[#22201E]/20 px-5 py-4"><p class="pt-1 font-serif text-sm font-black tracking-[0.3em]">仕込み札<span class="mt-1.5 block font-sans text-[10px] font-bold tracking-[0.2em] text-[#6E6A64]">TANK No. 2</span></p><span class="flex h-11 w-11 rotate-[-12deg] items-center justify-center rounded-full border-2 border-[#B48A2C] font-serif text-base font-black text-[#B48A2C]">解</span></div><div class="px-5 pb-7 pt-5"><p class="font-serif text-xl font-black leading-snug">手を動かして、その場で身につく</p><p class="mt-3 text-sm leading-[1.85] text-[#45403A]">本文のケースには、処理のしかたと「間違えやすいポイント」つき。章末の確認問題には入力欄。仕訳も、ボックス図や差異分析の数字も、その場で答え合わせ。ネット試験と同じ感覚で練習できる。</p></div></div>
+<div data-anim class="rotate-[-0.6deg] bg-[#F5F1E8] text-[#22201E] shadow-[6px_6px_0_0_rgba(0,0,0,.25)] transition duration-500 hover:-translate-y-2 hover:rotate-0" style="animation-delay:.4s"><div class="h-1.5 bg-[#3B6B4A]"></div><div class="flex items-start justify-between gap-3 border-b border-[#22201E]/20 px-5 py-4"><p class="pt-1 font-serif text-sm font-black tracking-[0.3em]">仕込み札<span class="mt-1.5 block font-sans text-[10px] font-bold tracking-[0.2em] text-[#6E6A64]">TANK No. 3</span></p><span class="flex h-11 w-11 rotate-[-12deg] items-center justify-center rounded-full border-2 border-[#3B6B4A] font-serif text-base font-black text-[#3B6B4A]">活</span></div><div class="px-5 pb-7 pt-5"><p class="font-serif text-xl font-black leading-snug">合格のその先まで、つながる</p><p class="mt-3 text-sm leading-[1.85] text-[#45403A]">実際の事例を仕訳で読み解き、値決め・外注・設備の更新・融資の審査の判断にも挑戦する。経理・財務への転職や1級、日々の仕事で使う考え方が、自然に身につく。</p></div></div>
 </div>
 </div>
 </section>
@@ -43,11 +43,11 @@
 <section class="my-24 sm:my-36 lg:grid lg:grid-cols-12 lg:gap-16">
 <div class="lg:col-span-4"><div class="lg:sticky lg:top-24" data-anim>
 <p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#6E6A64]"><span class="font-serif text-base font-black tracking-normal text-[#C0472D]">03</span><span aria-hidden="true" class="h-px w-8 bg-[#22201E]/30"></span><span>ABOUT</span></p>
-<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#22201E] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">潰れかけた酒蔵の、<br>1年間の事件簿</h2>
+<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#22201E] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">このテキストの特徴</h2>
 </div></div>
 <div class="mt-10 min-w-0 lg:col-span-8 lg:mt-1" data-anim style="animation-delay:.15s">
 
-<p class="font-serif text-[1.3rem] font-black leading-[1.8] text-[#22201E] [word-break:auto-phrase] sm:text-[1.65rem]">日商簿記2級の出題範囲を、すべてカバーしている。そのうえで目指しているのは、<span class="bg-[linear-gradient(transparent_64%,rgba(192,71,45,.22)_64%)]">決算書の数字の中身を、自分の言葉で説明できるようになること</span>だ。</p>
+<p class="font-serif text-[1.3rem] font-black leading-[1.8] text-[#22201E] [word-break:auto-phrase] sm:text-[1.65rem]">日商簿記2級の出題範囲を、すべてカバーしている。そのうえで目指しているのは、試験の合格だけではない。<span class="bg-[linear-gradient(transparent_64%,rgba(192,71,45,.22)_64%)]">決算書の数字の中身を、自分の言葉で説明できるようになること</span>だ。</p>
 
 <div class="mt-12">
 <p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#6E6A64]"><span>蔵の台帳</span><span aria-hidden="true" class="h-px flex-1 bg-[#22201E]/15"></span><span>事件が起きる場所</span></p>
@@ -61,8 +61,8 @@
 </ol>
 </div>
 
-<p class="mt-10 text-[15px] leading-[2] text-[#45403A] sm:text-base">主人公は、東京の総合商社で鉄鋼の輸出入を担当していた汐見澪、28歳。父が蔵で倒れ、創業1872年の汐見酒造に専務として戻る。金賞の大吟醸が売れるほど、なぜか蔵の預金は減っていく。信用金庫は「6月の決算が赤字なら、4億円の借換えはお約束できない」と言う。叔父は「蔵ごと大手に売っちまえ」と迫る。<br>簿記3級しか持たない澪は、番頭の岩倉、杜氏の小松、顧問の公認会計士・椎名とともに、原価計算で酒の本当の値段を突き止め、決算書の中身を分けて読み、蔵を守る道を探していく。あなたも澪と一緒に帳面を開き、仕訳を切りながら、1章ずつ事件を解いてほしい。</p>
-<p class="mt-8 border-l-2 border-[#C0472D] pl-4 text-sm leading-[1.9] text-[#6E6A64]">3級の続きとして学ぶ人も、3級を少し忘れた人も読めるように、3級の知識を使う場面では、その都度短く思い出せるようにしてある。</p>
+<p class="mt-10 text-[15px] leading-[2] text-[#45403A] sm:text-base">1人の跡取りの1年間を追う物語になっている。東京の総合商社で鉄鋼の輸出入を担当していた汐見澪、28歳。父が仕込み蔵で倒れ、創業1872年の汐見酒造に専務として戻る。金賞の大吟醸が売れるほど、なぜか蔵の預金は減っていく。信用金庫は「6月の決算が赤字なら、4億円の借換えはお約束できない」と言う。叔父は「蔵ごと大手に売っちまえ」と迫る。<br>簿記3級しか持たない澪は、番頭の岩倉、杜氏の小松、顧問の公認会計士・椎名とともに、原価計算で酒の本当の値段を突き止め、決算書の中身を分けて読み、蔵を守る道を探していく。あなたも澪と一緒に仕訳を切りながら、2級のルールがなぜそうなっているのかを1章ずつ確かめてほしい。読み終えたとき、あなたは2級の仕訳と原価計算を自分の手で組み立てられるだけでなく、ニュースで見る「巨額の赤字」や「減損」「連結外し」の意味を、勘定科目の言葉で説明できるようになっている。</p>
+<p class="mt-8 border-l-2 border-[#C0472D] pl-4 text-sm leading-[1.9] text-[#6E6A64]">経理・財務の仕事への転職や、就職活動で2級を生かしたい人には、とくに第22章（決算と融資の審査）と終章を読んでほしい。2級の知識が、職場でどんな判断に使われるのかが見えてくる。3級を少し忘れた人も読めるように、3級の知識を使う場面では、その都度短く思い出せるようにしてある。</p>
 
 </div>
 </section>
@@ -70,7 +70,7 @@
 <section class="my-24 sm:my-36 lg:grid lg:grid-cols-12 lg:gap-16">
 <div class="lg:col-span-4"><div class="lg:sticky lg:top-24" data-anim>
 <p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#6E6A64]"><span class="font-serif text-base font-black tracking-normal text-[#C0472D]">04</span><span aria-hidden="true" class="h-px w-8 bg-[#22201E]/30"></span><span>HOW IT COVERS</span></p>
-<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#22201E] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">2級の範囲を、<br>どう解いていくか</h2>
+<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#22201E] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">2級の範囲を、どう解説するか</h2>
 </div></div>
 <div class="mt-10 min-w-0 lg:col-span-8 lg:mt-1" data-anim style="animation-delay:.15s">
 
@@ -84,16 +84,14 @@
 ::
 
 <div class="my-12">
-<p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#6E6A64]"><span>1つの章の流れ</span><span aria-hidden="true" class="h-px flex-1 bg-[#22201E]/15"></span><span>8つの場面</span></p>
-<ol class="mt-4 grid gap-px border border-[#22201E]/20 bg-[#22201E]/20 sm:grid-cols-2 xl:grid-cols-4">
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">01</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">事件発生</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">蔵で直感に反することが起き、誰かが間違った結論を口にする</p></li>
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">02</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">捜査</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">帳面と現場を調べる会話の中で、2級のルールを1つずつ手に入れる</p></li>
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">03</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">ケース</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">蔵で実際に切る仕訳。状況、処理、間違えやすいポイントの順に</p></li>
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">04</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">読者への挑戦状</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">手がかりがそろったら、あなたが推理を1つ選ぶ。選ぶまで講評は開かない</p></li>
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">05</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">解決編</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">事件の真相を数字で示し、その章の原則を1文にまとめる</p></li>
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">06</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">試験で狙われるパターン</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">物語で扱わなかった出題の形と、本番で使う解法の型</p></li>
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">07</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">後日談と実際の事件</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">登場人物が持ち込む現実の事件を、その章の仕訳で読み解く</p></li>
-<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">08</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">まとめ・確認問題・次回予告</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">手を動かして確かめたら、次の事件の幕が上がる</p></li>
+<p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#6E6A64]"><span>1つの章の流れ</span><span aria-hidden="true" class="h-px flex-1 bg-[#22201E]/15"></span><span>6つの場面</span></p>
+<ol class="mt-4 grid gap-px border border-[#22201E]/20 bg-[#22201E]/20 sm:grid-cols-2 xl:grid-cols-3">
+<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">01</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">事件</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">蔵で直感に反することが起き、誰かが間違った結論を口にする。「金賞の酒が売れるほど、なぜ蔵は貧しくなるのか？」</p></li>
+<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">02</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">物語の中で学ぶ</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">帳面と現場を調べる会話の中で、その答えに必要な2級のルールを、仕訳と図で1つずつ学ぶ</p></li>
+<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">03</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">解決編</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">学んだルールで、冒頭の事件を数字で解く</p></li>
+<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">04</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">実際にあった話</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">登場人物が持ち込む現実の事件を、その章の仕訳とT字勘定で再現する</p></li>
+<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">05</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">考えてみよう</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">蔵の立場で、どう見積もり、何で確かめるかを考える発展問題。試験には出ないので、余力があるときに</p></li>
+<li class="group bg-[#F5F1E8] p-5 transition-colors hover:bg-white"><span class="font-serif text-3xl font-black leading-none text-[#22201E]/15 transition-colors group-hover:text-[#C0472D]">06</span><p class="mt-3 font-serif text-base font-black text-[#22201E]">試験の急所と確認問題</p><p class="mt-1.5 text-[13px] leading-[1.8] text-[#6E6A64]">出題のポイントを押さえ、章末の確認問題で手を動かして確かめる。最後に、次の事件の予告がある</p></li>
 </ol>
 </div>
 
@@ -143,15 +141,15 @@
 <div class="lg:col-span-4"><div class="lg:sticky lg:top-24" data-anim>
 <p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#6E6A64]"><span class="font-serif text-base font-black tracking-normal text-[#C0472D]">07</span><span aria-hidden="true" class="h-px w-8 bg-[#22201E]/30"></span><span>HOW TO STUDY</span></p>
 <h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#22201E] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">おすすめの学習の進め方</h2>
-<p class="mt-5 max-w-sm text-sm leading-[1.9] text-[#6E6A64]">物語として読み、挑戦状で推理し、手で書き、本番形式で仕上げる。</p>
+<p class="mt-5 max-w-sm text-sm leading-[1.9] text-[#6E6A64]">物語として読み、手で書き、反復し、本番形式で仕上げる。</p>
 </div></div>
 <div class="mt-10 min-w-0 lg:col-span-8 lg:mt-2" data-anim style="animation-delay:.15s">
 
 <ol class="relative ml-2 border-l border-[#22201E]/25 sm:ml-3">
-<li class="group relative pb-11 pl-8 sm:pl-12"><span aria-hidden="true" class="absolute -left-[7px] top-1 h-[13px] w-[13px] rounded-full border-2 border-[#C0472D] bg-[#F5F1E8] transition-colors group-hover:bg-[#C0472D]"></span><p class="text-[11px] font-bold tracking-[0.3em] text-[#C0472D]">STEP 01</p><p class="mt-2 font-serif text-lg font-black leading-snug text-[#22201E] sm:text-[1.35rem]">1周目：物語として通読する</p><p class="mt-2.5 max-w-xl text-sm leading-[1.9] text-[#6E6A64]">確認問題は飛ばしてよい。ただし、挑戦状だけは必ず自分で選んでから解決編を読む。間違えた選択肢こそ、本番で狙われる場所だ。</p></li>
+<li class="group relative pb-11 pl-8 sm:pl-12"><span aria-hidden="true" class="absolute -left-[7px] top-1 h-[13px] w-[13px] rounded-full border-2 border-[#C0472D] bg-[#F5F1E8] transition-colors group-hover:bg-[#C0472D]"></span><p class="text-[11px] font-bold tracking-[0.3em] text-[#C0472D]">STEP 01</p><p class="mt-2 font-serif text-lg font-black leading-snug text-[#22201E] sm:text-[1.35rem]">1周目：物語として通読する</p><p class="mt-2.5 max-w-xl text-sm leading-[1.9] text-[#6E6A64]">確認問題と「考えてみよう」は飛ばしてよい。まずは「なぜそうなるのか」をつかむ。序章から終章まで、一気に読み切ることを優先しよう。</p></li>
 <li class="group relative pb-11 pl-8 sm:pl-12"><span aria-hidden="true" class="absolute -left-[7px] top-1 h-[13px] w-[13px] rounded-full border-2 border-[#C0472D] bg-[#F5F1E8] transition-colors group-hover:bg-[#C0472D]"></span><p class="text-[11px] font-bold tracking-[0.3em] text-[#C0472D]">STEP 02</p><p class="mt-2 font-serif text-lg font-black leading-snug text-[#22201E] sm:text-[1.35rem]">2周目：工業簿記を手で解く</p><p class="mt-2.5 max-w-xl text-sm leading-[1.9] text-[#6E6A64]">第1部のケースと確認問題を、紙にボックス図や差異分析の図を描きながら解く。工業簿記（一般に40点）は、型を覚えれば満点を狙える。</p></li>
 <li class="group relative pb-11 pl-8 sm:pl-12"><span aria-hidden="true" class="absolute -left-[7px] top-1 h-[13px] w-[13px] rounded-full border-2 border-[#C0472D] bg-[#F5F1E8] transition-colors group-hover:bg-[#C0472D]"></span><p class="text-[11px] font-bold tracking-[0.3em] text-[#C0472D]">STEP 03</p><p class="mt-2 font-serif text-lg font-black leading-snug text-[#22201E] sm:text-[1.35rem]">仕訳道場で第1問を固める</p><p class="mt-2.5 max-w-xl text-sm leading-[1.9] text-[#6E6A64]">付録Cの仕訳を、1問1分以内で切れるまで繰り返す。第2部・第3部の論点は、まず仕訳で確実に点を取る。</p></li>
-<li class="group relative pb-11 pl-8 sm:pl-12"><span aria-hidden="true" class="absolute -left-[7px] top-1 h-[13px] w-[13px] rounded-full border-2 border-[#C0472D] bg-[#F5F1E8] transition-colors group-hover:bg-[#C0472D]"></span><p class="text-[11px] font-bold tracking-[0.3em] text-[#C0472D]">STEP 04</p><p class="mt-2 font-serif text-lg font-black leading-snug text-[#22201E] sm:text-[1.35rem]">連結・決算と模擬試験で仕上げる</p><p class="mt-2.5 max-w-xl text-sm leading-[1.9] text-[#6E6A64]">第22章（決算）と第25・26章（連結）を解き直し、付録Bの解き方の順番を確かめたら、付録Dの模擬試験を90分で解く。間違えた大問から、復習する章が分かる。</p></li>
+<li class="group relative pb-11 pl-8 sm:pl-12"><span aria-hidden="true" class="absolute -left-[7px] top-1 h-[13px] w-[13px] rounded-full border-2 border-[#C0472D] bg-[#F5F1E8] transition-colors group-hover:bg-[#C0472D]"></span><p class="text-[11px] font-bold tracking-[0.3em] text-[#C0472D]">STEP 04</p><p class="mt-2 font-serif text-lg font-black leading-snug text-[#22201E] sm:text-[1.35rem]">連結・決算と模擬試験で仕上げる</p><p class="mt-2.5 max-w-xl text-sm leading-[1.9] text-[#6E6A64]">第22章（決算）と第25・26章（連結）を解き直し、付録Bの解き方の順番を確かめたら、付録Dの模擬試験を90分で解く。間違えた大問から、復習する章が分かる。余裕があれば、「考えてみよう」に挑戦しよう。</p></li>
 <li class="relative pl-8 sm:pl-12"><span aria-hidden="true" class="absolute -left-[7px] top-1.5 h-[13px] w-[13px] rounded-full bg-[#C0472D]"></span><p class="inline-block -rotate-2 border-2 border-[#C0472D] px-3 py-1 font-serif text-sm font-black tracking-[0.4em] text-[#C0472D]">合格</p></li>
 </ol>
 
@@ -161,55 +159,82 @@
 <section class="my-24 sm:my-36 lg:grid lg:grid-cols-12 lg:gap-16">
 <div class="lg:col-span-4"><div class="lg:sticky lg:top-24" data-anim>
 <p class="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#6E6A64]"><span class="font-serif text-base font-black tracking-normal text-[#C0472D]">08</span><span aria-hidden="true" class="h-px w-8 bg-[#22201E]/30"></span><span>GUIDE</span></p>
-<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#22201E] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">本文の部品の見方</h2>
+<h2 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.3] text-[#22201E] text-balance [word-break:auto-phrase] sm:text-[2.25rem] lg:text-[1.75rem] xl:text-[2.1rem]">ボックスと演習の見方</h2>
 <p class="mt-5 max-w-sm text-sm leading-[1.9] text-[#6E6A64]">種類の違う情報は、違う形の枠に入れてある。形を覚えておくと、2周目に必要な所だけを拾い読みできる。</p>
 </div></div>
 <div class="mt-10 min-w-0 lg:col-span-8 lg:mt-1" data-anim style="animation-delay:.15s">
 
-::mystery 各章は、事件の発生から始まる
-蔵で直感に反することが起き、誰かが間違った結論を口にする。最後の太字の問いが、その章で解く謎だ。
+::mystery 各章は「事件」から始まる
+蔵で起こる、直感に反する出来事。その理由を考えることが、各章の入り口になる。答えは、章の後半の「解決編」で明かされる。
 ::
 
 ::memo 父の黒い手帳は、罫線の紙に
-倒れた父が残した暗号の行。読めるようになる章で、ここに現れる。
+倒れた父が残した暗号の行。2級の知識がそろうたびに、その章で1行ずつ読めるようになる。
 ::
 
 ::theory 重要理論は、藍の帯の札に
-その章で最も大事な原理を1文で言い切り、短く説明する。
+簿記のルールの「なぜ」を説明する、最も大切な理論。1級でもそのまま使う知識なので、ここだけは必ず理解してから先へ進もう。
 ::
 
 ::point 用語や手順の補足は、付箋に
 会話の中で出てきた言葉の、正確な定義を補う。
 ::
 
-::challenge 読者への挑戦状は、選んでから開く
-解決編の直前に置かれる。1つ選ぶと、その推理への講評が開く。
-::choice A. 選ぶ前に、なぜそう思うかを一言メモしてから選ぶ
-**◎ これがいちばん効く。**理由を書いてから講評を読むと、自分の考えのどこがずれていたかがはっきりする。
-::
-::choice B. 考えずに選んで、講評だけ読む
-**△ 時間がないときはこれでもよい。**ただし、2周目では必ず理由を考えてから選び直そう。
-::
+::danger 「経営の落とし穴」は、縞のテープの警告票に
+会計処理を誤ったり、数字の裏の事実を見落としたりしたとき、会社がどんな危機に陥るかを描く。ルールが生まれた理由は、たいていここにある。
 ::
 
-::danger 現場の落とし穴は、縞のテープの警告票に
-実際の会社で起きる失敗や不正、誤用を、短くまとめる。
+::cfo 「考えてみよう」は、稟議書の形の黄色いボックスに
+蔵が実際に迷いそうな場面で、**どう見積もり、どう考え、何で確かめるか**を問う、試験の範囲を超えた発展問題。どの選択肢にも一理があり、言葉づかいから正解は透けない。決め手は、前提どうしの組み合わせや、ひと手間の計算の中にある。前提には、判断に関係のないものも混ぜてある。
+試験には出ないので、まずは本文・ケース・確認問題を優先してよい。時間に余裕があるときや、2周目に読むときの挑戦問題として取り組もう。
+::choice A. 選ぶ前に、自分の考えの理由を一言メモしておく
+**◎ それがいちばん効く。**講評を読んだとき、自分の考えのどこが違っていたのかが、はっきり分かる。
+::
+::choice B. 考えずに、とりあえず選んで講評を読む
+**△ もったいない。**講評は読める。だが、迷わずに選んだ答えからは、ほとんど何も残らない。
+::
+::answer
+1つ選ぶと、その選択への講評が開く。最後の「考え方の例」では、見積もり方と確かめ方の筋道をまとめている。
+::
 ::
 
 ::exam 試験の急所は、受験票の半券に
-- 試験で問われる形の急所を、「〇〇なら△△」の形で並べる
+- 出題のパターン、ひっかけ、時間を短くするテクニック。試験の直前は、この半券だけを拾い読みするのも効果的だ
 ::
 
 ::next 1級・実務へのつながりは、矢印の札に
-その章の論点が、1級や実務でどう広がるかを示す。
+2級の知識が、1級や実際のビジネスでどう発展するかを予告する。今は読み飛ばしてもかまわない。
 ::
 
 ::teaser 次回予告は、章のいちばん最後に
 次の事件の幕開けを、ひとコマだけ見せる。
 ::
 
-::point ケースで処理をつかみ、確認問題は「TRY」で手を動かす
-本文のケースは「状況→処理→間違えやすいポイント」の順に並び、解答は最初から開いている。章末の確認問題には、仕訳の入力欄（勘定科目をドラッグかタップで選び、金額を入れて答え合わせ）や、空欄・分類の演習がついている。本文の勘定科目を押すと、付録Aの辞典の説明が開く。
+::point ケースで処理のしかたをつかみ、章末の確認問題は「TRY」で手を動かして解く
+- **ケース**：蔵で起きた状況のすぐ下に、その処理のしかたと「間違えやすいポイント」を並べている。まず読んで、型をつかもう。
+- **仕訳**：勘定科目をドラッグで記入欄へ入れ（またはタップしてから記入欄をタップ）、金額を入力して「答え合わせ」する。
+- **空欄**：計算問題や、表の空欄に数字を入力する。勘定科目や語句の空欄は、タップして選択肢から選ぶ。
+- **分類**：項目をドラッグで分類先へ移す。
+章末の確認問題では、ネット試験と同じように、自分の手で答えを作ってから解説を開こう。
+::
+
+本文には、ほかにも次のような仕掛けがある。
+
+- **勘定科目をタップ**：本文で点線の下線がついた勘定科目をタップすると、付録Aの辞典の説明を確認できる。
+- **シミュレーター**：第10章では、販売価格・変動費・固定費・販売本数を動かして、損益分岐点がどう変わるかを確かめられる。
+- **模擬試験モード**：付録Dでは、90分のタイマーで本試験形式の問題を解き、大問ごとの得点と、復習すべき章をその場で確認できる。
+
+仕訳とT字勘定は、次のような表で示す。左の青い列が**借方**、右の赤い列が**貸方**だ。
+
+::journal 例：酒米300万円分を、代金は後払い（掛け）で買った
+材料 3,000,000 | 買掛金 3,000,000
+::
+
+::taccount 仕掛品
+材料 2,500,000 | 製品 13,500,000
+賃金・給料 6,000,000 | 次月繰越 3,050,000
+製造間接費 8,050,000 |
+= 16,550,000 | 16,550,000
 ::
 
 </div>
