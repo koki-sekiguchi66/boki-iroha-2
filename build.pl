@@ -1,10 +1,14 @@
 #!/usr/bin/env perl
 # ======================================================================
-#  ケースで学ぶ簿記3級 ― 静的サイトジェネレーター（Perl 5 / 追加モジュール不要）
+#  ケースで学ぶ簿記2級 ― 静的サイトジェネレーター（Perl 5 / 追加モジュール不要）
+#  3級（boki-iroha-3）の build.pl を移植し、2級用の部品（読者への挑戦状・父の手帳・次回予告・
+#  章の扉のタイムリミット・CVPシミュレーター・酒のラベルの表紙・酒蔵の配色）を足したもの
 #
 #  使い方:   perl build.pl          （Git Bash などから実行）
 #  入力:     _src/book.txt   … 章の並び（1行1ID）。「@title 書名」などの行で本の設定を変えられる
-#                              （@title @subtitle @hero @mark @start @key @scope。なければ3級の既定値）
+#                              （@title @subtitle @hero @mark @start @key @scope @site。なければ3級の既定値）
+#                              「@site https://…」と書くと、canonical・OGP と sitemap.xml・robots.txt を出力する
+#                              「@hook 一言」：表紙のつかみの一言。「@stats 21件:事件で学ぶ | 164問:仕訳の入力問題 | …」：表紙の学習明細書（レシート）の行
 #            _src/index.txt  … 表紙ページの本文
 #            _src/<id>.txt   … 各章の本文（独自マークアップ）
 #  出力:     public/ に index.html / <id>.html / all.html（全章一気読み版）
@@ -13,6 +17,7 @@
 #  ■ 章ファイル先頭のメタデータ
 #    @num 第3章   @part 第2部 …   @title 問い（章タイトル）   @subtitle 論点名
 #    @lead 紹介文   @goal この章で学ぶこと（複数行可）   @time 25分   @level ★★☆
+#    @clock 融資審査まで|284   … 章の扉のタイムリミットの札（あと284日）。日数の代わりに「当日」なども書ける
 #
 #  ■ 行の記法
 #    ## 見出し（自動採番・章内目次に掲載） / ### 小見出し / #### 小小見出し
@@ -25,10 +30,15 @@
 #      mystery theory danger cfo answer exam next solve scene case
 #      example problem quiz summary point formula tgrid note
 #      real   … 実際にあった話（出典は中の ::note に書く）
-#      choice … cfo の中に「::choice A. 選択肢」を並べると選択式になる（中身はその選択へのフィードバック。
+#      challenge … 読者への挑戦状。中に「::choice A. 推理」を並べる（cfo と同じ仕組みで、選ぶまで講評と ::answer は閉じる）
+#      memo … 父の黒い手帳（暗号の1行を明朝の大きな字で）   teaser … 次回予告（章の最後に置く墨の帯）
+#      case … 手がかり（証拠品の書類を並べる）
+#      choice … cfo / challenge の中に「::choice A. 選択肢」を並べると選択式になる（中身はその選択へのフィードバック。
 #               選ぶまで解説 ::answer は開かない）
 #    データ（入れ子不可）:
 #      journal  … 「借方科目 金額 | 貸方科目 金額」（貸借一致を自動検証）
+#                 見出しの先頭に【…】を書くと、演習の入力欄の見出しにその文字を使う（例：「::journal 【(1) 期首商品】しーくり」）。
+#                 同じ番号の仕訳が複数あるときは、問題文に出てくる当事者名（会社名など）を自動で見出しに足す
 #      taccount … 「摘要 金額 | 摘要 金額」、合計行は「= 金額 | 金額」
 #      table    … パイプ区切り。1行目が見出し。"!!" 行で2段見出し（"受入*3" = 3列結合）
 #                 "|=" で始まる行は強調行。引数の先頭に compact / sum / split:N を付けられる
@@ -61,14 +71,17 @@ my $SRC      = "$ROOT/_src";
 my $OUT      = "$ROOT/public";    # 公開用の出力先（Cloudflare Pages の Build output directory）
 mkdir $OUT or die "出力先を作成できません $OUT: $!\n" unless -d $OUT;
 my $KBJS     = -e "$ROOT/assets/kb.js" ? slurp("$ROOT/assets/kb.js") : '';    # 演習・シミュレーター・用語・模擬試験
-# 本の設定：book.txt の「@キー 値」の行で上書きできる（なければ3級の既定値）
+# 本の設定：book.txt の「@キー 値」の行で上書きできる（なければ2級の既定値）
+#   表紙のラベル：@eyebrow 左|右、@cardhead @cardkind @cardtitle @cardsub @cardbrand @cardtotal 左|右、@cardnote、@stamp（<br> 可）
 my %CFG      = map { /^@(\w+)\s+(.*)$/ ? ($1 => $2) : () } map { trim($_) } split /\n/, slurp("$SRC/book.txt");
-my $BOOK     = $CFG{title}    // 'ケースで学ぶ簿記3級';
-my $BOOK_SUB = $CFG{subtitle} // '身近な会社の数字で、日商簿記3級の全範囲を学ぶ';
-my $HERO     = $CFG{hero}     // 'ケースで学ぶ<br>簿記3級';    # 表紙の大見出し（<br> で改行）
+my $BOOK     = $CFG{title}    // 'ケースで学ぶ簿記2級';
+my $BOOK_SUB = $CFG{subtitle} // '潰れかけた酒蔵の事件簿で、日商簿記2級の全範囲を学ぶ';
+my $HERO     = $CFG{hero}     // 'ケースで学ぶ<br>簿記2級';    # 表紙の大見出し（<br> で改行。最後の行に蛍光ペン）
 my $MARK     = $CFG{mark}     // '簿';                        # ヘッダーの1文字ロゴ
 my $START    = $CFG{start}    // '序章から読む';              # 表紙の「最初の章へ」ボタン
-my $KEY      = $CFG{key}      // 'kb3';                       # localStorage のキーの接頭辞（本ごとに変える）
+my $KEY      = $CFG{key}      // 'kb2';                       # localStorage のキーの接頭辞（本ごとに変える）
+my $SITE     = $CFG{site}     // '';                          # 公開URL。canonical・OGP・sitemap.xml・robots.txt に使う（なければ出力しない）
+$SITE =~ s{/+$}{};
 my $SCOPE    = $CFG{scope}    // '出題範囲は日本商工会議所「商工会議所簿記検定試験 出題区分表」（2022年度適用版。2026年度の試験まで適用）に準拠し、2027年4月以降の試験に適用される改定（暫定版）の要点も併記しています。受験前に必ず日本商工会議所の公式情報をご確認ください。';
 $KBJS =~ s/'kb3-/'$KEY-/g;
 
@@ -138,14 +151,14 @@ sub inl {
     }ge;
     $s =~ s{\^\^(.+?)\^\^}{<span class="text-[11px] font-normal leading-tight text-gray-500">$1</span>}g;    # ^^小さな補足^^
     $s =~ s{\*\*(.+?)\*\*}{<strong class="font-bold">$1</strong>}g;
-    $s =~ s{==(.+?)==}{<mark class="rounded-sm bg-yellow-200 px-0.5 text-gray-900">$1</mark>}g;
+    $s =~ s{==(.+?)==}{<mark class="mk">$1</mark>}g;
     my $red = $DARK ? 'text-red-400' : 'text-red-600';
     $s =~ s{!!(.+?)!!}{<span class="font-bold $red">$1</span>}g;
     # 「第7章」のような短いリンクは改行させない。出典のような長いリンクは、スマホの幅で折り返す
     $s =~ s{\[([^\]]+?)\]\(([^)\s]+)\)}{
         my ($t, $u) = ($1, $2);
         my $wrap = length($t =~ s/<[^>]*>//gr) <= 10 ? 'whitespace-nowrap' : 'break-words';
-        qq{<a href="$u" class="$wrap font-bold underline decoration-amber-400 decoration-2 underline-offset-4 hover:text-amber-700">$t</a>}
+        qq{<a href="$u" class="$wrap font-bold underline decoration-shu/50 decoration-1 underline-offset-[5px] transition hover:text-shu hover:decoration-shu">$t</a>}
     }ge;
     return $s;
 }
@@ -186,7 +199,7 @@ sub cells {
 
 # ---------------------------------------------------------------- parse
 my %RAW       = map { $_ => 1 } qw(journal taccount table boxes steps kpi timeline toc sort checks sim mock);
-my %CONTAINER = map { $_ => 1 } qw(mystery theory danger cfo choice real answer exam next solve scene case example problem quiz summary point formula tgrid note);
+my %CONTAINER = map { $_ => 1 } qw(mystery theory danger cfo challenge choice memo teaser real answer trap exam next solve scene case example problem quiz summary point formula tgrid note);
 
 sub parse {
     my ($L, $ip, $nested) = @_;
@@ -370,20 +383,23 @@ sub r_h {
         $CTX{h2}    = $t;     # 演習がどの大問（見出し）に属するか（模擬試験の採点用）
         $CTX{tseen} = {};     # 用語のリンクは見出しごとに最初の1回だけ
         my $n = sprintf('%02d', $SECN);
-        return qq{<h2 id="$id" class="mb-6 mt-16 flex scroll-mt-20 items-baseline gap-3 font-serif text-[1.4rem] font-black leading-snug $c sm:text-[1.65rem]">}
-             . qq{<span class="flex-none font-sans text-sm font-black tracking-widest text-amber-600">$n</span><span>} . inl($t) . '</span></h2>';
+        # 帳簿の見出し行：太い罫の上に、朱の番号札を掛ける
+        return qq{<h2 id="$id" data-sec class="relative mb-7 mt-24 scroll-mt-20 border-t-2 border-gray-900 pt-11 font-serif text-[1.45rem] font-black leading-snug $c [word-break:auto-phrase] sm:text-[1.8rem]">}
+             . qq{<span aria-hidden="true" class="absolute -top-[2px] left-0 flex items-stretch font-sans text-[10px] font-bold leading-none tracking-[0.25em]"><span class="flex items-center bg-gray-900 px-2 py-1.5 text-gray-50">SECTION</span><span class="bg-shu px-2 py-1.5 font-serif text-[13px] font-black tracking-normal text-white">$n</span></span>}
+             . qq{<span aria-hidden="true" class="absolute right-0 top-2 select-none font-serif text-[11px] font-bold tracking-[0.2em] text-gray-400">$n / __SECTOTAL__</span>}
+             . '<span>' . inl($t) . '</span></h2>';
     }
     if ($lv == 3) {
-        my $b = $DARK ? 'border-amber-400' : 'border-gray-900';
-        return qq{<h3 class="mb-4 mt-10 border-l-4 $b pl-3 text-lg font-bold leading-snug $c">} . inl($t) . '</h3>';
+        my $b = $DARK ? 'border-amber-400' : 'border-shu';
+        return qq{<h3 class="mb-4 mt-14 flex items-baseline gap-3 font-serif text-lg font-black leading-snug $c sm:text-xl"><span aria-hidden="true" class="h-[0.55em] w-[0.55em] flex-none translate-y-[-0.1em] rotate-45 border-2 $b"></span><span class="min-w-0">} . inl($t) . '</span></h3>';
     }
-    return qq{<h4 class="mb-3 mt-8 font-bold leading-snug $c">} . inl($t) . '</h4>';
+    return qq{<h4 class="mb-3 mt-9 flex items-center gap-2.5 font-bold leading-snug $c"><span aria-hidden="true" class="h-px w-4 flex-none bg-shu"></span><span class="min-w-0">} . inl($t) . '</span></h4>';
 }
 
 sub r_ul {
     my $items = shift;
     my $check = $CTX{check};
-    my $html  = $check ? '<ul class="my-5 space-y-3">' : '<ul class="my-5 list-disc space-y-2 pl-6 marker:text-gray-400">';
+    my $html  = $check ? '<ul class="my-5 space-y-3">' : '<ul class="my-5 list-[square] space-y-2 pl-5 marker:text-shu/70">';
     my $sub   = 0;
     for my $i (0 .. $#$items) {
         my ($lv, $t) = @{ $items->[$i] };
@@ -391,7 +407,7 @@ sub r_ul {
             if ($sub) { $html .= '</ul>'; $sub = 0; }
             $html .= '</li>' if $i > 0;
             if ($check) {
-                $html .= '<li class="flex gap-3 leading-[1.8]"><span class="mt-1 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-[11px] font-black text-white">✓</span><span>' . inl($t) . '</span>';
+                $html .= '<li class="flex gap-3 leading-[1.8]"><span aria-hidden="true" class="mt-0.5 flex h-6 w-6 flex-none rotate-[-10deg] items-center justify-center rounded-full border-[1.5px] border-shu font-serif text-[10px] font-black leading-none text-shu">済</span><span>' . inl($t) . '</span>';
             }
             else {
                 $html .= '<li class="leading-[1.85]">' . inl($t);
@@ -407,18 +423,71 @@ sub r_ul {
     return $html;
 }
 
+# ---------------------------------------------------------------- 物語の会話（吹き出し）
+#   原稿の「名前：「せりふ」」は、名前と頭文字の札がついた吹き出しになる。主人公（澪）は右側に置く。
+#   「…」と佐伯は言った。／佐伯は首を振った。「…」のように地の文と混ざった行も、話し手が登場人物だと
+#   分かる形のときは、地の文と吹き出しに分ける。
+my @CAST   = qw(澪 岩倉 椎名 小松 高梨 陸 宇佐美 千尋 桐生 父 叔父 母 戸田 早瀬 マーカス 職員 担当者 店主 店長 社長 蔵人 医師 支店長 記者 客 司会 業者 営業 女将 税務署員 看護師 審査役);
+my $CASTRE = join '|', map { quotemeta } sort { length($b) <=> length($a) } @CAST;
+my %SAYCOL = ('澪' => '#C0472D', '岩倉' => '#6A4A63', '椎名' => '#1F3A5F', '小松' => '#3B6B4A', '高梨' => '#45403A', '陸' => '#946F24', '宇佐美' => '#5E7D63', '千尋' => '#7A5672', '桐生' => '#4A5D73', '父' => '#8A5A44', '叔父' => '#6E6A64', '母' => '#9C6B5A');
+my @SAYPAL = ('#1F3A5F', '#3B6B4A', '#6A4A63', '#5E7D63', '#8A5A44', '#946F24', '#57524C');
+my $PLAINV = qr/(?:言った|言う|聞いた|聞き返した|尋ねた|たずねた|答えた|続けた|つぶやいた|切り出した|口を開いた)/;
+
+sub say_html {
+    my ($who, $say) = @_;
+    my $col = $SAYCOL{$who} // $SAYPAL[ hval($who, 7) % @SAYPAL ];
+    my $me  = $who eq '澪';
+    my $bub = $DARK ? 'border-white/45 bg-white/10 text-white' : 'border-gray-900/70 bg-white text-gray-900 shadow-[3px_3px_0_0_rgba(34,32,30,.12)]';
+    my $nmc = $DARK ? 'text-white/80' : 'text-gray-600';
+    my $ini = esc(substr($who, 0, 1));
+    return '<div class="my-3.5 flex items-start gap-2.5 font-sans' . ($me ? ' flex-row-reverse' : '') . '">'
+         . qq{<span aria-hidden="true" class="mt-4 flex h-9 w-9 flex-none items-center justify-center rounded-full font-serif text-sm font-black text-white ring-2 ring-white/70" style="background:$col">$ini</span>}
+         . '<div class="flex min-w-0 max-w-[84%] flex-col' . ($me ? ' items-end' : ' items-start') . '">'
+         . qq{<span class="mb-0.5 px-1 text-[11px] font-bold leading-none $nmc">} . esc($who) . '</span>'
+         . termify(qq{<p class="w-fit rounded-[16px] } . ($me ? 'rounded-tr-[3px]' : 'rounded-tl-[3px]') . qq{ border $bub px-4 py-2.5 text-[15px] font-bold leading-[1.75] sm:text-base">} . inl($say) . '</p>')
+         . "</div></div>\n";
+}
+
+sub story_split {
+    my $t = shift;
+    my $Q = qr/「((?:(?!」|「).)+)」/;    # かぎ括弧の中に別のかぎ括弧がない、ひと続きのせりふ
+    return (['say', $1, $2]) if $t =~ /^([^「」：\s]{1,8})：「(.+)」$/;
+    # 「…」と佐伯は言った。（「…」が続くこともある）
+    if ($t =~ /^$Q(?:と、?|。と、?)($CASTRE)(?:は|が|も)([^「」]*?。)(?:$Q)?$/) {
+        my ($q1, $who, $rest, $q2) = ($1, $2, $3, $4);
+        my @p = (['say', $who, $q1]);
+        push @p, ['p', "$who\は$rest"] unless $rest =~ /^、?(?:そう)?$PLAINV。$/;
+        push @p, ['say', $who, $q2] if defined $q2;
+        return @p;
+    }
+    # 佐伯は首を振った。「…」
+    if ($t =~ /^([^「」]*。)$Q$/) {
+        my ($narr, $q) = ($1, $2);
+        my ($last) = $narr =~ /([^。]*。)$/;    # せりふの直前の一文に「〜は」と書かれた人物を、話し手とみなす
+        my @who = ($last =~ /から、?[^。]*(?:聞いた|聞かれた|言われた)/) ? () : ($last =~ /($CASTRE)は/g);
+        if (@who) { print STDERR "AUTO $CUR $who[-1] <= ", substr($narr, -28), "
+" if $ENV{KB_DEBUG}; return (['p', $narr], ['say', $who[-1], $q]); }
+    }
+    return ();
+}
+
 sub rn {
     my ($nodes, $parent) = @_;
     $parent //= '';
     my $h = '';
     for my $n (@$nodes) {
         my $t = $n->{t};
+        if ($t eq 'p' && $parent =~ /^(?:|mystery|scene|solve|cfo|challenge|teaser|answer|choice)$/ and my @parts = story_split($n->{text})) {
+            # 物語の会話は、名前つきの吹き出しにする（地の文と混ざった行は、地の文と吹き出しに分ける）
+            $h .= ($_->[0] eq 'say' ? say_html($_->[1], $_->[2]) : termify('<p class="my-5 leading-[1.95]">' . inl($_->[1]) . '</p>') . "\n") for @parts;
+            next;
+        }
         if    ($t eq 'p')     { $h .= termify('<p class="my-5 leading-[1.95]">' . inl($n->{text}) . '</p>'); }
         elsif ($t eq 'h')     { $h .= r_h($n->{level}, $n->{text}); }
-        elsif ($t eq 'hr')    { $h .= '<hr class="my-14 h-px border-0 bg-gradient-to-r from-transparent via-gray-300 to-transparent">'; }
+        elsif ($t eq 'hr')    { $h .= '<div role="separator" class="rule-mark"><i></i><i></i><i></i></div>'; }
         elsif ($t eq 'ul')    { $h .= termify(r_ul($n->{items})); }
-        elsif ($t eq 'ol')    { $h .= termify('<ol class="my-5 list-decimal space-y-2 pl-6 marker:font-bold marker:text-gray-400">' . join('', map { '<li class="leading-[1.85]">' . inl($_) . '</li>' } @{ $n->{items} }) . '</ol>'); }
-        elsif ($t eq 'quote') { $h .= termify('<blockquote class="my-6 border-l-4 border-gray-300 pl-4 font-serif text-gray-600">' . join('', map { '<p class="my-2 leading-[1.9]">' . inl($_) . '</p>' } @{ $n->{lines} }) . '</blockquote>'); }
+        elsif ($t eq 'ol')    { $h .= termify('<ol class="my-5 list-decimal space-y-2 pl-6 marker:font-serif marker:font-black marker:text-shu">' . join('', map { '<li class="leading-[1.85]">' . inl($_) . '</li>' } @{ $n->{items} }) . '</ol>'); }
+        elsif ($t eq 'quote') { $h .= termify('<blockquote class="relative my-8 border-y border-gray-900/15 py-4 pl-10 pr-2 font-serif text-gray-700 before:absolute before:left-1 before:top-4 before:text-4xl before:font-black before:leading-none before:text-shu/70 before:content-[open-quote]">' . join('', map { '<p class="my-2 leading-[1.9]">' . inl($_) . '</p>' } @{ $n->{lines} }) . '</blockquote>'); }
         elsif ($t eq 'html')  { $h .= $n->{text}; }
         elsif ($t eq 'raw')   { $h .= r_raw($n); }
         elsif ($t eq 'box')   { $h .= r_box($n, $parent); }
@@ -438,43 +507,98 @@ sub label {
 }
 
 # ---------------------------------------------------------------- render: boxes
+sub slip_open {    # 見出しタブつきの枠（ホームの「事件ファイル」と同じ形）。閉じるときは slip_close
+    my ($tag, $attrs, $tabbg, $en, $ja, $boxcls, $deco) = @_;
+    return qq{<div class="my-10"><p class="inline-flex items-center gap-2.5 px-3.5 py-1.5 text-[10px] font-bold tracking-[0.25em] text-white $tabbg"><span>$en</span><span aria-hidden="true" class="h-px w-4 bg-white/50"></span><span class="text-[11px] tracking-[0.15em]">$ja</span></p>}
+         . qq{<$tag$attrs class="relative $boxcls p-5 sm:p-7">} . ($deco // '') . '<div class="relative">';
+}
+sub slip_close { my $tag = shift; return "</div></$tag></div>"; }
+sub stamp {    # 右上に押す丸い印
+    my ($txt, $cls) = @_;
+    return qq{<span aria-hidden="true" class="absolute right-4 top-4 flex h-11 w-11 rotate-[-10deg] items-center justify-center rounded-full border-2 font-serif text-[13px] font-black leading-none $cls">$txt</span>};
+}
+
+sub case_no {    # 事件ファイルの番号（第7章 → No.07、序章 → No.00、終章 → FINAL）
+    my $num = ($META{$CUR} // {})->{num} // '';
+    return $num =~ /(\d+)/ ? sprintf('No.%02d', $1) : $num =~ /序/ ? 'No.00' : $num =~ /終/ ? 'FINAL' : '';
+}
+
 sub r_box {
     my ($n, $parent) = @_;
     my ($name, $a, $k) = @$n{qw(name arg kids)};
-    local $DARK = ($name eq 'mystery') ? 1 : 0;
+    local $DARK = ($name eq 'mystery' || $name eq 'teaser') ? 1 : 0;
     # 用語のポップアップは、物語・公式・確認問題（答えのヒントになる）の中では付けない
-    local $CTX{terms} = ($name =~ /^(?:mystery|formula|problem|scene)$/) ? 0 : $CTX{terms};
+    local $CTX{terms} = ($name =~ /^(?:mystery|formula|problem|scene|challenge|memo|teaser)$/) ? 0 : $CTX{terms};
     my $title = sub {
         my $cls = shift;
         return $a ne '' ? qq{<p class="$cls">} . inl($a) . '</p>' : '';
     };
 
     if ($name eq 'mystery') {
-        return qq{<section class="relative my-10 overflow-hidden bg-gray-900 text-white p-6 rounded-lg shadow-lg sm:p-8">}
+        return qq{<p class="mb-0 mt-12 inline-flex items-center gap-2.5 bg-gray-900 px-4 py-2 text-[11px] font-bold tracking-[0.3em] text-gray-50"><span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-shu"></span>CASE FILE } . case_no() . qq{ ― 事件発生</p><section class="grain-overlay relative mb-10 overflow-hidden bg-gray-900 p-6 text-white sm:p-9">}
              . qq{<div aria-hidden="true" class="pointer-events-none absolute -right-3 -top-10 select-none font-serif text-[10rem] font-black leading-none text-white/5">?</div>}
-             . qq{<p class="relative mb-4 flex items-center gap-2 text-[11px] font-bold tracking-[0.3em] text-amber-400"><span class="inline-block h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>QUESTION ― この章の問い</p>}
-             . ($a ne '' ? '<h2 class="relative mb-5 font-serif text-xl font-black leading-snug text-white sm:text-2xl">' . inl($a) . '</h2>' : '')
-             . '<div class="relative">' . inner($k, $name) . '</div></section>';
+             . ($a ne '' ? '<h2 class="relative z-10 mb-5 font-serif text-xl font-black leading-snug text-white [word-break:auto-phrase] sm:text-[1.7rem]">' . inl($a) . '</h2>' : '')
+             . '<div class="relative z-10">' . inner($k, $name) . '</div></section>';
     }
-    if ($name eq 'theory') {
-        return qq{<aside class="my-8 rounded-r-lg border-l-4 border-blue-500 bg-blue-50 p-5 sm:p-6">}
-             . label('text-blue-600', 'ACCOUNTING THEORY ― 重要理論')
-             . $title->('mb-3 text-lg font-bold leading-snug text-blue-950')
-             . inner($k, $name) . '</aside>';
+    if ($name eq 'theory') {    # 定理カード：藍の帯の見出し、薄藍の題字欄、ずらした影
+        return qq{<aside class="my-10 border border-blue-700/45 bg-white shadow-[5px_5px_0_0_rgba(31,58,95,.16)]">}
+             . qq{<p class="flex items-center gap-2.5 bg-blue-700 px-4 py-2 text-[10px] font-bold tracking-[0.25em] text-white sm:px-6"><span>THEORY</span><span aria-hidden="true" class="h-px w-4 bg-white/50"></span><span class="text-[11px] tracking-[0.15em]">重要理論</span><span aria-hidden="true" class="ml-auto font-serif text-lg font-black leading-none tracking-normal text-white/60">§</span></p>}
+             . $title->('border-b border-blue-700/25 bg-blue-50 px-4 py-3.5 font-serif text-lg font-black leading-snug text-blue-950 [word-break:auto-phrase] sm:px-6 sm:text-xl')
+             . qq{<div class="px-4 py-5 sm:px-6 sm:py-6">} . inner($k, $name) . '</div></aside>';
     }
-    if ($name eq 'danger') {
-        return qq{<aside class="my-8 rounded-lg border border-t-4 border-red-200 border-t-red-600 bg-red-50 p-5 sm:p-6">}
-             . label('text-red-700', '⚠ RISK ― 経営の落とし穴')
-             . $title->('mb-3 text-lg font-bold leading-snug text-red-950')
-             . inner($k, $name) . '</aside>';
+    if ($name eq 'danger') {    # 警告票：赤の太枠、上に縞のテープ、左に「！」の札
+        return qq{<aside class="my-10 border-2 border-red-700 bg-white">}
+             . qq{<span aria-hidden="true" class="block h-2.5" style="background:repeating-linear-gradient(-45deg,#962B1F 0 9px,#F6DCD6 9px 18px)"></span>}
+             . qq{<div class="flex items-stretch border-b border-red-700/30"><span aria-hidden="true" class="flex w-12 flex-none items-center justify-center bg-red-700 font-serif text-2xl font-black text-white sm:w-14">！</span>}
+             . qq{<div class="min-w-0 px-4 py-3"><p class="text-[10px] font-bold tracking-[0.25em] text-red-700">RISK<span aria-hidden="true" class="mx-2 inline-block h-px w-4 bg-red-700/50 align-middle"></span><span class="text-[11px] tracking-[0.15em]">経営の落とし穴</span></p>}
+             . $title->('mt-1 font-serif text-lg font-black leading-snug text-red-950 [word-break:auto-phrase] sm:text-xl') . '</div></div>'
+             . qq{<div class="bg-red-50/70 px-4 py-5 sm:px-6 sm:py-6">} . inner($k, $name) . '</div></aside>';
     }
-    if ($name eq 'cfo') {
+    if ($name eq 'challenge') {    # 読者への挑戦状：選ぶまで講評と推理の手順は閉じておく（cfo と同じ仕組み）
+        my @ch   = grep { $_->{t} eq 'box' && $_->{name} eq 'choice' } @$k;
+        my @body = grep { !($_->{t} eq 'box' && ($_->{name} eq 'choice' || $_->{name} eq 'answer')) } @$k;
+        my @ans  = grep { $_->{t} eq 'box' && $_->{name} eq 'answer' } @$k;
+        push @WARN, "[$CUR:$n->{line}] ::challenge に ::choice がない" unless @ch;
+        my ($opts, $fbs) = ('', '');
+        for my $c (@ch) {
+            my ($key, $txt) = $c->{arg} =~ /^([A-ZＡ-Ｚ])[\.．:：\s]\s*(.*)$/ ? ($1, $2) : ('?', $c->{arg});
+            push @WARN, "[$CUR:$c->{line}] choice の先頭に「A.」のような記号がない" if $key eq '?';
+            $opts .= qq{<button type="button" class="kb-opt flex w-full items-stretch border border-gray-900/40 border-b-2 border-b-gray-900/60 bg-white text-left hover:border-gray-900" data-k="$key" aria-pressed="false">}
+                   . qq{<span class="flex w-10 flex-none items-center justify-center bg-shu font-serif text-sm font-black text-white">$key</span>}
+                   . '<span class="px-3 py-2.5 text-[15px] font-bold leading-snug text-gray-900">' . inl($txt) . '</span></button>';
+            $fbs .= qq{<div class="kb-fb mt-3 border border-gray-900/40 border-l-4 border-l-shu bg-white p-4 sm:p-5" data-k="$key">}
+                  . qq{<p class="mb-2 text-xs font-bold tracking-wider text-shu">「$key」を選んだあなたへ</p>} . inner($c->{kids}, 'choice') . '</div>';
+        }
+        $NCHK{challenge}++ if ($CTX{mode} // '') ne 'all';
+        return qq{<section data-think class="kb-think relative my-14 border-2 border-gray-900 bg-[#FBF8F1] shadow-[6px_6px_0_0_rgba(34,32,30,.14)]">}
+             . qq{<div class="flex items-stretch border-b-2 border-gray-900 bg-white">}
+             . qq{<p class="flex flex-none flex-col items-center justify-center bg-gray-900 px-3 py-2 text-white"><span class="text-[9px] font-bold tracking-[0.25em] text-amber-300">CHALLENGE</span><span class="font-serif text-base font-black tracking-[0.2em]">挑戦状</span></p>}
+             . qq{<div class="min-w-0 flex-1 px-3 py-2.5 sm:px-4"><p class="text-[10px] font-bold tracking-[0.2em] text-gray-500">読者への挑戦状</p>}
+             . $title->('mt-0.5 font-serif text-base font-black leading-snug text-gray-900 [word-break:auto-phrase] sm:text-lg') . '</div>'
+             . qq{<span aria-hidden="true" class="m-2 hidden h-12 w-12 flex-none rotate-[-10deg] items-center justify-center self-center rounded-full border-2 border-shu font-serif text-lg font-black text-shu sm:flex">挑</span></div>}
+             . qq{<div class="p-4 sm:p-6">}
+             . qq{<p class="mb-4 border-b border-dashed border-gray-900/30 pb-3 font-serif text-[15px] font-bold leading-relaxed text-gray-800">手がかりは、すべて出そろった。解決編を読む前に、あなたの推理を1つ選んでほしい。</p>}
+             . inner(\@body, $name)
+             . qq{<p class="mb-2 mt-5 flex items-center gap-3 text-xs font-bold text-gray-700"><span class="flex-none bg-shu px-2 py-1 text-[10px] tracking-[0.2em] text-white">推理</span>1つ選ぶと、その推理への講評が開く。</p>}
+             . qq{<div class="grid gap-2" role="group" aria-label="選択肢">$opts</div>}
+             . $fbs . rn(\@ans, 'challenge')
+             . '<span class="hidden !border-amber-500 !bg-amber-100 ring-2 ring-amber-400"></span></div></section>';
+    }
+    if ($name eq 'cfo') {    # 稟議書：件名の欄と決裁欄のある書式
         my @ch = grep { $_->{t} eq 'box' && $_->{name} eq 'choice' } @$k;
+        my $open = sub {
+            my ($attrs, $cls) = @_;
+            return qq{<section$attrs class="${cls}my-10 border-2 border-gray-900 bg-amber-50">}
+                 . qq{<div class="flex items-stretch border-b-2 border-gray-900 bg-white">}
+                 . qq{<p class="flex flex-none flex-col justify-center border-r-2 border-gray-900 bg-amber-400 px-3 py-2 text-gray-900"><span class="text-[9px] font-bold tracking-[0.25em]">THINK</span><span class="font-serif text-sm font-black tracking-[0.1em]">考える</span></p>}
+                 . qq{<div class="min-w-0 flex-1 px-3 py-2 sm:px-4"><p class="text-[10px] font-bold tracking-[0.2em] text-gray-500">件名<span aria-hidden="true" class="mx-2 inline-block h-px w-4 bg-gray-400 align-middle"></span>考えてみよう</p>}
+                 . $title->('mt-0.5 font-serif text-base font-black leading-snug text-gray-900 [word-break:auto-phrase] sm:text-lg') . '</div>'
+                 . qq{<div aria-hidden="true" class="flex w-14 flex-none flex-col border-l-2 border-gray-900 text-center"><span class="border-b border-gray-900/40 text-[9px] font-bold leading-5 text-gray-600">決裁</span><span class="flex flex-1 items-center justify-center py-1.5"><span class="flex h-8 w-8 rotate-[-12deg] items-center justify-center rounded-full border-2 border-dashed border-shu/60 font-serif text-xs font-black text-shu/70">？</span></span></div>}
+                 . qq{</div><p class="flex items-start gap-2.5 border-b border-dashed border-gray-900/30 bg-white/60 px-4 py-2.5 text-xs leading-relaxed text-gray-700 sm:px-6"><span class="mt-px flex-none bg-gray-900 px-2 py-0.5 text-[10px] font-bold tracking-wider text-amber-300">＋α 余力があれば</span><span>試験には出ない発展問題。時間に余裕があるときや2周目に挑戦しよう。飛ばしても、試験対策には影響しない。</span></p>}
+                 . qq{<div class="p-4 sm:p-6">};
+        };
         if (!@ch) {
-            return qq{<section class="my-8 rounded-lg border-2 border-amber-300 bg-amber-50 p-5 sm:p-6">}
-                 . label('text-amber-700', 'THINK ― 判断してみよう')
-                 . $title->('mb-3 text-lg font-bold leading-snug text-amber-950')
-                 . inner($k, $name) . '</section>';
+            return $open->('', '') . inner($k, $name) . '</div></section>';
         }
         # 選択式：先に自分の判断を選ぶと、その選択へのフィードバックと解説が開く
         my @body = grep { !($_->{t} eq 'box' && ($_->{name} eq 'choice' || $_->{name} eq 'answer')) } @$k;
@@ -483,82 +607,120 @@ sub r_box {
         for my $c (@ch) {
             my ($key, $txt) = $c->{arg} =~ /^([A-ZＡ-Ｚ])[\.．:：\s]\s*(.*)$/ ? ($1, $2) : ('?', $c->{arg});
             push @WARN, "[$CUR:$c->{line}] choice の先頭に「A.」のような記号がない" if $key eq '?';
-            $opts .= qq{<button type="button" class="kb-opt flex w-full items-start gap-3 rounded-lg border-2 border-amber-200 bg-white px-3 py-2.5 text-left hover:border-amber-400" data-k="$key" aria-pressed="false">}
-                   . qq{<span class="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-amber-500 text-xs font-black text-white">$key</span>}
-                   . '<span class="pt-0.5 text-[15px] font-bold leading-snug text-gray-900">' . inl($txt) . '</span></button>';
-            $fbs .= qq{<div class="kb-fb mt-3 rounded-lg border-2 border-amber-400 bg-white p-4 sm:p-5" data-k="$key">}
+            $opts .= qq{<button type="button" class="kb-opt flex w-full items-stretch border border-gray-900/40 border-b-2 border-b-gray-900/60 bg-white text-left hover:border-gray-900" data-k="$key" aria-pressed="false">}
+                   . qq{<span class="flex w-10 flex-none items-center justify-center bg-gray-900 font-serif text-sm font-black text-white">$key</span>}
+                   . '<span class="px-3 py-2.5 text-[15px] font-bold leading-snug text-gray-900">' . inl($txt) . '</span></button>';
+            $fbs .= qq{<div class="kb-fb mt-3 border border-gray-900/40 border-l-4 border-l-amber-500 bg-white p-4 sm:p-5" data-k="$key">}
                   . qq{<p class="mb-2 text-xs font-bold tracking-wider text-amber-700">「$key」を選んだ場合</p>} . inner($c->{kids}, 'choice') . '</div>';
         }
         $NCHK{think}++ if ($CTX{mode} // '') ne 'all';
-        return qq{<section class="kb-think my-8 rounded-lg border-2 border-amber-300 bg-amber-50 p-5 sm:p-6" data-think>}
-             . label('text-amber-700', 'THINK ― 判断してみよう')
-             . $title->('mb-3 text-lg font-bold leading-snug text-amber-950')
+        return $open->(' data-think', 'kb-think ')
              . inner(\@body, $name)
-             . qq{<p class="mb-2 mt-5 text-xs font-bold text-amber-800">あなたの判断は？　1つ選ぶと、その結果と考え方が開く。</p>}
+             . qq{<p class="mb-2 mt-5 flex items-center gap-3 text-xs font-bold text-gray-700"><span class="flex-none bg-gray-900 px-2 py-1 text-[10px] tracking-[0.2em] text-white">選ぶ</span>あなたならどう考える？　1つ選ぶと、その考え方への講評が開く。</p>}
              . qq{<div class="grid gap-2" role="group" aria-label="選択肢">$opts</div>}
              . $fbs . rn(\@ans, 'cfo')
-             . '<span class="hidden !border-amber-500 !bg-amber-100 ring-2 ring-amber-400"></span></section>';
+             . '<span class="hidden !border-amber-500 !bg-amber-100 ring-2 ring-amber-400"></span></div></section>';
     }
     if ($name eq 'choice') {    # cfo の外に置かれた choice（書き方の誤り）
-        push @WARN, "[$CUR:$n->{line}] ::choice は ::cfo（判断してみよう）の中でだけ使える";
+        push @WARN, "[$CUR:$n->{line}] ::choice は ::cfo（考えてみよう）か ::challenge（挑戦状）の中でだけ使える";
         return inner($k, $name);
     }
     if ($name eq 'real') {
-        return qq{<aside class="my-8 rounded-lg border border-t-4 border-stone-300 border-t-stone-700 bg-white p-5 shadow-sm sm:p-6">}
-             . label('text-stone-500', 'REAL CASE ― 実際にあった話')
-             . $title->('mb-3 font-serif text-lg font-black leading-snug text-stone-900')
+        return qq{<aside class="relative my-12 border border-t-[3px] border-stone-300 border-t-stone-900 bg-white p-5 shadow-[5px_5px_0_0_rgba(34,32,30,.07)] sm:p-7">}
+             . qq{<span aria-hidden="true" class="absolute -top-3.5 left-8 h-6 w-24 -rotate-2 bg-[#B48A2C]/35"></span>}
+             . qq{<p class="mb-4 flex items-center gap-3 border-b border-stone-900 pb-2 text-[10px] font-bold tracking-[0.25em] text-stone-600"><span>REAL CASE</span><span aria-hidden="true" class="h-px flex-1 bg-stone-300"></span><span class="text-[11px] tracking-[0.15em]">実際にあった話</span></p>}
+             . $title->('mb-3 font-serif text-xl font-black leading-snug text-stone-900 [word-break:auto-phrase] sm:text-[1.4rem]')
              . inner($k, $name) . '</aside>';
+
     }
-    if ($name eq 'answer') {
-        my $lab = $a ne '' ? $a : ($parent eq 'cfo' ? '考え方の例を見る' : '解答・解説を見る');
-        return qq{<details class="kb-answer group mt-5 rounded-lg border border-gray-300 bg-white text-gray-800 shadow-sm">}
-             . qq{<summary class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg px-4 py-3 font-bold text-gray-900 hover:bg-gray-50"><span>} . inl($lab)
-             . qq{</span><span class="flex-none text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary>}
-             . qq{<div class="border-t border-gray-200 px-4 py-4 sm:px-5">} . inner($k, $name) . '</div></details>';
+    if ($name eq 'trap') {    # 赤ペンの添削：例題の最後に置く「間違えやすいポイント」
+        return qq{<aside class="relative mt-7 border border-dashed border-shu/60 bg-[#FDF5F1] py-4 pl-5 pr-4 sm:py-5 sm:pl-7 sm:pr-6">}
+             . qq{<span aria-hidden="true" class="absolute inset-y-0 left-0 w-1 bg-shu"></span>}
+             . qq{<p class="mb-2.5 flex items-center gap-2.5 font-serif text-[15px] font-black leading-none text-shu sm:text-base"><span aria-hidden="true" class="flex h-7 w-7 flex-none rotate-[-8deg] items-center justify-center rounded-full border-2 border-shu text-xs">注</span>間違えやすいポイント</p>}
+             . qq{<div class="text-[15px] [&_p]:my-2 [&_p]:leading-[1.85] [&_ul]:my-2">} . inner($k, $name) . '</div></aside>';
     }
-    if ($name eq 'exam') {
-        return qq{<aside class="my-8 rounded-lg border border-emerald-200 bg-emerald-50 p-5 sm:p-6">}
-             . label('text-emerald-700', 'EXAM HACK ― 試験の急所')
-             . $title->('mb-3 text-lg font-bold leading-snug text-emerald-950')
-             . inner($k, $name) . '</aside>';
-    }
-    if ($name eq 'next') {
-        return qq{<aside class="my-8 rounded-lg border border-violet-200 bg-violet-50 p-5 sm:p-6">}
-             . label('text-violet-700', 'NEXT STEP ― 2級・1級・実務へのつながり')
-             . $title->('mb-3 text-lg font-bold leading-snug text-violet-950')
-             . inner($k, $name) . '</aside>';
-    }
-    if ($name eq 'solve') {
-        return qq{<section class="my-12 rounded-lg border-2 border-gray-900 bg-white p-6 shadow-[6px_6px_0_0_#111827] sm:p-8">}
-             . label('text-amber-600', 'ANSWER ― 答え合わせ')
-             . $title->('mb-4 font-serif text-xl font-black leading-snug text-gray-900 sm:text-2xl')
-             . inner($k, $name) . '</section>';
-    }
-    if ($name eq 'scene') {
-        return qq{<div class="my-8 border-l-2 border-gray-400 pl-5 font-serif text-gray-700">}
-             . label('font-sans text-gray-400', 'SCENE')
-             . $title->('mb-2 font-bold text-gray-900')
+    if ($name eq 'answer' && $parent eq 'example') {    # 例題：解答と解説は最初から開いておく
+        return qq{<div class="px-4 py-5 sm:px-6 sm:py-6">}
              . inner($k, $name) . '</div>';
     }
-    if ($name eq 'case') {
-        return qq{<section class="my-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">}
-             . qq{<div class="flex flex-wrap items-center gap-x-3 gap-y-1 bg-gray-900 px-5 py-3 text-white"><span class="text-[11px] font-bold tracking-[0.3em] text-amber-400">CASE FILE</span><span class="font-bold">} . inl($a) . '</span></div>'
-             . qq{<div class="p-5 sm:p-6">} . inner($k, $name) . '</div></section>';
+    if ($name eq 'answer') {
+        my $lab = $a ne '' ? $a : ($parent eq 'cfo' ? '考え方の例を見る' : $parent eq 'challenge' ? '推理の手順を見る' : '解答・解説を見る');
+        return qq{<details class="kb-answer group mt-5 border border-gray-900/25 bg-white text-gray-800">}
+             . qq{<summary class="flex cursor-pointer select-none items-center justify-between gap-3 px-4 py-3.5 font-bold text-gray-900 transition-colors hover:bg-gray-50"><span class="flex items-center gap-3"><span aria-hidden="true" class="h-3.5 w-[3px] flex-none bg-shu"></span><span>} . inl($lab)
+             . qq{</span></span><span aria-hidden="true" class="flex h-6 w-6 flex-none items-center justify-center border border-gray-900/30 text-sm leading-none transition group-open:border-shu group-open:text-shu"><span class="block transition-transform group-open:rotate-45">＋</span></span></summary>}
+             . qq{<div class="border-t border-gray-900/15 px-4 py-4 sm:px-5">} . inner($k, $name) . '</div></details>';
+
+    }
+    if ($name eq 'exam') {    # 受験票：左に切り取り線つきの半券
+        return qq{<aside class="relative my-10 flex border border-emerald-700/45 bg-emerald-50">}
+             . qq{<p class="flex w-10 flex-none items-center justify-center border-r-2 border-dashed border-emerald-50 bg-emerald-700 py-4 text-[11px] font-black tracking-[0.3em] text-white [writing-mode:vertical-rl] sm:w-11">試験の急所</p>}
+             . qq{<div class="relative min-w-0 flex-1 p-4 sm:p-6">} . ('')
+             . label('text-emerald-700', 'EXAM HACK')
+             . $title->('mb-3 mt-1 pr-14 font-serif text-lg font-black leading-snug text-emerald-950 [word-break:auto-phrase] sm:text-xl')
+             . inner($k, $name) . '</div></aside>';
+    }
+    if ($name eq 'next') {    # 道しるべ：矢印の札
+        return qq{<aside class="my-10 border-t-2 border-violet-600 bg-violet-50/80">}
+             . qq{<p class="inline-flex items-center gap-2.5 bg-violet-600 py-1.5 pl-4 pr-8 text-[10px] font-bold tracking-[0.25em] text-white [clip-path:polygon(0_0,calc(100%-14px)_0,100%_50%,calc(100%-14px)_100%,0_100%)] sm:pl-6"><span>NEXT STEP</span><span aria-hidden="true" class="h-px w-4 bg-white/50"></span><span class="text-[11px] tracking-[0.15em]">次の一歩</span></p>}
+             . qq{<div class="px-4 pb-5 pt-3 sm:px-6 sm:pb-6 sm:pt-4"><p class="text-[11px] font-bold tracking-[0.1em] text-violet-700">1級・実務へのつながり</p>}
+             . $title->('mb-3 mt-1.5 font-serif text-lg font-black leading-snug text-violet-950 [word-break:auto-phrase] sm:text-xl')
+             . inner($k, $name) . '</div></aside>';
+    }
+    if ($name eq 'solve') {
+        return qq{<section class="relative my-12 border-2 border-gray-900 bg-white p-6 shadow-[6px_6px_0_0_#22201E] sm:p-9"><span aria-hidden="true" class="absolute right-4 top-4 rotate-[8deg] border-[3px] border-double border-shu px-2.5 py-0.5 font-serif text-xs font-black tracking-[0.35em] text-shu sm:right-6 sm:top-6 sm:text-sm">解決</span>}
+             . label('text-shu', 'SOLVED ― 解決編')
+             . $title->('mb-4 pr-16 font-serif text-xl font-black leading-snug text-gray-900 [word-break:auto-phrase] sm:pr-20 sm:text-2xl')
+             . inner($k, $name) . '</section>';
+    }
+    if ($name eq 'scene') {    # 場面転換：漫画のナレーションの箱（「2日後」など）
+        return qq{<div class="my-10">}
+             . ($a ne '' ? qq{<p class="inline-flex items-center gap-2 bg-gray-900 px-3 py-1.5 font-serif text-sm font-black tracking-[0.12em] text-white"><span aria-hidden="true" class="h-1.5 w-1.5 flex-none bg-shu"></span>} . inl($a) . '</p>' : '')
+             . qq{<div class="mt-3 border-l-2 border-gray-900/35 pl-4 sm:pl-5">} . inner($k, $name) . '</div></div>';
+    }
+    if ($name eq 'memo') {    # 父の黒い手帳：綴じ目と罫線のある紙に、暗号の1行を明朝で
+        return qq{<aside class="my-10 flex border border-gray-900/70 bg-[#FBF8F1] shadow-[5px_5px_0_0_rgba(34,32,30,.10)]">}
+             . qq{<span aria-hidden="true" class="w-3 flex-none bg-gray-900 sm:w-4"></span>}
+             . qq{<div class="min-w-0 flex-1 px-5 py-5 sm:px-7 sm:py-6">}
+             . qq{<p class="mb-1 flex items-center gap-2.5 text-[10px] font-bold tracking-[0.25em] text-gray-500"><span>MEMO</span><span aria-hidden="true" class="h-px w-4 bg-gray-400"></span><span class="text-[11px] tracking-[0.15em]">父の黒い手帳</span></p>}
+             . $title->('mb-3 text-sm font-bold text-gray-600')
+             . qq{<div class="memo-lines font-serif text-xl font-black leading-[2.2] tracking-[0.18em] text-gray-900 sm:text-2xl [&_p]:my-0">} . inner($k, $name) . '</div></div></aside>';
+    }
+    if ($name eq 'teaser') {    # 次回予告：墨の地に朱の帯
+        return qq{<aside class="grain-overlay relative mb-6 mt-16 overflow-hidden bg-gray-900 text-white">}
+             . qq{<p class="relative z-10 flex items-center gap-2.5 bg-shu px-4 py-1.5 text-[10px] font-bold tracking-[0.3em] text-white sm:px-6"><span>NEXT CASE</span><span aria-hidden="true" class="h-px w-4 bg-white/60"></span><span class="text-[11px] tracking-[0.15em]">次回予告</span></p>}
+             . qq{<div class="relative z-10 p-6 sm:p-8">}
+             . $title->('mb-4 font-serif text-xl font-black leading-snug text-white [word-break:auto-phrase] sm:text-2xl')
+             . inner($k, $name) . '</div></aside>';
+    }
+    if ($name eq 'case') {    # 手がかり：証拠品の書類を並べる
+        return qq{<section class="my-8 overflow-hidden border border-gray-900/30 bg-white">}
+             . qq{<div class="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-gray-900/30 bg-gray-100 px-4 py-2.5 sm:px-5"><span class="bg-gray-900 px-2 py-0.5 text-[10px] font-bold tracking-[0.25em] text-amber-300">EVIDENCE</span><span class="text-[11px] font-bold tracking-[0.15em] text-gray-500">手がかり</span><span class="font-bold leading-snug text-gray-900">} . inl($a) . '</span></div>'
+             . qq{<div class="p-4 sm:p-6">} . inner($k, $name) . '</div></section>';
     }
     # 例題・確認問題の枠：表の穴埋めがあるときは、スマホで表が収まるよう余白を詰める
     my $pad = (($name eq 'example' || $name eq 'problem')
                && grep { /\[\[/ } node_texts([ grep { $_->{t} eq 'raw' || ($_->{t} eq 'box' && $_->{name} ne 'answer') } @$k ])) ? 'p-3' : 'p-4';
     if ($name eq 'example') {
-        return qq{<section class="my-8 rounded-lg border border-gray-300 bg-white $pad shadow-sm sm:p-6">}
-             . qq{<p class="mb-3 flex flex-wrap items-baseline gap-2"><span class="rounded bg-gray-900 px-2 py-0.5 text-xs font-bold text-white">例題</span><span class="font-bold leading-snug text-gray-900">} . inl($a) . '</span></p>'
-             . with_try($k, $name, $n->{line}) . '</section>';
+        my $isans = sub { $_[0]{t} eq 'box' && $_[0]{name} =~ /^(?:answer|trap)$/ };
+        # 設例：解答欄だった表・T字勘定（空欄つき）は、解答に同じものがあるので出さない
+        my @pre  = grep { !$isans->($_) && !($_->{t} eq 'raw' && $_->{name} eq 'checks') && ($_->{t} eq 'p' || !(grep { /\[\[/ } node_texts([$_]))) } @$k;
+        my @rest = grep { $isans->($_) } @$k;
+        local $CTX{reveal} = 1;
+        local $CTX{fill}   = { reveal => 1 };
+        return qq{<section class="my-10 border border-gray-900/70 bg-white shadow-[5px_5px_0_0_rgba(34,32,30,.08)]">}
+             . qq{<p class="flex items-stretch border-b border-gray-900/70"><span class="flex flex-none items-center bg-gray-900 px-3.5 font-serif text-sm font-black tracking-[0.2em] text-white">ケース</span><span class="min-w-0 px-4 py-3 font-bold leading-snug text-gray-900">} . inl($a) . '</span></p>'
+             . qq{<div class="border-b border-dashed border-gray-900/30 bg-gray-50/80 px-4 py-4 sm:px-6 sm:py-5"><p class="mb-2 text-[11px] font-bold tracking-[0.2em] text-gray-500">状況</p>}
+             . inner(\@pre, $name) . '</div>'
+             . rn(\@rest, $name) . '</section>';
+
     }
     if ($name eq 'problem') {
         $CTX{qn}++;
         my $no = $CTX{qn};
-        return qq{<section class="rounded-lg border border-gray-300 bg-white $pad shadow-sm sm:p-6">}
-             . qq{<p class="mb-3 flex flex-wrap items-baseline gap-2"><span class="rounded bg-amber-500 px-2 py-0.5 text-xs font-black text-white">問$no</span><span class="font-bold leading-snug text-gray-900">} . inl($a) . '</span></p>'
-             . with_try($k, $name, $n->{line}) . '</section>';
+        return qq{<section class="border border-gray-900/25 bg-white">}
+             . qq{<p class="flex items-stretch border-b border-gray-900/15"><span class="flex flex-none items-center bg-amber-500 px-3.5 font-serif text-sm font-black tracking-[0.1em] text-white">問$no</span><span class="min-w-0 px-4 py-3 font-bold leading-snug text-gray-900">} . inl($a) . '</span></p>'
+             . qq{<div class="$pad sm:p-6">} . with_try($k, $name, $n->{line}) . '</div></section>';
+
     }
     if ($name eq 'quiz') {
         $CTX{qn} = 0;
@@ -566,22 +728,27 @@ sub r_box {
     }
     if ($name eq 'summary') {
         local $CTX{check} = 1;
-        return qq{<section class="my-14 rounded-lg border-t-4 border-gray-900 bg-white p-6 shadow-sm sm:p-8">}
-             . label('text-gray-400', 'SUMMARY')
+        return qq{<section class="my-14 border-y-[3px] border-double border-gray-900/70 bg-white/60 p-6 sm:p-8">}
+             . label('text-shu', 'SUMMARY')
              . '<p class="mb-4 font-serif text-xl font-black text-gray-900">' . ($a ne '' ? inl($a) : 'この章のまとめ') . '</p>'
              . inner($k, $name) . '</section>';
     }
     if ($name eq 'point') {
-        return qq{<aside class="my-6 rounded-lg border border-yellow-300 bg-yellow-50 p-4 sm:p-5">}
-             . label('text-yellow-700', 'POINT')
+        return qq{<aside class="relative my-7 bg-[#FAEFC0] p-4 pb-6 [clip-path:polygon(0_0,100%_0,100%_calc(100%-20px),calc(100%-20px)_100%,0_100%)] sm:p-5 sm:pb-7">}
+             . qq{<span aria-hidden="true" class="absolute bottom-0 right-0 h-5 w-5 bg-[#DCC878] [clip-path:polygon(0_0,100%_0,0_100%)]"></span>}
+             . label('text-yellow-800', 'POINT')
              . $title->('mb-2 font-bold leading-snug text-gray-900')
              . inner($k, $name) . '</aside>';
+
     }
     if ($name eq 'formula') {
-        return qq{<div class="my-8 rounded-lg border-2 border-dashed border-blue-300 bg-white px-4 py-5 text-center">}
-             . label('text-blue-500', 'FORMULA ― 公式')
+        my $corner = join '', map { qq{<span aria-hidden="true" class="absolute h-4 w-4 border-blue-700 $_"></span>} }
+            'left-0 top-0 border-l-2 border-t-2', 'right-0 top-0 border-r-2 border-t-2', 'bottom-0 left-0 border-b-2 border-l-2', 'bottom-0 right-0 border-b-2 border-r-2';
+        return qq{<div class="relative my-10 bg-white px-4 py-7 text-center">$corner}
+             . label('text-blue-700', 'FORMULA ― 公式')
              . $title->('mb-2 text-sm font-bold text-gray-500')
-             . '<div class="text-lg font-black leading-relaxed text-gray-900 sm:text-xl [&_p]:my-2">' . inner($k, $name) . '</div></div>';
+             . '<div class="font-serif text-lg font-black leading-relaxed text-gray-900 sm:text-xl [&_p]:my-2">' . inner($k, $name) . '</div></div>';
+
     }
     if ($name eq 'tgrid') {
         # "::tgrid compact" はスマホでも2列（小さなT字勘定向け）
@@ -627,8 +794,8 @@ my %CATSTYLE = (
     '費用'   => ['border-amber-300 bg-amber-50',     'text-amber-700'],
 );
 my $KB_SAFE = '<span class="hidden ring-2 ring-indigo-500 ring-indigo-400 ring-offset-1 !border-emerald-500 !bg-emerald-50 !border-red-500 !bg-red-50 !bg-emerald-100 !bg-red-100 text-emerald-600 text-red-600 text-gray-500 shadow-lg"></span>';
-my $KB_CHIP = 'kb-chip touch-none select-none max-w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 shadow-sm transition hover:border-indigo-400';
-my $KB_BTN  = 'rounded-md px-3 py-1.5 text-sm font-bold transition';
+my $KB_CHIP = 'kb-chip touch-none select-none max-w-full border border-gray-900/30 border-b-2 border-b-gray-900/45 bg-white px-2.5 py-1.5 text-left text-sm font-bold leading-snug text-gray-800 transition hover:-translate-y-px hover:border-indigo-500';
+my $KB_BTN  = 'px-3.5 py-2 text-sm font-bold tracking-wide transition';
 
 sub hval {
     my ($s, $seed) = @_;
@@ -652,7 +819,7 @@ sub kb_attrs {
 
 sub kb_buttons {
     return qq{<div class="mt-3 flex flex-wrap items-center gap-2">}
-         . qq{<button type="button" class="kb-check $KB_BTN bg-indigo-600 text-white hover:bg-indigo-500">答え合わせ</button>}
+         . qq{<button type="button" class="kb-check $KB_BTN bg-gray-900 text-white hover:bg-shu">答え合わせ</button>}
          . qq{<button type="button" class="kb-reveal $KB_BTN border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">正解を表示</button>}
          . qq{<button type="button" class="kb-reset $KB_BTN text-gray-500 hover:text-gray-800">リセット</button>}
          . qq{<span class="kb-result text-sm font-bold" aria-live="polite"></span></div>};
@@ -666,6 +833,16 @@ sub r_sort {
         if ($l =~ /^\@cats\s+(.*)$/) { @cats = map { trim($_) } split /\|/, $1; next; }
         if ($l =~ /^(.*?\S)\s*=>\s*(\S.*?)\s*$/) { push @items, [$1, $2]; next; }
         push @WARN, "[$CUR:$ln] sort: 解釈できない行「$l」";
+    }
+    if ($CTX{reveal}) {
+        my $h = '';
+        for my $c (@cats) {
+            my ($box, $lab) = @{ $CATSTYLE{$c} // ['border-slate-300 bg-slate-50', 'text-slate-600'] };
+            my @in = grep { $_->[1] eq $c } @items;
+            $h .= qq{<div class="border-l-[3px] $box px-3 py-2.5"><p class="mb-1.5 text-xs font-bold $lab">} . inl($c) . '</p><ul class="space-y-1 text-sm leading-snug text-gray-800">'
+                . join('', map { '<li class="flex gap-2"><span aria-hidden="true" class="flex-none text-gray-400">・</span><span>' . inl($_->[0]) . '</span></li>' } @in) . '</ul></div>';
+        }
+        return qq{<div class="my-5 grid gap-2 sm:grid-cols-} . (@cats >= 3 ? 3 : 2) . qq{">$h</div><span class="hidden sm:grid-cols-2 sm:grid-cols-3"></span>};
     }
     my %okcat = map { $_ => 1 } @cats;
     for my $it (@items) {
@@ -685,8 +862,8 @@ sub r_sort {
           . qq{<p class="mb-1.5 text-xs font-bold $lab">} . inl($_) . '</p><div class="kb-items flex flex-wrap gap-1.5"></div></div>';
     } @cats;
     my $cols = (@cats <= 2 || @cats == 4) ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-3';
-    return qq{<div class="kb-sort my-5 rounded-lg border border-indigo-200 bg-indigo-50/60 p-3 sm:p-4" data-kb="sort"} . kb_attrs() . qq{>$KB_SAFE}
-         . qq{<p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― ドラッグして分類</p>}
+    return qq{<div class="kb-sort my-5 kb-sheet px-3 pb-3 sm:px-4 sm:pb-4" data-kb="sort"} . kb_attrs() . qq{>$KB_SAFE}
+         . qq{<p class="kb-sheet-tab -ml-3 bg-[#1F3A5F] px-3 py-1.5 text-[10px] font-bold leading-none tracking-[0.25em] text-white sm:-ml-4"><span>TRY</span><span aria-hidden="true" class="h-px w-4 bg-white/50"></span><span class="text-[11px] tracking-[0.12em]">ドラッグして分類</span></p>}
          . qq{<p class="mb-3 text-xs leading-relaxed text-gray-600">} . ($arg ne '' ? inl($arg) . '<br>' : '') . 'ドラッグで分類先へ移すか、タップしてから分類先をタップしよう。</p>'
          . qq{<div class="kb-pool flex min-h-[3rem] flex-wrap gap-1.5 rounded-md border-2 border-dashed border-indigo-200 bg-white p-2" data-zone="pool" role="button" tabindex="0">$chips</div>}
          . qq{<div class="mt-3 grid $cols gap-2">$zones</div>}
@@ -739,6 +916,7 @@ sub distractors {
 
 sub jlabel {    # 仕訳の見出しのうち、答えのヒントにならない部分だけを使う
     my ($cap, $i) = @_;
+    return $1 if trim($cap // '') =~ /^【(.+?)】/;    # 【…】で明示した見出しを優先する（答えのヒントにならない語だけを書く）
     my ($f) = split /[\s：:（、。]/, trim($cap // '');
     $f //= '';
     return $f if $f =~ /^(?:\(\d+\)|[①-⑳]|\d+\.|\d+月\d+日|翌期\d+月\d+日|期首|期中|期末|決算日|翌期首|.{1,5}時)$/;
@@ -766,8 +944,26 @@ sub jr_widget {
                 }
             }
             next if $bad || !@d || !@c;
-            push @js, { l => jlabel($jn->{arg}, scalar(@js) + 1), d => \@d, c => \@c };
+            push @js, { l => jlabel($jn->{arg}, scalar(@js) + 1), a => $jn->{arg}, d => \@d, c => \@c };
         }
+    }
+    # 同じ番号の仕訳が複数ある（例：(1) おかわり堂 と (1) 洛北ミート）ときは、番号の後ろの
+    # 当事者の名前（「（」や空白の前まで）を見出しに足して区別する。
+    # 答えのヒントにならないよう、問題文にも出てくる語（会社名など）に限る
+    my $qtext = join ' ', map {
+          $_->{t} eq 'p'  ? $_->{text}
+        : $_->{t} eq 'ul' ? (map { $_->[1] } @{ $_->{items} })
+        : $_->{t} eq 'ol' ? @{ $_->{items} }
+        : ()
+    } @$kids;
+    my %nlab;
+    $nlab{ $_->{l} }++ for @js;
+    for my $j (@js) {
+        next unless $nlab{ $j->{l} } > 1;
+        my $rest = trim($j->{a} // '');
+        $rest =~ s/^\Q$j->{l}\E\s*//;
+        my ($who) = split /[\s：:（、。]/, $rest;
+        $j->{l} .= " $who" if defined $who && $who ne '' && length($who) <= 12 && index($qtext, $who) >= 0;
     }
     return '' if !@js || @js > 8;
     $NCHK{try}++ if ($CTX{mode} // '') ne 'all';
@@ -798,8 +994,8 @@ sub jr_widget {
         $k++;
     }
     my $data = esc(JSON::PP->new->canonical(1)->encode([ map { { d => $_->{d}, c => $_->{c} } } @js ]));
-    return qq{<div class="kb-jr my-5 rounded-lg border border-indigo-200 bg-indigo-50/60 p-3 sm:p-4" data-kb="journal" data-answer="$data"} . kb_attrs() . qq{>$KB_SAFE}
-         . qq{<p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― 仕訳を入力して答え合わせ</p>}
+    return qq{<div class="kb-jr my-5 kb-sheet px-3 pb-3 sm:px-4 sm:pb-4" data-kb="journal" data-answer="$data"} . kb_attrs() . qq{>$KB_SAFE}
+         . qq{<p class="kb-sheet-tab -ml-3 bg-[#1F3A5F] px-3 py-1.5 text-[10px] font-bold leading-none tracking-[0.25em] text-white sm:-ml-4"><span>TRY</span><span aria-hidden="true" class="h-px w-4 bg-white/50"></span><span class="text-[11px] tracking-[0.12em]">仕訳を入力して答え合わせ</span></p>}
          . qq{<p class="mb-2 text-xs leading-relaxed text-gray-600">勘定科目をドラッグで記入欄へ（またはタップしてから記入欄をタップ）。金額も入力しよう。記入済みの欄をタップすると消せる。</p>}
          . qq{<div class="kb-pool flex flex-wrap gap-1.5" data-zone="pool">$chips</div>}
          . $entries . kb_buttons() . '</div>';
@@ -877,6 +1073,7 @@ sub blank_html {    # inl() から呼ばれる（$lab・$ans はエスケープ�
     $lab //= '';
     $ans = trim($ans // '');
     my $f = $CTX{fill};
+    return '<span class="font-bold text-gray-400">？</span>' if $f && $f->{reveal};
     if (!$f) {
         push @WARN, "[$CUR] 空欄 [[$ans]] は、例題・確認問題の問題文の中でだけ使える";
         return $ans;
@@ -899,8 +1096,8 @@ sub blank_html {    # inl() から呼ばれる（$lab・$ans はエスケープ�
 }
 
 sub fill_footer {
-    return qq{<div class="mt-5 rounded-lg border border-indigo-200 bg-indigo-50/60 px-3 pb-3 pt-2.5 sm:px-4">}
-         . qq{<p class="text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― 空欄を埋めて答え合わせ</p>}
+    return qq{<div class="kb-sheet mt-5 px-3 pb-3 sm:px-4">}
+         . qq{<p class="kb-sheet-tab -ml-3 bg-[#1F3A5F] px-3 py-1.5 text-[10px] font-bold leading-none tracking-[0.25em] text-white sm:-ml-4"><span>TRY</span><span aria-hidden="true" class="h-px w-4 bg-white/50"></span><span class="text-[11px] tracking-[0.12em]">空欄を埋めて答え合わせ</span></p>}
          . kb_buttons()
          . qq{<span class="hidden absolute z-50 max-h-[50vh] w-max min-w-[9rem] max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-xl block w-full rounded-md px-3 py-2.5 text-left text-[15px] text-sm font-bold text-gray-800 text-gray-400 hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none bg-indigo-50 text-indigo-700 text-indigo-300"></span>}
          . '</div>';
@@ -955,8 +1152,8 @@ sub r_checks {
     }
     my $foot = '<tr><td class="border-t-2 border-gray-300 px-3 py-1.5 text-[11px] font-bold text-gray-400">判定</td>'
              . join('', map { qq{<td class="kb-colres border-l border-t-2 border-gray-200 border-t-gray-300 py-1.5 text-center text-sm font-black" data-col="$_"></td>} } 1 .. $#head) . '</tr>';
-    return qq{<div class="kb-checks my-5 rounded-lg border border-indigo-200 bg-indigo-50/60 p-3 sm:p-4" data-kb="checks"} . kb_attrs() . qq{>$KB_SAFE}
-         . qq{<p class="mb-1 text-[11px] font-bold tracking-[0.25em] text-indigo-600">TRY ― チェックして答え合わせ</p>}
+    return qq{<div class="kb-checks my-5 kb-sheet px-3 pb-3 sm:px-4 sm:pb-4" data-kb="checks"} . kb_attrs() . qq{>$KB_SAFE}
+         . qq{<p class="kb-sheet-tab -ml-3 bg-[#1F3A5F] px-3 py-1.5 text-[10px] font-bold leading-none tracking-[0.25em] text-white sm:-ml-4"><span>TRY</span><span aria-hidden="true" class="h-px w-4 bg-white/50"></span><span class="text-[11px] tracking-[0.12em]">チェックして答え合わせ</span></p>}
          . qq{<p class="mb-3 text-xs leading-relaxed text-gray-600">} . ($arg ne '' ? inl($arg) : '当てはまる欄をすべてチェックしよう。') . '</p>'
          . qq{<div class="overflow-x-auto rounded-md border border-gray-300 bg-white"><table class="w-full border-collapse"><thead><tr><th scope="col" class="$thc text-left">} . inl($head[0] // '') . qq{</th>$th</tr></thead><tbody>$body</tbody><tfoot>$foot</tfoot></table></div>}
          . kb_buttons() . '</div>';
@@ -1178,7 +1375,8 @@ sub r_mock {
 sub caption_journal {
     my $arg = shift;
     return '' if $arg eq '';
-    return qq{<figcaption class="mb-2 flex items-start gap-2 text-sm leading-relaxed text-gray-700"><span class="mt-0.5 flex-none rounded bg-gray-800 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">仕訳</span><span>} . inl($arg) . '</span></figcaption>';
+    $arg =~ s/^【(.+?)】\s*/$1　/;    # 【入力欄の見出し】は、本文ではカッコを外して表示する
+    return qq{<figcaption class="flex items-stretch border border-b-0 border-gray-900/70 bg-gray-50 text-sm leading-relaxed text-gray-800"><span class="flex flex-none items-center bg-gray-900 px-2.5 font-serif text-[11px] font-black tracking-[0.2em] text-white">仕訳</span><span class="min-w-0 px-3 py-1.5">} . inl($arg) . '</span></figcaption>';
 }
 
 sub r_journal {
@@ -1187,7 +1385,7 @@ sub r_journal {
     for my $l (@$lines) {
         next if $l =~ /^\s*$/;
         if ($l !~ /\|/) {
-            $rows .= qq{<tr><td colspan="4" class="px-3 py-3 text-center font-bold text-gray-700">} . inl(trim($l)) . '</td></tr>';
+            $rows .= qq{<tr><td colspan="4" class="border-t border-dotted border-gray-900/25 px-3 py-3 text-center font-serif font-black tracking-[0.2em] text-gray-600">} . inl(trim($l)) . '</td></tr>';
             next;
         }
         my ($L, $R) = split /\s*\|\s*/, $l, 2;
@@ -1200,22 +1398,22 @@ sub r_journal {
             my $x = amt($v);
             if (defined $x) { $$ref += $x } else { $numeric = 0 }
         }
-        $rows .= '<tr class="even:bg-slate-50">'
-               . '<td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">' . inl($da) . '</td>'
-               . '<td class="whitespace-nowrap border-r-2 border-t border-gray-200 border-r-gray-300 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">' . inl($dv) . '</td>'
-               . '<td class="border-t border-gray-200 px-2 sm:px-3 py-2 align-top font-medium text-gray-900">' . inl($ca) . '</td>'
-               . '<td class="whitespace-nowrap border-t border-gray-200 px-2 sm:px-3 py-2 text-right align-top tabular-nums text-gray-900">' . inl($cv) . '</td></tr>';
+        $rows .= '<tr>'
+               . '<td class="border-t border-dotted border-gray-900/25 px-2 sm:px-3 py-2.5 align-top font-bold text-gray-900">' . inl($da) . '</td>'
+               . '<td class="whitespace-nowrap border-r-[3px] border-t border-double border-dotted border-gray-900/25 border-r-gray-900/60 px-2 sm:px-3 py-2.5 text-right align-top tabular-nums text-gray-900 [border-right-style:double]">' . inl($dv) . '</td>'
+               . '<td class="border-t border-dotted border-gray-900/25 px-2 sm:px-3 py-2.5 align-top font-bold text-gray-900">' . inl($ca) . '</td>'
+               . '<td class="whitespace-nowrap border-t border-dotted border-gray-900/25 px-2 sm:px-3 py-2.5 text-right align-top tabular-nums text-gray-900">' . inl($cv) . '</td></tr>';
     }
     $NCHK{journal}++ if $numeric && ($CTX{mode} // '') ne 'all';
     if ($numeric && abs($dsum - $csum) > 0.001) {
         push @WARN, "[$CUR:$ln] 仕訳の貸借不一致「$arg」 借方 $dsum ≠ 貸方 $csum";
     }
-    return qq{<figure class="my-6">} . caption_journal($arg)
-         . qq{<div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr>}
-         . qq{<th class="bg-blue-50 px-3 py-2 text-left text-xs font-bold text-blue-800">借方科目</th>}
-         . qq{<th class="border-r-2 border-r-gray-300 bg-blue-50 px-3 py-2 text-right text-xs font-bold text-blue-800">金額</th>}
-         . qq{<th class="bg-rose-50 px-3 py-2 text-left text-xs font-bold text-rose-800">貸方科目</th>}
-         . qq{<th class="bg-rose-50 px-3 py-2 text-right text-xs font-bold text-rose-800">金額</th>}
+    return qq{<figure class="my-7">} . caption_journal($arg)
+         . qq{<div class="overflow-x-auto border border-gray-900/70 bg-white shadow-[4px_4px_0_0_rgba(34,32,30,.07)]"><table class="w-full min-w-[19rem] border-collapse text-sm"><thead><tr>}
+         . qq{<th class="border-t-[3px] border-blue-700 bg-blue-50/70 px-2 py-1.5 text-left text-[11px] font-bold tracking-[0.15em] text-blue-800 sm:px-3">借方科目</th>}
+         . qq{<th class="border-r-[3px] border-t-[3px] border-blue-700 border-r-gray-900/60 bg-blue-50/70 px-2 py-1.5 text-right text-[11px] font-bold tracking-[0.15em] text-blue-800 [border-right-style:double] sm:px-3">金額</th>}
+         . qq{<th class="border-t-[3px] border-rose-500 bg-rose-50/70 px-2 py-1.5 text-left text-[11px] font-bold tracking-[0.15em] text-rose-800 sm:px-3">貸方科目</th>}
+         . qq{<th class="border-t-[3px] border-rose-500 bg-rose-50/70 px-2 py-1.5 text-right text-[11px] font-bold tracking-[0.15em] text-rose-800 sm:px-3">金額</th>}
          . qq{</tr></thead><tbody>$rows</tbody></table></div></figure>};
 }
 
@@ -1254,7 +1452,7 @@ sub r_taccount {
     }
     local $CTX{bw} = $bw || undef;
     my $px  = $blank ? 'px-0.5 sm:px-2' : 'px-2';
-    my $td  = $blank ? "whitespace-nowrap $px py-1.5 align-top text-gray-700" : "$px py-1.5 align-top text-gray-700";
+    my $td  = $blank ? "whitespace-nowrap $px py-1.5 align-top text-gray-700" : "$px py-1.5 align-top text-gray-700 [word-break:keep-all]";
     my $tdn = "whitespace-nowrap $px py-1.5 text-right align-top tabular-nums text-gray-900";
     my $tc  = "whitespace-nowrap border-b-[3px] border-t border-double border-gray-500 $px py-1.5 text-right font-bold tabular-nums text-gray-900";
     my $tx  = sub {    # 摘要：日付はスマホでは小さく上の行に分ける
@@ -1278,8 +1476,8 @@ sub r_taccount {
                . qq{<td class="$tdn">} . inl($c[3]) . '</td></tr>';
     }
     my ($fp, $fs) = $blank ? ('p-2', 'text-xs sm:text-sm') : ('p-3', 'text-sm');
-    return qq{<figure class="my-6 rounded-lg border border-gray-300 bg-white $fp shadow-sm sm:p-4"><div class="overflow-x-auto"><table class="w-full min-w-[17rem] border-collapse $fs">}
-         . qq{<thead><tr><th colspan="4" class="border-b-2 border-gray-900 pb-1.5 text-center text-base font-black text-gray-900">} . inl($arg) . '</th></tr>'
+    return qq{<figure class="relative my-7 border border-gray-900/25 bg-white $fp pt-4 shadow-[4px_4px_0_0_rgba(34,32,30,.07)] sm:p-4 sm:pt-5"><span aria-hidden="true" class="absolute left-0 top-0 bg-gray-900 px-1.5 py-0.5 font-serif text-[9px] font-black leading-none tracking-[0.15em] text-white">T</span><div class="overflow-x-auto"><table class="w-full min-w-[17rem] border-collapse $fs">}
+         . qq{<thead><tr><th colspan="4" class="border-b-[3px] border-gray-900 pb-1.5 text-center font-serif text-base font-black tracking-[0.1em] text-gray-900">} . inl($arg) . '</th></tr>'
          . qq{<tr class="text-[10px] font-bold tracking-wider"><th colspan="2" class="border-r-2 border-gray-900 px-2 pt-1 text-left text-blue-700">借方</th><th colspan="2" class="px-2 pt-1 text-right text-rose-700">貸方</th></tr></thead>}
          . "<tbody>$body</tbody></table></div></figure>";
 }
@@ -1365,10 +1563,10 @@ sub r_table {
         local $CTX{bw} = $bw[$i];
         my $nm  = is_num($v) || ($numcol[$i] && ($v =~ /^\s*[-―－]\s*$/ || ($v =~ /\[\[/ && unblank($v) eq '')));
         my $cls = $nm ? 'whitespace-nowrap text-right tabular-nums' : 'min-w-[3.5em] text-left';
-        return qq{<td class="border-t border-gray-200 $pad align-top text-gray-800 $cls$extra">} . inl($v) . '</td>';
+        return qq{<td class="border-t border-gray-900/10 $pad align-top text-gray-800 $cls$extra">} . inl($v) . '</td>';
     };
     if ($split && $split < $ncol && !@group) {
-        my $thc = "bg-gray-800 $pad text-xs font-bold text-white";
+        my $thc = "border-b border-gray-900 bg-gray-100 $pad text-[11px] font-bold tracking-wider text-gray-900";
         my $html = '';
         for my $half ([0, $split - 1], [$split, $ncol - 1]) {
             my ($a, $b) = @$half;
@@ -1380,13 +1578,13 @@ sub r_table {
                 my $trc = ($emph ? 'bg-amber-50 font-bold' : 'even:bg-slate-50') . ' md:h-11' . ($empty ? ' max-md:hidden' : '');
                 $tb .= qq{<tr class="$trc">} . join('', map { $cell->($c[$_] // '', $_, $numcol[$_] ? '' : ' [word-break:auto-phrase]') } $a .. $b) . '</tr>';
             }
-            $html .= qq{<div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full border-collapse text-sm"><thead><tr>$th</tr></thead><tbody>$tb</tbody></table></div>};
+            $html .= qq{<div class="ledger overflow-x-auto border-b border-t-2 border-gray-900 bg-white"><table class="w-full border-collapse text-sm"><thead><tr>$th</tr></thead><tbody>$tb</tbody></table></div>};
         }
-        my $cap = $arg ne '' ? '<figcaption class="mb-2 text-sm font-bold text-gray-700">' . inl($arg) . '</figcaption>' : '';
+        my $cap = $arg ne '' ? '<figcaption class="mb-2 flex items-baseline gap-2.5 text-sm font-bold leading-snug text-gray-900"><span aria-hidden="true" class="h-3 w-[3px] flex-none translate-y-0.5 bg-shu"></span><span class="min-w-0">' . inl($arg) . '</span></figcaption>' : '';
         my $fr  = 'md:grid-cols-[' . $split . 'fr_' . ($ncol - $split) . 'fr]';    # PC（768px以上）では左右に並べ、幅を列数に比例させる
         return qq{<figure class="my-6">$cap<div class="grid gap-3 $fr md:items-start md:gap-2">$html</div></figure>};
     }
-    my $thc = "border-gray-600 bg-gray-800 $pad text-xs font-bold text-white";
+    my $thc = "border-gray-900/25 bg-gray-100 $pad text-[11px] font-bold tracking-wider text-gray-900 [tr:last-child>&]:border-b [tr:last-child>&]:border-b-gray-900";
     my $thead = '';
     if (@group) {
         $thead .= '<tr>';
@@ -1410,16 +1608,16 @@ sub r_table {
     my $tbody = '';
     for my $r (@rows) {
         my ($emph, @c) = @$r;
-        my $trc = $emph ? 'bg-amber-50 font-bold' : 'even:bg-slate-50';
+        my $trc = $emph ? ($r == $rows[-1] ? 'total bg-amber-50 font-bold' : 'bg-amber-50 font-bold') : 'even:bg-slate-50';
         $tbody .= qq{<tr class="$trc">};
         for my $i (0 .. $#c) {
             $tbody .= $cell->($c[$i], $i, @group && $i > 0 ? ' border-l border-gray-200' : '');
         }
         $tbody .= '</tr>';
     }
-    my $cap = $arg ne '' ? '<figcaption class="mb-2 text-sm font-bold text-gray-700">' . inl($arg) . '</figcaption>' : '';
+    my $cap = $arg ne '' ? '<figcaption class="mb-2 flex items-baseline gap-2.5 text-sm font-bold leading-snug text-gray-900"><span aria-hidden="true" class="h-3 w-[3px] flex-none translate-y-0.5 bg-shu"></span><span class="min-w-0">' . inl($arg) . '</span></figcaption>' : '';
     my $hint = $compact ? '<p class="mt-1.5 text-right text-[11px] text-gray-400 sm:hidden">表は横にスクロールできます →</p>' : '';
-    return qq{<figure class="my-6">$cap<div class="overflow-x-auto rounded-lg border border-gray-300 bg-white shadow-sm"><table class="w-full border-collapse text-sm"><thead>$thead</thead><tbody>$tbody</tbody></table></div>$hint</figure>};
+    return qq{<figure class="my-6">$cap<div class="ledger overflow-x-auto border-b border-t-2 border-gray-900 bg-white"><table class="w-full border-collapse text-sm"><thead>$thead</thead><tbody>$tbody</tbody></table></div>$hint</figure>};
 }
 
 my %BOXCOLOR = (
@@ -1458,11 +1656,11 @@ sub r_boxes {
             my $h = int($v / $max * 250);
             $h = 46 if $h < 46;
             my $cc = $BOXCOLOR{$c} // $BOXCOLOR{s};
-            qq{<div class="flex flex-col items-center justify-center rounded-md px-2 text-center text-xs font-bold leading-snug sm:text-sm $cc" style="height:${h}px">} . inl($t) . '</div>';
+            qq{<div class="flex flex-col items-center justify-center px-2 text-center text-xs font-bold leading-snug sm:text-sm $cc" style="height:${h}px">} . inl($t) . '</div>';
         } @_;
     };
     my $hd = $H ? qq{<div class="mb-1.5 grid grid-cols-2 gap-1.5 text-center text-[11px] font-bold text-gray-500"><div>} . inl($H->[0]) . '</div><div>' . inl($H->[1] // '') . '</div></div>' : '';
-    return qq{<figure class="my-8"><div class="mx-auto max-w-md">$hd<div class="grid grid-cols-2 items-start gap-1.5"><div class="flex flex-col gap-1.5">}
+    return qq{<figure class="my-9"><div class="mx-auto max-w-md border border-gray-900/20 bg-white p-3 shadow-[4px_4px_0_0_rgba(34,32,30,.07)] sm:p-4">$hd<div class="grid grid-cols-2 items-start gap-1.5"><div class="flex flex-col gap-1.5">}
          . $col->(@L) . '</div><div class="flex flex-col gap-1.5">' . $col->(@R) . '</div></div></div>'
          . ($arg ne '' ? '<figcaption class="mt-3 text-center text-sm text-gray-500">' . inl($arg) . '</figcaption>' : '')
          . '</figure>';
@@ -1475,14 +1673,15 @@ sub r_steps {
         next unless $l =~ /\S/;
         my ($t, $d) = map { trim($_) } split /\|/, $l, 2;
         $n++;
-        $li .= qq{<li class="relative pb-6 pl-12 last:pb-0 before:absolute before:bottom-1 before:left-[15px] before:top-9 before:w-0.5 before:bg-gray-300 last:before:hidden">}
-             . qq{<span class="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 text-sm font-black text-white">$n</span>}
-             . '<p class="pt-1 font-bold leading-snug text-gray-900">' . inl($t) . '</p>'
-             . (defined $d && $d ne '' ? '<p class="mt-1 text-sm leading-relaxed text-gray-600">' . inl($d) . '</p>' : '')
-             . '</li>';
+        # 誌面風：罫線で区切り、朱の明朝の番号（01、02…）を左に置く
+        $li .= qq{<li class="flex gap-4 border-b border-[#22201E]/12 py-4 sm:gap-6">}
+             . sprintf(qq{<span class="w-8 flex-none pt-0.5 font-serif text-xl font-black leading-none text-[#C0472D] sm:w-10 sm:text-2xl">%02d</span>}, $n)
+             . '<div class="min-w-0"><p class="font-bold leading-snug text-[#22201E]">' . inl($t) . '</p>'
+             . (defined $d && $d ne '' ? '<p class="mt-1 text-sm leading-relaxed text-[#45403A]">' . inl($d) . '</p>' : '')
+             . '</div></li>';
     }
-    my $cap = $arg ne '' ? '<p class="mb-5 font-bold text-gray-900">' . inl($arg) . '</p>' : '';
-    return qq{<div class="my-8 rounded-lg border border-gray-200 bg-white p-5 shadow-sm sm:p-6">$cap<ol>$li</ol></div>};
+    my $cap = $arg ne '' ? '<p class="py-3 text-sm font-bold text-[#22201E]">' . inl($arg) . '</p>' : '';
+    return qq{<div class="my-8 border-t-2 border-[#22201E]">$cap<ol class="border-t border-[#22201E]/12">$li</ol></div>};
 }
 
 sub r_kpi {
@@ -1491,9 +1690,9 @@ sub r_kpi {
     for my $l (@$lines) {
         next unless $l =~ /\S/;
         my ($k, $v, $nt) = map { trim($_) } split /\|/, $l, 3;
-        $tiles .= '<div class="rounded-lg border border-gray-200 bg-gray-50 p-3">'
+        $tiles .= '<div class="border border-gray-900/15 border-t-2 border-t-gray-900 bg-white px-3.5 py-3">'
                 . '<p class="text-[11px] font-bold leading-snug text-gray-500">' . inl($k) . '</p>'
-                . '<p class="mt-1 text-lg font-black leading-tight tabular-nums text-gray-900 sm:text-xl">' . inl($v // '') . '</p>'
+                . '<p class="mt-1 font-serif text-lg font-black leading-tight tabular-nums text-gray-900 sm:text-xl">' . inl($v // '') . '</p>'
                 . (defined $nt && $nt ne '' ? '<p class="mt-1 text-[11px] leading-snug text-gray-500">' . inl($nt) . '</p>' : '')
                 . '</div>';
     }
@@ -1507,17 +1706,17 @@ sub r_timeline {
     for my $l (@$lines) {
         next unless $l =~ /\S/;
         my ($d, $t, $x) = map { trim($_) } split /\|/, $l, 3;
-        my $dot = 'bg-amber-500';
-        if ($d =~ s/^!//) { $dot = 'bg-red-600'; }
+        my $dot = 'border-2 border-shu bg-white';
+        if ($d =~ s/^!//) { $dot = 'bg-shu'; }
         $li .= '<li class="relative pl-6">'
-             . qq{<span class="absolute -left-[7px] top-1.5 h-3 w-3 rounded-full $dot ring-4 ring-white"></span>}
-             . '<p class="text-xs font-bold tracking-wider text-gray-500">' . inl($d) . '</p>'
+             . qq{<span class="absolute -left-[7px] top-1 h-[13px] w-[13px] rounded-full $dot"></span>}
+             . '<p class="text-[11px] font-bold tracking-[0.2em] text-shu">' . inl($d) . '</p>'
              . '<p class="font-bold leading-snug text-gray-900">' . inl($t // '') . '</p>'
              . (defined $x && $x ne '' ? '<p class="mt-0.5 text-sm leading-relaxed text-gray-600">' . inl($x) . '</p>' : '')
              . '</li>';
     }
-    my $cap = $arg ne '' ? '<p class="mb-5 font-bold text-gray-900">' . inl($arg) . '</p>' : '';
-    return qq{<div class="my-8 rounded-lg border border-gray-200 bg-white p-5 shadow-sm sm:p-6">$cap<ol class="ml-1.5 space-y-5 border-l-2 border-gray-200">$li</ol></div>};
+    my $cap = $arg ne '' ? '<p class="mb-6 font-serif font-black text-gray-900">' . inl($arg) . '</p>' : '';
+    return qq{<div class="my-10 border border-gray-900/20 bg-white p-5 sm:p-7">$cap<ol class="ml-1.5 space-y-6 border-l border-gray-900/25">$li</ol></div>};
 }
 
 # ---------------------------------------------------------------- toc / nav
@@ -1532,24 +1731,51 @@ sub r_toc {
     my $html = qq{<div id="toc" class="scroll-mt-20">};
     my $part = "\0";
     my $open = 0;
+    if ($compact) {    # 表紙用：部ごとに開閉できる目次（見出しに章の範囲を出す）
+        my @groups;
+        for my $id (@{ $CTX{ids} }) {
+            my $p = $META{$id}{part} // '';
+            push @groups, [$p, []] if !@groups || $groups[-1][0] ne $p;
+            push @{ $groups[-1][1] }, $id;
+        }
+        # 部ごとの色：落ち着いた和の色（墨・藍・青磁・山吹・朱・葡萄・若竹・弁柄・墨・鼠）
+        my @PAL = ('#22201E', '#1F3A5F', '#3B6B4A', '#B48A2C', '#C0472D', '#6A4A63', '#5E7D63', '#8A5A44', '#22201E', '#6E6A64');
+        my $gi  = 0;
+        $html .= '<div class="border-t border-[#22201E] lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-10">';
+        for my $g (@groups) {
+            my $col = $PAL[$gi++ % @PAL];
+            my ($p, $ids) = @$g;
+            my ($n1, $n2) = map { $META{$_}{num} // '' } $ids->[0], $ids->[-1];
+            my $range = $n1 eq $n2 ? $n1 : "$n1〜$n2";
+            # 部ごとの行：上に朱の小さなラベル（第1部など）、明朝の部名、下に章の範囲
+            my ($badge, $name, $sub);
+            if ($p =~ /^(第\S+部)\s+(.+)$/) { ($badge, $name, $sub) = ($1, $2, "$range（" . scalar(@$ids) . '章）'); }
+            elsif (@$ids == 1)            { ($badge, $name, $sub) = ($p, $META{ $ids->[0] }{subtitle} // $range, $range); }
+            else                          { ($badge, $name, $sub) = ($p, $range, scalar(@$ids) . '本'); }
+            $html .= '<details class="group border-b border-[#22201E]/15">'
+                   . qq{<summary class="flex cursor-pointer select-none items-stretch gap-4 pr-1 transition hover:bg-white/60 sm:gap-5">}
+                   . qq{<span class="flex w-9 flex-none items-center justify-center py-3 text-[11px] font-black tracking-[0.2em] text-white [writing-mode:vertical-rl] sm:w-10" style="background:$col">} . esc($badge) . '</span>'
+                   . qq{<span class="min-w-0 flex-1 self-center py-4 sm:py-5">}
+                   . '<span class="block font-serif text-lg font-black leading-snug text-[#22201E] sm:text-[1.35rem]">' . esc($name) . '</span>'
+                   . '<span class="mt-1 block text-xs font-bold text-[#6E6A64]">' . esc($sub) . '</span></span>'
+                   . '<span aria-hidden="true" class="flex h-8 w-8 flex-none items-center justify-center self-center border border-[#22201E]/25 text-base leading-none text-[#22201E] transition group-open:border-[#C0472D] group-open:text-[#C0472D]"><span class="block transition-transform group-open:rotate-45">＋</span></span></summary>'
+                   . qq{<ol class="mb-5 ml-9 border-l-2 bg-white/70 sm:ml-10" style="border-color:$col">};
+            for my $id (@$ids) {
+                my $m    = $META{$id};
+                my $href = href_for($id, $CTX{mode} // 'page');
+                $html .= qq{<li class="border-b border-[#22201E]/8 last:border-b-0"><a href="$href" class="group/item flex items-baseline gap-3 px-4 py-3 transition hover:bg-[#F5F1E8]">}
+                       . '<span class="w-14 flex-none text-xs font-bold text-[#6E6A64]">' . esc($m->{num}) . '</span>'
+                       . '<span class="min-w-0 flex-1 text-[15px] font-bold leading-snug text-[#22201E] [word-break:auto-phrase] group-hover/item:text-[#C0472D]">' . esc($m->{subtitle}) . '</span>'
+                       . '<span aria-hidden="true" class="flex-none text-[#22201E]/30 transition group-hover/item:translate-x-0.5 group-hover/item:text-[#C0472D]">→</span></a></li>';
+            }
+            $html .= '</ol></details>';
+        }
+        $html .= '</div>';
+        return $html . '</div>';
+    }
     for my $id (@{ $CTX{ids} }) {
         my $m = $META{$id};
         my $p = $m->{part} // '';
-        if ($compact) {
-            if ($p ne $part) {
-                $html .= '</ol></section>' if $open;
-                $part = $p;
-                $html .= '<section class="mt-6"><h3 class="mb-2 px-1 text-[11px] font-bold tracking-[0.2em] text-gray-400">' . esc($p) . '</h3>'
-                       . '<ol class="divide-y divide-gray-100 overflow-hidden rounded-lg border border-gray-200 bg-white">';
-                $open = 1;
-            }
-            my $href = href_for($id, $CTX{mode} // 'page');
-            $html .= qq{<li><a href="$href" class="group flex items-center gap-3 px-4 py-3 transition hover:bg-amber-50">}
-                   . '<span class="w-12 flex-none text-xs font-bold text-gray-400">' . esc($m->{num}) . '</span>'
-                   . '<span class="min-w-0 flex-1 font-bold leading-snug text-gray-900 [word-break:auto-phrase]">' . esc($m->{subtitle}) . '</span>'
-                   . '<span aria-hidden="true" class="flex-none text-lg leading-none text-gray-300 transition group-hover:text-amber-500">›</span></a></li>';
-            next;
-        }
         if ($p ne $part) {
             $html .= '</div></section>' if $open;
             $part = $p;
@@ -1578,7 +1804,7 @@ sub nav_list {
             $part = $p;
             $html .= '<p class="px-3 pb-1 pt-3 text-[10px] font-bold tracking-[0.2em] text-gray-400">' . esc($p) . '</p>' if $p ne '';
         }
-        my $active = ($id eq ($cur // '')) ? 'bg-amber-50 text-amber-900' : 'text-gray-700 hover:bg-gray-50';
+        my $active = ($id eq ($cur // '')) ? 'bg-gray-900 text-white [&>span:first-child]:text-amber-400' : 'text-gray-700 hover:bg-gray-50';
         my $href = href_for($id, $mode);
         $html .= qq{<a href="$href" class="flex gap-2 rounded-md px-3 py-2 text-sm $active"><span class="w-14 flex-none font-bold text-gray-400">} . esc($m->{num}) . '</span><span class="font-medium">' . esc($m->{subtitle}) . '</span></a>';
     }
@@ -1587,7 +1813,7 @@ sub nav_list {
 
 # ---------------------------------------------------------------- page shell
 sub head_html {
-    my ($title, $desc) = @_;
+    my ($title, $desc, $path, $noindex) = @_;
     my $h = <<'HTML';
 <!DOCTYPE html>
 <html lang="ja">
@@ -1595,10 +1821,10 @@ sub head_html {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#22201E">
 <title>__TITLE__</title>
 <meta name="description" content="__DESC__">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+__SEO__<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -1606,6 +1832,21 @@ sub head_html {
   tailwind.config = {
     theme: {
       extend: {
+        colors: {
+          gray: { 50: '#F5F1E8', 100: '#EDE7DB', 200: '#E0D8C9', 300: '#C9C0AF', 400: '#9C958A', 500: '#6E6A64', 600: '#57524C', 700: '#45403A', 800: '#312D29', 900: '#22201E', 950: '#161412' },
+          amber: { 50: '#FAF5E6', 100: '#F3E8C6', 200: '#E8D59C', 300: '#DCBE69', 400: '#D4A43E', 500: '#A9802A', 600: '#946F24', 700: '#7A5B1D', 800: '#5F4716', 900: '#473510', 950: '#2E220A' },
+          shu: '#C0472D', ai: '#1F3A5F', seiji: '#3B6B4A', yamabuki: '#B48A2C', budo: '#6A4A63', sumi: '#22201E', kami: '#F5F1E8',
+          // 既定の青・赤・緑・紫を、表紙と同じ和の色（藍・朱・青磁・葡萄）に置き換える
+          blue:    { 50: '#EDF1F6', 100: '#DAE2EC', 200: '#B6C5D8', 300: '#8CA3BF', 400: '#5F7FA3', 500: '#3E6189', 600: '#2D4D74', 700: '#1F3A5F', 800: '#1A314F', 900: '#15283F', 950: '#0E1B2B' },
+          indigo:  { 50: '#EDF1F6', 100: '#DAE2EC', 200: '#B6C5D8', 300: '#8CA3BF', 400: '#5F7FA3', 500: '#3E6189', 600: '#1F3A5F', 700: '#1A314F', 800: '#15283F', 900: '#13243A', 950: '#0E1B2B' },
+          rose:    { 50: '#FAF0EC', 100: '#F4DED6', 200: '#E9BFB2', 300: '#DC9A88', 400: '#CF7560', 500: '#C0472D', 600: '#A93C26', 700: '#8C311F', 800: '#70271A', 900: '#541E14', 950: '#33110B' },
+          red:     { 50: '#FBEFEC', 100: '#F6DCD6', 200: '#EDBAB0', 300: '#E09384', 400: '#E0664E', 500: '#C4402F', 600: '#B03224', 700: '#962B1F', 800: '#7A2118', 900: '#5E1A13', 950: '#3A0F0B' },
+          emerald: { 50: '#EEF4EF', 100: '#DAE8DD', 200: '#B5D1BC', 300: '#8AB595', 400: '#5F946D', 500: '#4A7D59', 600: '#3F7050', 700: '#335E41', 800: '#2A4D36', 900: '#213C2A', 950: '#13261A' },
+          violet:  { 50: '#F5F0F4', 100: '#E9DEE7', 200: '#D4BFD1', 300: '#BA9AB5', 400: '#9C7497', 500: '#83597E', 600: '#6A4A63', 700: '#5B3F58', 800: '#483246', 900: '#372635', 950: '#221721' },
+          slate:   { 50: '#FAF7F0', 100: '#EFEADF', 200: '#E0D8C9', 300: '#C9C0AF', 400: '#9C958A', 500: '#6E6A64', 600: '#57524C', 800: '#312D29' },
+          yellow:  { 200: '#F1DFA0', 800: '#6E5417' },
+        },
+        borderRadius: { sm: '1px', DEFAULT: '2px', md: '2px', lg: '2px', xl: '3px', '2xl': '4px' },
         fontFamily: {
           sans: ['"Noto Sans JP"', '"Hiragino Kaku Gothic ProN"', '"Hiragino Sans"', 'Meiryo', 'sans-serif'],
           serif: ['"Noto Serif JP"', '"Hiragino Mincho ProN"', '"Yu Mincho"', 'serif'],
@@ -1619,25 +1860,109 @@ sub head_html {
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
 <style>
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  html, body { overflow-x: clip; }  /* 画面いっぱいの帯（w-screen）で横スクロールが出ないように */
   summary { list-style: none; }
   .kb-ghost { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; transform: translate(-50%, -50%); opacity: .95; }
   /* 模擬試験モード中は、解答・答え合わせを隠す */
   body.kb-exam .kb-answer, body.kb-exam .kb-check, body.kb-exam .kb-reveal, body.kb-exam .kb-jres, body.kb-exam .kb-result { display: none !important; }
   body.kb-exam { padding-bottom: 4.5rem; }
-  .kb-blank::placeholder { color: #a5b4fc; font-weight: 700; }
+  .kb-blank::placeholder { color: #8CA3BF; font-weight: 700; }
+  body { text-rendering: optimizeLegibility; }
+  main p, main li { text-wrap: pretty; }
+
+  /* ── 章ページの部品 ── */
+  /* 蛍光ペン：文字の下半分にだけ引く */
+  .mk { background: linear-gradient(transparent 58%, rgba(212,164,62,.42) 58%, rgba(212,164,62,.42) 92%, transparent 92%); padding: 0 .1em; color: inherit; font-weight: 700; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  /* 章の扉：蔵のなまこ壁の格子 */
+  .tobira { background-image: repeating-linear-gradient(45deg, transparent 0 25px, rgba(31,58,95,.06) 25px 26px), repeating-linear-gradient(-45deg, transparent 0 25px, rgba(31,58,95,.06) 25px 26px); }
+  /* 父の手帳：行ごとの罫線 */
+  .memo-lines { background-image: linear-gradient(to bottom, transparent calc(100% - 1px), rgba(31,58,95,.20) calc(100% - 1px)); background-size: 100% 2.2em; }
+  /* 答案用紙：演習の入力欄は方眼紙にのせる */
+  .kb-sheet { position: relative; border: 1px solid rgba(31,58,95,.35); border-top: 3px solid #1F3A5F; background-color: #fff;
+    background-image: linear-gradient(rgba(31,58,95,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(31,58,95,.055) 1px, transparent 1px); background-size: 18px 18px; background-position: -1px -1px; }
+  .kb-sheet-tab { display: inline-flex; align-items: center; gap: .6em; margin-top: -1px; margin-bottom: .6rem; }
+  /* 帳簿の表：合計行は上に細線・下に二重線 */
+  .ledger tr.total > td { border-top: 1px solid #22201E; border-bottom: 3px double #22201E; background: #FAF5E6; font-weight: 700; }
+  /* 区切り：ひし形を3つ */
+  .rule-mark { display: flex; align-items: center; justify-content: center; gap: .9rem; margin: 4rem 0; }
+  .rule-mark::before, .rule-mark::after { content: ''; height: 1px; flex: 1; background: rgba(34,32,30,.15); }
+  .rule-mark i { display: block; width: 5px; height: 5px; rotate: 45deg; background: #C0472D; }
+  .rule-mark i:nth-child(2) { background: #22201E; }
+  /* 脇の目次（広い画面） */
+  #rail a { transition: color .2s, border-color .2s; }
+  #rail a.on { color: #22201E; border-color: #C0472D; font-weight: 700; }
+  #rail a.on .rn { color: #C0472D; }
+  details.kb-answer[open] > summary { background: #F5F1E8; }
+  @keyframes stamp-in { 0% { opacity: 0; scale: 1.6; } 60% { opacity: 1; scale: .94; } 100% { opacity: 1; scale: 1; } }
+  .stamp-in { animation: stamp-in .5s cubic-bezier(.22,1,.36,1) both; animation-delay: .35s; }
+  @media (prefers-reduced-motion: reduce) { .stamp-in { animation: none; } }
   summary::-webkit-details-marker { display: none; }
   table { font-variant-numeric: tabular-nums; }
+
+  /* ── 表紙まわりの動きと質感 ── */
+  /* 出現の動きは translate で行う（transform を使うと、傾けた部品の rotate を打ち消してしまう） */
+  @keyframes fade-up { from { opacity: 0; translate: 0 1.5rem; } to { opacity: 1; translate: 0 0; } }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ink-spread { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  [data-anim] { opacity: 0; }
+  [data-anim].anim-on { opacity: 1; animation: fade-up .9s cubic-bezier(.22,1,.36,1) both; }
+
+  /* にじんだ朱の円（表紙の背景） */
+  .hero-ink-circle {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, rgba(192,71,45,.07) 0%, transparent 70%);
+    animation: ink-spread 1.6s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  /* 紺の地にのせる、紙のざらつき */
+  .grain-overlay::before {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .5;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* フッターの和紋様 */
+  .footer-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 20a20 20 0 0 1 20-20 20 20 0 0 1 20 20 20 20 0 0 1-20 20 20 20 0 0 1-20-20' fill='none' stroke='%23F6F3EC' stroke-width='.3' opacity='.06'/%3E%3C/svg%3E");
+  }
+
+  #progress { background: linear-gradient(90deg, #C0472D, #B48A2C) !important; }
+  ::selection { background: rgba(192,71,45,.2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    [data-anim] { opacity: 1 !important; animation: none !important; }
+    .hero-ink-circle { animation: none; }
+  }
+
+
   @media print {
     .no-print { display: none !important; }
     body { background: #fff !important; }
     section, aside, figure, details { break-inside: avoid; }
+    [data-anim] { opacity: 1 !important; animation: none !important; }
   }
 </style>
+<noscript><style>[data-anim] { opacity: 1 !important; }</style></noscript>
 </head>
 HTML
     my ($t, $d) = (esc($title), esc($desc));
+    # 検索エンジン・SNS向けの情報（@site が設定されているときだけ出力する）
+    my $seo = $noindex ? qq{<meta name="robots" content="noindex, follow">\n} : '';
+    if ($SITE ne '' && defined $path) {
+        my $url = esc($path eq '' ? "$SITE/" : "$SITE/$path");
+        $seo .= qq{<link rel="canonical" href="$url">\n} unless $noindex;
+        $seo .= qq{<meta property="og:type" content="} . ($path eq '' ? 'website' : 'article') . qq{">\n}
+              . qq{<meta property="og:site_name" content="} . esc($BOOK) . qq{">\n}
+              . qq{<meta property="og:title" content="$t">\n}
+              . qq{<meta property="og:description" content="$d">\n}
+              . qq{<meta property="og:url" content="$url">\n}
+              . qq{<meta property="og:image" content="} . esc("$SITE/icons/icon-192.png") . qq{">\n}
+              . qq{<meta property="og:locale" content="ja_JP">\n}
+              . qq{<meta name="twitter:card" content="summary">\n};
+    }
     $h =~ s/__TITLE__/$t/;
     $h =~ s/__DESC__/$d/;
+    $h =~ s/__SEO__/$seo/;
     return $h;
 }
 
@@ -1645,36 +1970,71 @@ sub site_header {
     my ($cur, $mode) = @_;
     my $label = ($cur && $META{$cur}) ? esc($META{$cur}{num}) : '';
     my $home  = $mode eq 'all' ? '#top' : 'index.html';
-    return qq{<header class="no-print sticky top-0 z-40 border-b border-gray-200 bg-white/90 backdrop-blur">}
-         . qq{<div class="mx-auto flex h-14 max-w-3xl items-center justify-between gap-3 px-4 sm:px-6">}
-         . qq{<a href="$home" class="flex min-w-0 items-center gap-2"><span class="flex h-7 w-7 flex-none items-center justify-center rounded bg-gray-900 font-serif text-sm font-black text-amber-400">$MARK</span><span class="truncate text-sm font-black text-gray-900 sm:text-base">$BOOK</span></a>}
+    return qq{<header class="no-print sticky top-0 z-40 border-b border-[#22201E]/8 bg-[#F5F1E8]/85 backdrop-blur-xl backdrop-saturate-150">}
+         . qq{<div class="mx-auto flex h-14 } . ($CTX{wide} ? 'max-w-6xl lg:px-8' : 'max-w-3xl') . qq{ items-center justify-between gap-3 px-4 sm:px-6">}
+         . qq{<a href="$home" class="group flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-75"><span class="flex h-8 w-8 flex-none items-center justify-center bg-[#22201E] font-serif text-sm font-black text-[#F5F1E8] shadow-sm transition-transform group-hover:scale-105">$MARK</span><span class="truncate text-sm font-black tracking-tight text-gray-900 sm:text-base">$BOOK</span></a>}
          . qq{<div class="flex flex-none items-center gap-2">}
-         . ($label ? qq{<span class="hidden text-xs font-bold text-gray-400 sm:inline">$label</span>} : '')
-         . qq{<details data-dropdown class="relative"><summary class="flex cursor-pointer select-none items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-bold text-gray-700 hover:bg-gray-50">目次<span class="text-[10px] text-gray-400">▼</span></summary>}
-         . qq{<nav class="absolute right-0 mt-2 max-h-[75vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-lg border border-gray-200 bg-white p-2 shadow-xl">}
+         . ($label ? qq{<span class="hidden border-l border-gray-900/20 pl-3 font-serif text-xs font-black text-shu sm:inline">$label</span>} : '')
+         . qq{<details data-dropdown class="relative"><summary class="flex cursor-pointer select-none items-center gap-2.5 border border-gray-900/30 bg-white/70 px-3 py-1.5 text-sm font-bold text-gray-900 transition-colors hover:border-gray-900 hover:bg-white">目次<span aria-hidden="true" class="flex flex-col gap-[3px]"><span class="block h-px w-3.5 bg-gray-900"></span><span class="block h-px w-3.5 bg-shu"></span><span class="block h-px w-3.5 bg-gray-900"></span></span></summary>}
+         . qq{<nav class="absolute right-0 mt-2 max-h-[75vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto border border-gray-900 bg-white p-2 shadow-[6px_6px_0_0_rgba(34,32,30,.15)]">}
          . ($mode eq 'all'
-              ? qq{<a href="index.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">章ごとのページ版へ</a><a href="guide.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">本書の使い方</a>}
-              : qq{<a href="index.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">表紙・目次</a><a href="guide.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">本書の使い方</a><a href="all.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">全章一気読み版（1ファイル）</a>})
+              ? qq{<a href="index.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">章ごとのページ版へ</a><a href="index.html#guide" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">このサイトの使い方</a>}
+              : qq{<a href="index.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">表紙・目次</a><a href="index.html#guide" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">このサイトの使い方</a><a href="all.html" class="block rounded-md px-3 py-2 text-sm font-bold text-gray-900 hover:bg-gray-50">全章一気読み版（1ファイル）</a>})
          . nav_list($cur, $mode)
          . qq{</nav></details></div></div></header>\n};
 }
 
 sub footer_html {
-    return <<"HTML";
-<footer class="mt-16 border-t border-gray-200 bg-white">
-  <div class="mx-auto max-w-3xl space-y-2 px-4 py-10 text-xs leading-relaxed text-gray-500 sm:px-6">
-    <p class="font-bold text-gray-700">$BOOK ― $BOOK_SUB</p>
-    <p>物語に登場する企業・人物・数値は、学習のために設計した架空のものです。実在の企業・団体・商品とは関係ありません。「実際にあった話」で紹介する事例と統計は、公開されている報道・統計資料にもとづき、出典を併記しています。</p>
-    <p>$SCOPE</p>
+    my $w = $CTX{wide} ? 'max-w-6xl lg:px-8' : 'max-w-3xl';
+    (my $h = <<"HTML") =~ s/__FOOTW__/$w/;
+<footer class="footer-pattern relative mt-28 border-t border-[#22201E]/20 bg-[#22201E]">
+  <div class="mx-auto __FOOTW__ px-4 py-16 sm:px-6">
+    <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3">
+          <span class="flex h-8 w-8 flex-none items-center justify-center bg-[#C0472D] font-serif text-sm font-black text-white shadow-sm">$MARK</span>
+          <p class="font-serif text-lg font-black tracking-wide text-[#F5F1E8]">$BOOK</p>
+        </div>
+        <p class="text-sm font-medium text-[#F5F1E8]/80">$BOOK_SUB</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-6 text-xs font-bold text-[#F5F1E8]/70">
+        <a href="#top" class="transition hover:text-white">↑ ページ先頭へ</a>
+        <a href="index.html#guide" class="transition hover:text-white">使い方ガイド</a>
+        <a href="all.html" class="transition hover:text-white">全章一気読み版</a>
+        <a href="apx-a.html" class="transition hover:text-white">付録A 勘定科目辞典</a>
+        <a href="apx-b.html" class="transition hover:text-white">付録B 試験攻略</a>
+      </div>
+    </div>
+    <div class="mt-12 border-t border-white/10 pt-8 space-y-3 text-xs leading-relaxed text-[#F5F1E8]/50">
+      <p>物語に登場する企業・人物・銘柄・数値は、学習のために設計した架空のものです。実在の企業・団体・商品とは関係ありません。物語の中で登場人物が取り上げる実際の事例と統計は、公開されている報道・統計資料・企業の開示資料にもとづき、出典を併記しています。仕組みを示すために単純化した数字は、本文でそう明記しています。</p>
+      <p>$SCOPE</p>
+      <p class="pt-4 text-center font-mono text-[11px] text-[#F5F1E8]/40">© $BOOK All rights reserved.</p>
+    </div>
   </div>
 </footer>
 HTML
+    return $h;
 }
 
 sub script_html {    # 進捗バー・目次・「続きから」＋ 演習などのスクリプト（assets/kb.js をそのまま埋め込む）
     return (<<'HTML' =~ s/'kb3-/'$KEY-/gr) . "<script>\n$KBJS</script>\n";
 <script>
 (() => {
+  // スクロール連動アニメーション (IntersectionObserver)
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('anim-on');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('[data-anim]').forEach((el) => observer.observe(el));
+  } else {
+    document.querySelectorAll('[data-anim]').forEach((el) => el.classList.add('anim-on'));
+  }
+
   const bar = document.getElementById('progress');
   const update = () => {
     const d = document.documentElement;
@@ -1688,6 +2048,19 @@ sub script_html {    # 進捗バー・目次・「続きから」＋ 演習な�
       if (!d.contains(e.target) || e.target.closest('nav a')) d.removeAttribute('open');
     });
   });
+  // 脇の目次：読んでいる節に印をつける
+  const rail = document.getElementById('rail');
+  if (rail) {
+    const links = [...rail.querySelectorAll('a')];
+    const secs = links.map((a) => document.getElementById(a.hash.slice(1)));
+    const mark = () => {
+      let k = -1;
+      secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < 160) k = i; });
+      links.forEach((a, i) => a.classList.toggle('on', i === k));
+    };
+    addEventListener('scroll', mark, { passive: true });
+    mark();
+  }
   addEventListener('beforeprint', () => document.querySelectorAll('main details').forEach((d) => (d.open = true)));
   // 「続きから読む」: 章ページを開いたら記録し、表紙で再開ボタンを出す（保存できない環境では何もしない）
   try {
@@ -1699,8 +2072,10 @@ sub script_html {    # 進捗バー・目次・「続きから」＋ 演習な�
       cont.href = last.id + '.html';
       cont.querySelector('[data-label]').textContent = last.label;
       cont.classList.remove('hidden');
+      cont.classList.add('flex', 'sm:inline-flex');
+      // 続きがあるときは「続きから読む」を主役にし、最初から読むボタンは濃い文字の枠ボタンにする（明るい背景でも読める色）
       const start = document.getElementById('cta-start');
-      if (start) start.className = 'rounded-md border border-white/30 px-5 py-3 font-bold text-white transition hover:bg-white/10';
+      if (start) start.className = 'group inline-flex w-full items-center justify-between gap-6 border border-[#22201E]/40 bg-white/70 px-6 py-4 font-bold text-[#22201E] transition hover:border-[#C0472D] hover:text-[#C0472D] sm:w-auto';
     }
   } catch (e) {}
 })();
@@ -1712,12 +2087,12 @@ HTML
 sub page_html {
     my (%o) = @_;
     my $rec = $o{record} ? ' data-page="' . esc($o{cur}) . '" data-label="' . esc($o{record}) . '"' : '';
-    return head_html($o{title}, $o{desc})
-         . qq{<body id="top"$rec class="bg-stone-50 font-sans text-[16px] text-gray-800 antialiased sm:text-[17px]">\n}
-         . qq{<div id="progress" class="no-print fixed left-0 top-0 z-50 h-1 w-0 bg-amber-500"></div>\n}
+    return head_html($o{title}, $o{desc}, $o{path}, $o{noindex})
+         . qq{<body id="top"$rec class="bg-[#F5F1E8] font-sans text-[16px] text-gray-800 antialiased sm:text-[17px]">\n}
+         . qq{<div id="progress" class="no-print fixed left-0 top-0 z-50 h-1 w-0 bg-[#C0472D]"></div>\n}
          . site_header($o{cur}, $o{mode})
          . ($o{top} // '')
-         . qq{<main class="mx-auto max-w-3xl px-4 pb-10 sm:px-6">\n$o{main}\n</main>\n}
+         . qq{<main class="mx-auto } . ($CTX{wide} ? 'max-w-6xl lg:px-8' : 'max-w-3xl') . qq{ px-4 pb-10 sm:px-6">\n$o{main}\n</main>\n}
          . footer_html()
          . script_html()
          . "</body>\n</html>\n";
@@ -1727,32 +2102,51 @@ sub page_html {
 sub chapter_hero {
     my $id = shift;
     my $m  = $META{$id};
-    my $h  = qq{<header class="pt-10 sm:pt-14">};
-    $h .= '<p class="text-[11px] font-bold tracking-[0.25em] text-gray-400">' . esc($m->{part}) . '</p>' if $m->{part};
-    $h .= '<div class="mt-5 flex flex-wrap items-center gap-3"><span class="rounded bg-gray-900 px-3 py-1 text-sm font-black text-white">' . esc($m->{num}) . '</span>'
-        . '<span class="text-sm font-bold text-gray-500">' . esc($m->{subtitle}) . '</span></div>';
-    $h .= '<h1 class="mt-5 font-serif text-[1.75rem] font-black leading-[1.4] text-gray-900 sm:text-[2.4rem]">' . esc($m->{title}) . '</h1>';
-    $h .= '<p class="mt-5 leading-[1.9] text-gray-600">' . inl($m->{lead}) . '</p>' if $m->{lead};
+    # 章の扉：画面いっぱいの帳簿の罫線の上に、朱の余白線・大きな章番号・伝票の欄（読了目安など）を置く
+    my $num  = $m->{num} // '';
+    my $big  = $num =~ /(\d+)/ ? sprintf('%02d', $1) : $num =~ /^付録\s*(\S+)/ ? $1 : $num =~ /^(\S)/ ? $1 : '';
+    my $h  = qq{<header class="tobira relative left-1/2 w-screen -translate-x-1/2 overflow-hidden border-b border-gray-900/15">}
+           . qq{<div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-2 flex gap-[3px] sm:left-8 lg:left-[calc(50%-27rem)]"><span class="w-px bg-shu/30"></span><span class="w-px bg-shu/30"></span></div>}
+           . qq{<div class="relative mx-auto max-w-3xl px-6 pb-10 pt-10 sm:px-8 sm:pb-14 sm:pt-16">}
+           . qq{<span aria-hidden="true" class="pointer-events-none absolute -top-3 right-3 select-none font-serif text-[8.5rem] font-black leading-none tracking-tighter text-gray-900/[0.06] sm:right-6 sm:text-[13rem]">} . esc($big) . '</span>';
+    $h .= '<p class="relative flex items-center gap-3 text-[11px] font-bold tracking-[0.25em] text-gray-500"><span class="flex-none bg-shu px-2.5 py-1 font-serif text-sm font-black tracking-[0.1em] text-white">' . esc($num) . '</span>'
+        . '<span aria-hidden="true" class="h-px w-8 flex-none bg-gray-900/30"></span><span class="min-w-0">' . esc($m->{part} // '') . '</span></p>';
+    $h .= '<p class="relative mt-9 text-sm font-bold leading-relaxed text-gray-600 sm:mt-12">' . esc($m->{subtitle}) . '</p>';
+    $h .= '<h1 class="relative mt-3 font-serif text-[1.85rem] font-black leading-[1.4] text-gray-900 text-balance [word-break:auto-phrase] sm:text-[2.75rem] sm:leading-[1.32]">' . join('', map { '<span class="inline-block">' . esc($_) . '</span>' } grep { length } split /(?<=[。、？！])/, $m->{title}) . '</h1>';
+    $h .= '<p class="relative mt-7 max-w-2xl border-l-2 border-shu pl-4 leading-[1.95] text-gray-700">' . inl($m->{lead}) . '</p>' if $m->{lead};
     my @chips;
-    push @chips, '読了目安 ' . esc($m->{time}) if $m->{time};
-    push @chips, '難易度 ' . esc($m->{level}) if $m->{level};
-    push @chips, esc($m->{scope}) if $m->{scope};
-    $h .= '<div class="mt-6 flex flex-wrap gap-2 text-xs font-bold text-gray-600">' . join('', map { qq{<span class="rounded-full border border-gray-300 bg-white px-3 py-1">$_</span>} } @chips) . '</div>' if @chips;
-    $h .= '</header>';
+    push @chips, ['読了目安', esc($m->{time})]  if $m->{time};
+    push @chips, ['難易度',   '<span class="tracking-[0.15em] text-shu">' . esc($m->{level}) . '</span>'] if $m->{level};
+    push @chips, ['範囲',     esc($m->{scope})] if $m->{scope};
+    my $chipsh = @chips ? '<dl class="inline-flex max-w-full flex-wrap border border-gray-900/70 bg-white text-xs shadow-[4px_4px_0_0_rgba(34,32,30,.07)]">' . join('', map { qq{<div class="flex min-w-[6.5rem] flex-col border-gray-900/25 [&:not(:first-child)]:border-l"><dt class="border-b border-gray-900/25 bg-gray-100 px-3 py-1 text-[10px] font-bold tracking-[0.2em] text-gray-600">$_->[0]</dt><dd class="px-3 py-2 text-sm font-bold text-gray-900">$_->[1]</dd></div>} } @chips) . '</dl>' : '';
+    my $clockh = '';
+    if ($m->{clock}) {    # タイムリミット：「融資審査まで|284」→ 融資審査まで あと284日
+        my ($lab, $d) = map { trim($_) } split /\|/, $m->{clock}, 2;
+        $d //= '';
+        my $big = $d =~ /^\d+$/
+            ? qq{<span class="text-xs font-bold text-gray-600">あと</span><span class="font-serif text-[2.1rem] font-black leading-none tabular-nums text-gray-900 sm:text-[2.4rem]">$d</span><span class="text-sm font-bold text-gray-900">日</span>}
+            : qq{<span class="font-serif text-[1.6rem] font-black leading-none text-shu">} . esc($d) . '</span>';
+        $clockh = qq{<div class="inline-flex items-stretch border-2 border-gray-900 bg-white shadow-[4px_4px_0_0_rgba(34,32,30,.10)]">}
+                . qq{<p class="flex flex-col justify-center bg-shu px-3 py-1.5 text-white"><span class="text-[9px] font-bold tracking-[0.25em] text-white/80">TIME LIMIT</span><span class="text-xs font-bold tracking-[0.08em]">} . esc($lab) . '</span></p>'
+                . qq{<p class="flex items-baseline gap-1.5 px-4 py-1.5">$big</p></div>};
+    }
+    $h .= qq{<div class="relative mt-9 flex flex-wrap items-stretch gap-3">$chipsh$clockh</div>} if $chipsh ne '' || $clockh ne '';
+    $h .= '</div></header>';
     if (@{ $m->{goals} }) {
-        $h .= qq{<section class="mt-8 rounded-lg border border-gray-200 bg-white p-5 shadow-sm sm:p-6">}
-            . label('text-amber-600', 'GOALS')
-            . '<p class="mb-3 font-bold text-gray-900">この章で学ぶこと</p><ul class="space-y-2">'
-            . join('', map { '<li class="flex gap-3 text-[15px] leading-relaxed"><span class="mt-0.5 flex-none font-black text-amber-500">▸</span><span>' . inl($_) . '</span></li>' } @{ $m->{goals} })
-            . '</ul></section>';
+        my $gi = 0;
+        $h .= qq{<section class="mt-10 border-y-[3px] border-double border-gray-900/70 bg-white/60 p-5 sm:p-7">}
+            . label('text-shu', 'GOALS')
+            . '<p class="mb-4 font-serif text-lg font-black text-gray-900">この章で学ぶこと</p><ol class="divide-y divide-gray-900/10">'
+            . join('', map { $gi++; '<li class="flex gap-4 py-2.5 text-[15px] leading-relaxed"><span class="flex-none pt-0.5 text-xs font-black tabular-nums text-shu">' . sprintf('%02d', $gi) . '</span><span>' . inl($_) . '</span></li>' } @{ $m->{goals} })
+            . '</ol></section>';
     }
     if ($TOC{$id} && @{ $TOC{$id} }) {
         my $toclabel = $id eq 'guide' ? 'このページの目次' : 'この章の目次';
-        $h .= qq{<details class="group mt-4 rounded-lg border border-gray-200 bg-white shadow-sm"><summary class="flex cursor-pointer select-none items-center justify-between px-5 py-3 text-sm font-bold text-gray-700">$toclabel<span class="text-xs text-gray-400 transition-transform group-open:rotate-180">▼</span></summary><ol class="space-y-1.5 border-t border-gray-100 px-5 py-4 text-sm">};
+        $h .= qq{<details class="group mt-4 border border-gray-900/20 bg-white/60 open:bg-white"><summary class="flex cursor-pointer select-none items-center justify-between px-5 py-3.5 font-serif text-sm font-black text-gray-900">$toclabel<span aria-hidden="true" class="flex h-6 w-6 flex-none items-center justify-center border border-gray-900/30 text-sm leading-none transition group-open:border-shu group-open:text-shu"><span class="block transition-transform group-open:rotate-45">＋</span></span></summary><ol class="space-y-1.5 border-t border-gray-100 px-5 py-4 text-sm">};
         my $i = 0;
         for my $s (@{ $TOC{$id} }) {
             $i++;
-            $h .= sprintf('<li><a href="#%s" class="flex gap-3 text-gray-700 hover:text-amber-700"><span class="w-6 flex-none font-bold text-amber-600">%02d</span><span>%s</span></a></li>', $s->[0], $i, inl($s->[1]));
+            $h .= sprintf('<li><a href="#%s" class="flex gap-3 text-gray-700 hover:text-shu"><span class="w-6 flex-none font-bold text-shu">%02d</span><span>%s</span></a></li>', $s->[0], $i, inl($s->[1]));
         }
         $h .= '</ol></details>';
     }
@@ -1762,17 +2156,18 @@ sub chapter_hero {
 sub chapter_nav {
     my $idx = shift;
     my @ids = @{ $CTX{ids} };
-    my $h = '<nav class="no-print mt-16 grid gap-3 sm:grid-cols-2">';
+    my $h = '<p aria-hidden="true" class="no-print mt-24 flex items-center gap-3 text-[10px] font-bold tracking-[0.3em] text-gray-500"><span class="h-1.5 w-6 bg-shu/60"></span>CONTINUE<span class="h-px flex-1 bg-gray-900/15"></span>次の事件へ</p>'
+          . '<nav class="no-print mt-4 grid gap-3 sm:grid-cols-2">';
     if ($idx > 0) {
         my $p = $META{ $ids[$idx - 1] };
-        $h .= qq{<a href="$ids[$idx-1].html" class="group rounded-lg border border-gray-300 bg-white p-4 transition hover:border-gray-900"><p class="text-xs font-bold text-gray-400">← 前へ　} . esc($p->{num}) . '</p><p class="mt-1 font-bold leading-snug text-gray-900 group-hover:underline">' . esc($p->{subtitle}) . '</p></a>';
+        $h .= qq{<a href="$ids[$idx-1].html" class="group border border-gray-900/25 bg-white/60 p-5 transition-colors hover:border-gray-900 hover:bg-white"><p class="text-[11px] font-bold tracking-[0.2em] text-gray-500">← 前へ　} . esc($p->{num}) . '</p><p class="mt-2 font-serif font-black leading-snug text-gray-900">' . esc($p->{subtitle}) . '</p></a>';
     }
     if ($idx < $#ids) {
         my $n = $META{ $ids[$idx + 1] };
-        $h .= qq{<a href="$ids[$idx+1].html" class="group rounded-lg border border-gray-900 bg-gray-900 p-4 text-right transition hover:bg-gray-800 sm:col-start-2"><p class="text-xs font-bold text-amber-400">次へ　} . esc($n->{num}) . ' →</p><p class="mt-1 font-bold leading-snug text-white group-hover:underline">' . esc($n->{subtitle}) . '</p></a>';
+        $h .= qq{<a href="$ids[$idx+1].html" class="group bg-gray-900 p-5 text-right transition-colors duration-300 hover:bg-shu sm:col-start-2"><p class="text-[11px] font-bold tracking-[0.2em] text-amber-400 group-hover:text-white">次へ　} . esc($n->{num}) . ' →</p><p class="mt-2 font-serif font-black leading-snug text-white">' . esc($n->{subtitle}) . '</p></a>';
     }
     else {
-        $h .= qq{<a href="index.html" class="group rounded-lg border border-gray-900 bg-gray-900 p-4 text-right transition hover:bg-gray-800 sm:col-start-2"><p class="text-xs font-bold text-amber-400">表紙へ戻る →</p><p class="mt-1 font-bold leading-snug text-white group-hover:underline">目次・全体像</p></a>};
+        $h .= qq{<a href="index.html" class="group bg-gray-900 p-5 text-right transition-colors duration-300 hover:bg-shu sm:col-start-2"><p class="text-[11px] font-bold tracking-[0.2em] text-amber-400 group-hover:text-white">表紙へ戻る →</p><p class="mt-2 font-serif font-black leading-snug text-white">目次・全体像</p></a>};
     }
     return $h . '</nav>';
 }
@@ -1803,7 +2198,10 @@ sub render_body {
     $TUSED{$id} = {};
     my $i = 0;
     my $nodes = parse($BODY{$id}, \$i, 0);
-    return rn($nodes, '');
+    my $r   = rn($nodes, '');
+    my $tot = sprintf('%02d', $SECN);
+    $r =~ s/__SECTOTAL__/$tot/g;
+    return $r;
 }
 
 # ---------------------------------------------------------------- main
@@ -1822,7 +2220,16 @@ for my $i (0 .. $#IDS) {
     my $id = $IDS[$i];
     my $m  = $META{$id};
     local $CTX{mode} = 'page';
-    my $main = chapter_hero($id) . "\n" . $RENDERED{$id} . "\n" . chapter_nav($i) . terms_block([$id], 'page', $id);
+    # 脇の目次（広い画面だけ）：本文の左に節の一覧を固定し、読んでいる節に朱の印をつける
+    my $rail = '';
+    if (@{ $TOC{$id} || [] } >= 2) {
+        my $k = 0;
+        $rail = qq{<nav id="rail" aria-label="この章の目次" class="no-print fixed left-[calc(50%-41.5rem)] top-24 hidden max-h-[calc(100vh-8rem)] w-[14.5rem] overflow-y-auto min-[1380px]:block">}
+              . qq{<p class="mb-3 flex items-center gap-2 text-[10px] font-bold tracking-[0.25em] text-gray-500"><span class="font-serif text-xs font-black tracking-normal text-shu">} . esc($m->{num}) . qq{</span><span aria-hidden="true" class="h-px flex-1 bg-gray-900/20"></span>INDEX</p><ol>}
+              . join('', map { $k++; sprintf('<li><a href="#%s" class="flex gap-2.5 border-l-2 border-gray-900/10 py-1.5 pl-3 text-[12px] leading-snug text-gray-500 hover:text-gray-900"><span class="rn flex-none font-serif font-black tabular-nums text-gray-400">%02d</span><span class="min-w-0">%s</span></a></li>', $_->[0], $k, inl($_->[1])) } @{ $TOC{$id} })
+              . '</ol></nav>';
+    }
+    my $main = chapter_hero($id) . "\n" . $RENDERED{$id} . "\n" . chapter_nav($i) . $rail . terms_block([$id], 'page', $id);
     spew("$OUT/$id.html", page_html(
         title => "$m->{num} $m->{subtitle} | $BOOK",
         desc  => "$m->{title} ― $m->{subtitle}。$BOOK_SUB",
@@ -1830,6 +2237,7 @@ for my $i (0 .. $#IDS) {
         mode   => 'page',
         main   => $main,
         record => "$m->{num} $m->{subtitle}",
+        path   => $id,
     ));
     $count++;
 }
@@ -1847,29 +2255,78 @@ if (-e "$SRC/guide.txt") {
         cur   => '',
         mode  => 'page',
         main  => chapter_hero('guide') . "\n" . $body . "\n" . $cta . terms_block(['guide'], 'page', ''),
+        path  => 'guide',
     ));
     $count++;
 }
 
 # 表紙
-sub cover_top {    # 表紙：書名・ひとこと・開始ボタンだけに絞る
+sub cover_top {    # 表紙：書名・つかみ・開始ボタンと、酒のラベル（中身の明細）
     my $mode  = shift;
     my $start = $mode eq 'all' ? "#$IDS[0]" : "$IDS[0].html";
-    my $cont  = $mode eq 'all' ? '' : qq{<a id="cta-continue" href="$start" class="hidden rounded-md bg-amber-400 px-5 py-3 font-black text-gray-900 transition hover:bg-amber-300">続きから読む →<span data-label class="mt-0.5 block text-xs font-bold text-gray-700"></span></a>};
-    return qq{<section class="relative overflow-hidden bg-gray-900 text-white">}
-         . qq{<div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-[0.08]"><div class="absolute left-0 right-0 top-24 h-px bg-white"></div><div class="absolute bottom-0 left-1/2 top-24 w-px bg-white"></div>}
-         . qq{<div class="absolute left-[12%] top-8 font-serif text-5xl font-black sm:text-7xl">借方</div><div class="absolute right-[12%] top-8 font-serif text-5xl font-black sm:text-7xl">貸方</div></div>}
-         . qq{<div class="relative mx-auto max-w-3xl px-4 pb-12 pt-16 sm:px-6 sm:pb-16 sm:pt-24">}
-         . qq{<h1 class="font-serif text-[2.6rem] font-black leading-[1.2] sm:text-6xl">$HERO</h1>}
-         . qq{<p class="mt-4 font-bold text-amber-300 text-balance [word-break:auto-phrase] sm:text-lg">$BOOK_SUB</p>}
-         . qq{<div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">$cont}
-         . qq{<a id="cta-start" href="$start" class="rounded-md bg-amber-400 px-5 py-3 font-black text-gray-900 transition hover:bg-amber-300">$START →</a>}
-         . qq{<a href="guide.html" class="text-sm font-bold text-gray-300 underline decoration-gray-500 underline-offset-4 transition hover:text-white">はじめての方へ</a></div>}
-         . qq{</div></section>\n};
+    # 配色：紙 #F5F1E8／墨 #22201E／本文 #45403A／補足 #6E6A64／朱 #C0472D／山吹 #B48A2C（build の配色変換で2級の色になる）
+    my $cont  = $mode eq 'all' ? '' : qq{<a id="cta-continue" href="$start" class="hidden w-full items-center justify-between gap-3 bg-[#22201E] px-6 py-4 font-bold text-[#F5F1E8] transition hover:bg-[#C0472D] sm:w-auto"><span class="min-w-0 text-left"><span class="block whitespace-nowrap">続きから読む</span><span data-label class="mt-0.5 block text-xs font-normal leading-snug text-[#F5F1E8]/70"></span></span><span aria-hidden="true">→</span></a>};
+    my $hook  = $CFG{hook} ? qq{<p class="max-w-xl border-l-2 border-[#C0472D] pl-4 font-serif text-base leading-relaxed text-[#C0472D] text-balance [word-break:auto-phrase] sm:text-xl">} . esc($CFG{hook}) . '</p>' : '';
+    my ($ebl, $ebr) = map { trim($_) } split /\|/, ($CFG{eyebrow} // 'CASE BOOK | 日商簿記 2級'), 2;
+    $ebr //= '';
+    my @hero = grep { length } split /<br>/, $HERO;
+    my $last = pop @hero // '';
+    my $h1   = join('', map { '<span class="inline-block">' . esc($_) . '</span><br>' } @hero)
+             . '<span class="inline-block bg-[linear-gradient(transparent_70%,rgba(192,71,45,.22)_70%,rgba(192,71,45,.22)_92%,transparent_92%)]">' . esc($last) . '</span>';
+    my $br = sub { (my $x = esc(shift // '')) =~ s{&lt;br&gt;}{<br>}g; return $x; };
+
+    # 酒のラベル：book.txt の「@stats 27件:事件で解く | …」を明細の行にする
+    my @stats = map { [split /\s*:\s*/, $_, 2] } grep { /:/ } split /\s*\|\s*/, ($CFG{stats} // '');
+    my $rows  = join '', map {
+        qq{<div class="flex items-baseline gap-2 py-1.5"><dt class="flex-none">} . esc($_->[1]) . qq{</dt><span aria-hidden="true" class="mb-1 flex-1 border-b border-dotted border-[#22201E]/35"></span><dd class="flex-none text-base font-bold tabular-nums">} . esc($_->[0]) . '</dd></div>'
+    } @stats;
+    my ($tl, $tr) = map { trim($_) } split /\|/, ($CFG{cardtotal} // '出題範囲|100%'), 2;
+    $tr //= '';
+    my $noise = 'background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27160%27 height=%27160%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.9%27 numOctaves=%272%27 stitchTiles=%27stitch%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.125 0 0 0 0 0.12 0 0 0 .05 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
+    my $card = @stats ? qq{<div data-anim class="relative mx-auto mt-16 w-full max-w-[22rem] rotate-[1.2deg] transition-transform duration-500 hover:rotate-0 lg:mt-0" style="animation-delay:.5s">}
+        . qq{<span aria-hidden="true" class="absolute -top-3 left-1/2 z-10 h-7 w-28 -translate-x-1/2 -rotate-3 bg-[#B48A2C]/35"></span>}
+        . qq{<div class="relative bg-[#FBF8F1] px-6 pb-6 pt-8 text-[#22201E] shadow-2xl shadow-[#22201E]/15 ring-1 ring-[#22201E]/15" style='$noise'>}
+        . qq{<div aria-hidden="true" class="pointer-events-none absolute inset-2 border border-[#22201E]/25"></div>}
+        . qq{<p class="relative text-center font-sans text-[10px] font-bold tracking-[0.3em] text-[#6E6A64]">} . esc($CFG{cardhead} // '') . '</p>'
+        . qq{<div class="relative mt-4 flex items-start justify-between gap-4">}
+        . qq{<div class="min-w-0 flex-1 pt-1">}
+        . qq{<p class="inline-block bg-[#C0472D] px-2 py-0.5 text-[10px] font-bold tracking-[0.25em] text-white">} . esc($CFG{cardkind} // '清酒') . '</p>'
+        . qq{<p class="mt-2 font-serif text-xl font-black leading-snug">} . esc($CFG{cardtitle} // '') . '</p>'
+        . qq{<p class="mt-1.5 text-[11px] leading-relaxed text-[#6E6A64]">} . esc($CFG{cardsub} // '') . '</p>'
+        . '</div>'
+        . (($CFG{cardbrand} // '') ne '' ? qq{<p class="flex-none border-2 border-[#22201E] bg-white/60 px-1.5 py-2.5 font-serif text-[1.7rem] font-black leading-[1.1] tracking-[0.12em] [writing-mode:vertical-rl]">} . esc($CFG{cardbrand}) . '</p>' : '')
+        . '</div>'
+        . qq{<dl class="relative mt-5 border-y border-dashed border-[#22201E]/45 py-2.5 font-sans text-[13px]">$rows</dl>}
+        . qq{<div class="relative flex items-baseline justify-between gap-3 pt-4 font-sans"><span class="text-sm font-black">} . esc($tl) . qq{</span><span class="font-serif text-lg font-black text-[#C0472D]">} . esc($tr) . '</span></div>'
+        . (($CFG{cardnote} // '') ne '' ? qq{<p class="relative mt-4 border-t border-[#22201E]/20 pt-3 text-center text-[11px] leading-relaxed text-[#6E6A64]">} . $br->($CFG{cardnote}) . '</p>' : '')
+        . qq{</div>}
+        . qq{<div aria-hidden="true" class="absolute -bottom-8 -right-2 flex h-[5.5rem] w-[5.5rem] rotate-[-14deg] items-center justify-center rounded-full border-2 border-[#C0472D]/80 bg-[#F5F1E8]/40 font-serif text-[13px] font-black leading-tight text-[#C0472D]/85 sm:-right-6"><span class="text-center">} . $br->($CFG{stamp} // '全範囲<br>収録') . '</span></div>'
+        . '</div>' : '';
+
+    # 背景：紙のざらつき＋蔵のなまこ壁の格子
+    my $wall = $noise . ',repeating-linear-gradient(45deg,transparent 0 31px,rgba(31,58,95,.055) 31px 32px),repeating-linear-gradient(-45deg,transparent 0 31px,rgba(31,58,95,.055) 31px 32px)';
+    return qq{<section class="relative overflow-hidden border-b border-[#22201E]/10 bg-[#F5F1E8] text-[#22201E]" style='$wall'>}
+         . qq{<div aria-hidden="true" class="hero-ink-circle" style="width:35vw;height:35vw;right:-8vw;top:-5vw;animation-delay:.3s"></div>}
+         . qq{<div aria-hidden="true" class="hero-ink-circle" style="width:25vw;height:25vw;left:-5vw;bottom:-8vw;background:radial-gradient(circle,rgba(59,107,74,.05) 0%,transparent 70%);animation-delay:.6s"></div>}
+         . qq{<div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-2 flex gap-[3px] sm:left-8 lg:left-[calc(50%-37rem)]"><span class="w-px bg-[#C0472D]/30"></span><span class="w-px bg-[#C0472D]/30"></span></div>}
+         . qq{<div class="relative z-10 mx-auto flex max-w-3xl flex-col px-6 pb-14 pt-10 sm:px-8 sm:pb-20 sm:pt-14 lg:min-h-[calc(100vh-3.5rem)] lg:max-w-6xl lg:justify-center lg:py-16">}
+         . qq{<p data-anim class="flex items-center gap-3 text-[10px] font-bold tracking-[0.4em] text-[#6E6A64] sm:text-[11px]" style="animation-delay:.1s"><span class="inline-block h-1.5 w-6 bg-[#C0472D]/60"></span><span>} . esc($ebl) . qq{</span><span class="h-px flex-1 bg-[#22201E]/15"></span><span>} . esc($ebr) . qq{</span><span class="inline-block h-1.5 w-6 bg-[#3B6B4A]/60"></span></p>}
+         . qq{<div class="mt-8 sm:mt-12 lg:mt-14 lg:grid lg:grid-cols-12 lg:items-center lg:gap-10">}
+         . qq{<div class="lg:col-span-7">}
+         . ($hook ? qq{<div data-anim style="animation-delay:.2s">$hook</div>} : '')
+         . qq{<h1 data-anim class="mt-6 font-serif text-[2.9rem] font-black leading-[1.05] tracking-tight sm:mt-8 sm:text-[5rem] lg:text-[5.4rem] xl:text-[6rem]" style="animation-delay:.35s">$h1</h1>}
+         . qq{<p data-anim class="mt-6 max-w-lg text-sm font-bold leading-relaxed text-[#45403A] text-balance [word-break:auto-phrase] sm:mt-8 sm:text-base" style="animation-delay:.5s">$BOOK_SUB</p>}
+         . qq{<div data-anim class="mt-9 flex flex-col gap-3 sm:mt-12 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-7" style="animation-delay:.65s">$cont}
+         . qq{<a id="cta-start" href="$start" class="group inline-flex w-full items-center justify-between gap-10 bg-[#22201E] px-7 py-[1.1rem] font-bold tracking-wide text-[#F5F1E8] transition-colors duration-300 hover:bg-[#C0472D] sm:w-auto">$START<span aria-hidden="true" class="transition group-hover:translate-x-1">→</span></a>}
+         . qq{<a href="#guide" class="self-start bg-gradient-to-r from-[#C0472D] to-[#C0472D] bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-1 text-sm font-bold text-[#22201E] transition-[background-size,color] duration-300 hover:bg-[length:100%_1px] hover:text-[#C0472D] sm:self-auto">このサイトの使い方 ↓</a></div>}
+         . qq{</div>}
+         . qq{<div class="lg:col-span-5">$card</div>}
+         . qq{</div></div></section>\n};
 }
 
 {
     local $CTX{mode} = 'page';
+    local $CTX{wide} = 1;    # 表紙はPCで横幅を広く使う
     my $body = render_body('index');
     spew("$OUT/index.html", page_html(
         title => "$BOOK ― $BOOK_SUB",
@@ -1878,6 +2335,7 @@ sub cover_top {    # 表紙：書名・ひとこと・開始ボタンだけに�
         mode  => 'page',
         top   => cover_top('page'),
         main  => $body,
+        path  => '',
     ));
     $count++;
 }
@@ -1888,7 +2346,7 @@ sub cover_top {    # 表紙：書名・ひとこと・開始ボタンだけに�
     my $toc  = render_body('index');
     my $main = $toc;
     for my $id (@IDS) {
-        $main .= qq{<article id="$id" class="scroll-mt-14 border-t-4 border-gray-900 pt-2 mt-24">} . chapter_hero($id) . "\n" . $RENDERED{$id} . '</article>';
+        $main .= qq{<article id="$id" class="scroll-mt-14 mt-28 border-t-[3px] border-double border-gray-900/70 pt-2">} . chapter_hero($id) . "\n" . $RENDERED{$id} . '</article>';
     }
     $main .= terms_block(\@IDS, 'all', '');
     spew("$OUT/all.html", page_html(
@@ -1898,8 +2356,21 @@ sub cover_top {    # 表紙：書名・ひとこと・開始ボタンだけに�
         mode  => 'all',
         top   => cover_top('all'),
         main  => $main,
+        path  => 'all',
+        noindex => 1,    # 各章と内容が重複するので、検索結果には各章のページを出す
     ));
     $count++;
+}
+
+# 検索エンジン向け：sitemap.xml と robots.txt（@site が設定されているときだけ）
+if ($SITE ne '') {
+    my @paths = ('', (-e "$SRC/guide.txt" ? 'guide' : ()), @IDS);    # all.html は noindex なので載せない
+    my $xml = qq{<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n};
+    $xml .= '  <url><loc>' . esc($_ eq '' ? "$SITE/" : "$SITE/$_") . "</loc></url>\n" for @paths;
+    $xml .= "</urlset>\n";
+    spew("$OUT/sitemap.xml", $xml);
+    spew("$OUT/robots.txt", "User-agent: *\nAllow: /\n\nSitemap: $SITE/sitemap.xml\n");
+    $count += 2;
 }
 
 print "生成: $count ファイル\n";
@@ -1910,6 +2381,6 @@ if (@WARN) {
 }
 printf "検証OK: 仕訳 %d 件の貸借一致・T字勘定 %d 件の合計・帳簿/試算表など %d 表の縦計・全表の列数\n",
     $NCHK{journal} // 0, $NCHK{taccount} // 0, $NCHK{table} // 0;
-printf "演習: 仕訳入力 %d・穴埋め %d・分類 %d・チェック表 %d・シミュレーター %d・THINK選択式 %d ／ 用語リンク %d 語（辞典 %d 語）\n",
-    $NCHK{try} // 0, $NCHK{fill} // 0, $NCHK{sort} // 0, $NCHK{checks} // 0, $NCHK{sim} // 0, $NCHK{think} // 0,
+printf "演習: 仕訳入力 %d・穴埋め %d・分類 %d・チェック表 %d・シミュレーター %d・挑戦状 %d・考えてみよう %d ／ 用語リンク %d 語（辞典 %d 語）\n",
+    $NCHK{try} // 0, $NCHK{fill} // 0, $NCHK{sort} // 0, $NCHK{checks} // 0, $NCHK{sim} // 0, $NCHK{challenge} // 0, $NCHK{think} // 0,
     scalar(keys %{ { map { %{ $TUSED{$_} } } keys %TUSED } }), scalar(keys %TERM);
